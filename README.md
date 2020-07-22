@@ -2,22 +2,26 @@
 Simple Ecommerce WordPress Plugin
 
 **Feature::**
-- [x] Store Page [lsdcommerce_listing]
-- [x] Detail Product
-- [x] digital product
-- [x] physical product
-- [ ] add to cart
-- [ ] Checkout [lsdcommerce_checkout]
-- [ ] form customer
-- [ ] shipping options
-- [ ] payment options
-- [ ] guest checkout
-- [ ] **redirect to whatsapp option**
-- [ ] notification email order
-- [ ] notification email complete
+* Store Page
+Shortcode : `[lsdcommerce_listing]`
 
-- [x] Member Page [lsdcommerce_member]
-- [ ] download digital product
+* Detail Product
+  * digital product
+  * physical product
+  * add to cart
+  * manage cart
+
+* Checkout
+  * form customer
+  * shipping options
+    * digital shipping via email
+    * pyscila sipping via JNE
+  * payment options
+  * guest checkout
+  * **redirect to whatsapp option**
+  * notification email order
+  * notification email complete
+Shortcode : `[lsdcommerce_checkout]`
 
 ***CHANGELOG***
 
