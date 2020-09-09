@@ -1,3 +1,0 @@
-# LSDCommerce-Order
-
-The beginning of an awesome article...
