@@ -1,6 +1,6 @@
 **Template Store**
 
-Menampilkan Listing Produk dan juga Jumlah Produk yang ada.
+Menampilkan Listing Produk dan juga Jumlah Produk yang ada.\
 `file : lsdcommerce/templates/store.php`
 
 **#Functions**
