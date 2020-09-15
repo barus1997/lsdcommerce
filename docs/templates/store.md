@@ -8,7 +8,7 @@ Menampilkan Listing Produk dan juga Jumlah Produk yang ada.\
 Menampilkan Jumlah Item dalam Post Type dengan Translasi
 ```json
 lsdc_count_products( $posttype, $singular, $plural )
-file : lsdcommerce/core/functions/core-functions.php on line 6
+file : lsdcommerce/core/functions/helper-functions.php on line 6
 ```
 
 **#Class**

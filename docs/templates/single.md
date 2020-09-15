@@ -14,16 +14,16 @@ file : lsdcommerce/core/functions/core-functions.php on line 6
 Menampilkan Berat Produk berdasarkan ID Produk
 ```json
 lsdc_product_weight()
-file : lsdcommerce/core/functions/core-functions.php on line 6
+file : lsdcommerce/core/functions/core-functions.php on line 24
 ```
 
 Menampilkan Stok Produk berdasarkan ID Produk
 ```json
 lsdc_product_stock()
-file : lsdcommerce/core/functions/core-functions.php on line 6
+file : lsdcommerce/core/functions/core-functions.php on line 31
 ```
 
-**#Hook**
+**#Hook - Action**
 
 `lsdcommerce_single`
 `lsdcommerce_single_before`
