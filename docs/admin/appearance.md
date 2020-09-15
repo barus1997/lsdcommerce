@@ -4,8 +4,17 @@ Appearance / Tampilan terdiri dari pengaturan Tampilan
 
 
 #Option
-- Add Option ( lsdc_appearance_add_option( $args ) )
-- Remove Option ( lsdc_appearance_remove_option( $args ) )
 
-#Filter 
-lsdc_appearance_switch_option :: Filter for Add Switch Option
+**Add Option**
+```json
+lsdc_appearance_add_option( $args )
+```
+
+**Remove Option**
+```json
+lsdc_appearance_remove_option( $args )
+```
+
+#### #Filter 
+
+`lsdc_appearance_switch_option`  :: Filter for Switch Option
