@@ -15,6 +15,6 @@ lsdc_appearance_add_option( $args )
 lsdc_appearance_remove_option( $args )
 ```
 
-#### #Filter 
+#### #FILTER 
 
 `lsdc_appearance_switch_option`  :: Filter for Switch Option
