@@ -19,6 +19,8 @@ file : lsdcommerce/core/functions/core-functions.php on line 6
 
 ##### Payment API -> Create Extension
 
+##### Order API -> Create Order via API
+
 ##### Extras Filter -> Create Extra Cost
 
 ****
