@@ -13,13 +13,13 @@ file : lsdcommerce/core/functions/core-functions.php on line 6
 ****
 **Reference**
 
-##### Form API
+##### Form API -> ( Member Checkout ) -> Create Extra Form
 
-##### Shipping API
+##### Shipping API -> Create Extension
 
-##### Payment API
+##### Payment API -> Create Extension
 
-##### Extras Filter
+##### Extras Filter -> Create Extra Cost
 
 ****
 
