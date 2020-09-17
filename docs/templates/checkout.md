@@ -3,15 +3,6 @@
 Checkout template terdiri dari pengambilan data pemesan, data pengiriman dan juga detail produk serta pembayaran, cek detail filenya
 `file : lsdcommerce/templates/checkout.php`
 
-**#Functions**
-
-Menampilkan Harga Produk berdasarkan ID Produk
-```json
-lsdc_product_price()
-file : lsdcommerce/core/functions/core-functions.php on line 6
-```
-****
-
 ##### Form API 
 Form API berguna untuk menambah form pada halaman checkout, dengan begini kamu bisa mengambil data yang diperlukan
 
@@ -49,6 +40,14 @@ Extras API berguna untuk menambah tambahan biaya pada Checkout, kamu bisa menamb
 > Baca lebih detail di folder : **payment**/
 ****
 
+**#Functions**
+
+Menampilkan Harga Produk berdasarkan ID Produk
+```json
+lsdc_product_price()
+file : lsdcommerce/core/functions/core-functions.php on line 6
+```
+****
 
 **#Hook - Action**
 
