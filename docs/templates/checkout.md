@@ -1,6 +1,6 @@
-# Template Checkout
+# Checkout
 
-Checkout, Form, Shipping dan Pembayaran.\
+Checkout template terdiri dari pengambilan data pemesan, data pengiriman dan juga detail produk serta pembayaran, cek detail filenya
 `file : lsdcommerce/templates/checkout.php`
 
 **#Functions**
