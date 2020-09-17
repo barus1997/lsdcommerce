@@ -3,6 +3,8 @@
 Checkout template terdiri dari pengambilan data pemesan, data pengiriman dan juga detail produk serta pembayaran, cek detail filenya
 `file : lsdcommerce/templates/checkout.php`
 
+****
+
 ##### Form API 
 Form API berguna untuk menambah form pada halaman checkout, dengan begini kamu bisa mengambil data yang diperlukan
 
