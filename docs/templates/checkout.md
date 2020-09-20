@@ -9,14 +9,14 @@ Checkout template terdiri dari pengambilan data pemesan, data pengiriman dan jug
 Form API berguna untuk menambah form pada halaman checkout, dengan begini kamu bisa mengambil data yang diperlukan
 
 
-`lsdcommerce_checkout_form`
+Hook : `lsdcommerce_checkout_form`
 
 ****
 
 ##### Shipping API
 Payment API berguna untuk menambah piliha metode pengiriman, baik itu untuk produk digital ataupun untuk produk fisik
 
-`lsdcommerce_checkout_shipping`
+Hook : `lsdcommerce_checkout_shipping`
 
 ```json
 lsdc_shipping_method()

@@ -1,5 +1,3 @@
-Untuk Order Status
+![Diagram LSDCommerce Order Status](https://i.imgur.com/tt1J4fz.png)
 
-Order : Saat Melakukan Order
-Pending : Menunggu Pembayaran
-Payment : Dibayara
+Alur Status Pesanan di LSDCommerce
