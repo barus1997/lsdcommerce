@@ -2,7 +2,7 @@
 
 Merupakan plugin ecommerce yang dibuat untuk membantu berjualan produk, plugin ini gratis dan opensource, akan terus kami kembangkan menyesuaikan pasar diindonesia, anda bisa membantu berkontribusi dengan mengirim pull request ke repo ini.
 
-## Getting Started
+## Memulai
 
 Untuk membantu mendevelop plugin ini anda hanya perlu install plugin, dan membaca dokumentasi plugin disini
 
