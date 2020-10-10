@@ -1,22 +1,33 @@
-# ROADMAP DEVELOPMENT LSDCOMMERCE
-[0.3.8] 1 Okt 2020
-+ Init Github
-# Submit to Wordpress.org
+✅ Roadmap Development ✅
 
-[0.3.7] 30 Sept 2020
+[0.3.9] 15 Okt 2020
+# Public Release
 # Integration Test
 # Unit Test
++ LSDCommerce Extension
 
-[0.3.6] 29 Sept 2020
+[0.3.8] 14 Okt 2020
++ LSDCommerce PRO
 
-[0.3.5] 28 Sept 2020
+[0.3.7] 13 Okt 2020
++ LSDCommerce PRO
+
+[0.3.6] 12 Okt 2020
++ Track Store Data ( For Visualization User )
++ Member Area Final
++ Documentation
+
+[0.3.5] 11 Okt 2020
 + Activate : Register Site ( Domain )
 + Deactive : UnRegister Site ( Domain )
-# Notification and Shipping Bug
+# Notification and Shipping
+
+[0.3.4] ✅ 10 Okt 2020
++ Init Github
+# Notification and Shipping
 
 [0.3.3] ✅ 24 Sept 2020
 + Custom Member Area
-+ Support Addon : BCA Confirmation ( Action Scheduler to Check BCA Mutation, Completed Status )
 
 [0.3.2] ✅ 23 Sept 2020
 + PRO : Login, Reset, Register 
