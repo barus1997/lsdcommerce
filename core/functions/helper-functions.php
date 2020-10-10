@@ -303,7 +303,8 @@ function lsdc_order_status( $order_id, $state, $block = false )
                 wp_schedule_single_event( time() + 3, 'lsdc_notification_schedule', array( $order_id, 'paid' ) ); // Kirimg Notifikasi Order Masuk
                 break;
 
-            case 'processed':  // Pengiriman Barang
+            case 'processed':  // Resi Sudah di Input / Brang Gratis Pengiriman Barang
+                // Sending Shipping Schedule
                 wp_schedule_single_event( time() + 9, 'lsdc_shipping_schedule' , array( $order_id ) );
                 break;
 

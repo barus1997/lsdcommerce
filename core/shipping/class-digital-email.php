@@ -30,7 +30,7 @@ Class LSDC_Shipping_Email Extends LSDC_Shipping {
         // add_action( 'wp_ajax_nopriv_lsdc_shipping_email_test', array( $this, 'shipping_email_test' ) );
         // add_action( 'wp_ajax_lsdc_shipping_email_test', array( $this,'shipping_email_test' ) );
 
-        add_action( 'lsdc_shipping_hook', array( $this, 'shipping_processing') );
+        add_action( 'lsdcommerce_shipping_hook', array( $this, 'shipping_processing') );
         $this->mail = new LSDC_Mail( $this->id );
     }
 
@@ -86,19 +86,24 @@ Class LSDC_Shipping_Email Extends LSDC_Shipping {
         $customer_id    = abs( get_post_meta( $order_id, 'customer_id', true ) );
         $products       = (array) json_decode( get_post_meta( $order_id, 'products', true ) );
 
+
         $product_downloads = array();
         foreach ($products as $key => $value) {
-            $product_downloads['thumbnail'] = $value['thumbnail'];
-            $product_downloads['title'] = $value['title'];
+            $item = (array) $value;
+            $product_downloads['thumbnail'] = $item['thumbnail'];
+            $product_downloads['title'] = $item['title'];
+            $product_downloads['thumbnail'] = $item['thumbnail'];
+            $product_downloads['download_link'] = lsdc_product_download_link( $item['id'] );
+            $product_downloads['download_version'] = lsdc_product_download_version( $item['id'] );
+
             /* Pro Code */
-            if( isset( $value['variations'] ) ){
-                $product_downloads['variations'] = $value['variations'];
+            if( isset( $item['variations'] ) ){
+                $product_downloads['variations'] = $item['variations'];
             }
             /* Pro Code */
-            $product_downloads['thumbnail'] = $value['thumbnail'];
-            $product_downloads['download_link'] = lsdc_product_download_link( $value['id'] );
-
         }
+
+        $user_info = get_userdata( $customer_id );
 
         // Data
         $data = array(
@@ -108,7 +113,7 @@ Class LSDC_Shipping_Email Extends LSDC_Shipping {
             'member_link'           => get_permalink( lsdc_get( 'general_settings', 'member_area') ),
             'member_text'           => __('Masuk', 'lsdcommerce'),
             'member_username_label' => __( 'Username : ', "lsdcommerce" ),
-            'member_username'       => lsdc_user_getemail( $customer_id ),
+            'member_username'       => $user_info->user_login . '/' . lsdc_user_getemail( $customer_id ),
             'product_list'          => $product_downloads,
         );
 
@@ -119,10 +124,10 @@ Class LSDC_Shipping_Email Extends LSDC_Shipping {
     public function manage()
     { ?>
           <div class="tabs-wrapper">
-            <input type="radio" name="<?php echo $this->id; ?>" id="lsdc_shipping_email_log" checked="checked"/>
-            <label class="tab" for="lsdc_shipping_email_log"><?php _e( 'Log', 'lsdcommerce' ); ?></label>
+            <!-- <input type="radio" name="<?php //echo $this->id; ?>" id="lsdc_shipping_email_log" >
+            <label class="tab" for="lsdc_shipping_email_log"><?php //_e( 'Log', 'lsdcommerce' ); ?></label> -->
 
-            <input type="radio" name="<?php echo $this->id; ?>" id="lsdc_shipping_email_settings"/>
+            <input type="radio" name="<?php echo $this->id; ?>" id="lsdc_shipping_email_settings" checked="checked"/>
             <label class="tab" for="lsdc_shipping_email_settings"><?php _e( 'Settings', 'lsdcommerce' ); ?></label>
 
             <div class="tab-body-wrapper">
@@ -136,8 +141,7 @@ Class LSDC_Shipping_Email Extends LSDC_Shipping {
                         ?>
                         <?php if( $log ) : ?>
                             <?php foreach ( array_reverse( $log ) as $key => $value) : ?>
-                                <tr>
-                                    <td><?php echo lsdc_date_format( $value[0], 'j M Y, H:i:s' ); ?></td>
+                                <tr>                                    <td><?php echo lsdc_date_format( $value[0], 'j M Y, H:i:s' ); ?></td>
                                     <td><?php echo $value[1]; ?></td>
                                     <td><?php echo $value[2]; ?></td>
                                     <td><?php echo $value[3]; ?></td>

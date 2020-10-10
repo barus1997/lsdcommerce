@@ -46,10 +46,14 @@ Class LSDC_Notification_Email Extends LSDC_Notification {
             $subject    = $obj['subject'] . ' - ' . get_bloginfo('name'); // Subject :: Data Source - SiteName
             $event      = isset($obj['notification_event']) ?  $obj['notification_event'] : '';
             $email      = isset($obj['email']) ? $obj['email'] : '';
-            $template_path = LSDC_PATH . 'templates/emails/'. lsdc_get_store( 'country' ) .'-email-customer-' . $event . '.html';
+
+            if( isset( $obj['role'] ) &&  $obj['role'] == 'admin' ){
+                $template_path = LSDC_PATH . 'templates/emails/'. lsdc_get_store( 'country' ) .'-email-admin-' . $event . '.html';
+            }else{
+                $template_path = LSDC_PATH . 'templates/emails/'. lsdc_get_store( 'country' ) .'-email-customer-' . $event . '.html';
+            }
+           
             $data       = $this->processing( $obj );
-
-
 
             $this->mail->send( $email, $subject, $event, $template_path, $data );
         }
@@ -100,9 +104,11 @@ Class LSDC_Notification_Email Extends LSDC_Notification {
             endforeach; 
         endif;
 
-        // Data
+        // Support Data
         $data = array(
-             // 'site_logo'         => 'https://lasida-demo.now.sh/assets/img/logo.png',
+            'site_url'          => get_site_url(),
+            'site_logo'         => get_theme_mod( 'custom_logo' ) != false ? wp_get_attachment_image_url( get_theme_mod( 'custom_logo' ), 'full' ) : 'https://lsdplugins.com/wp-content/uploads/2020/09/LSDCommerce.png',
+            'site_name'         => get_bloginfo('name'),
             'order_number'      => $order_number,
             'total_part'        => str_replace( substr($total, -3), '', lsdc_currency_format( true, $total ) ),
             'total_last'        => $total != 0 ? substr($total, -3) : null,
@@ -129,9 +135,9 @@ Class LSDC_Notification_Email Extends LSDC_Notification {
         );
 
   
-        if( $status == 'order' ){
+        // if( $status == 'order' ){
             $data = array_merge_recursive( $data, $payment_data );
-        }
+        // }
         return $data;
     
     }
@@ -157,12 +163,12 @@ Class LSDC_Notification_Email Extends LSDC_Notification {
 
     public function settings_manage(){ ?>
         <div class="tabs-wrapper">
-            <input type="radio" name="email" id="lsdc_notification_email_log" checked="checked"/>
-            <label class="tab" for="lsdc_notification_email_log"><?php _e( 'Log', 'lsdcommerce'  ); ?></label>
+            <!-- <input type="radio" name="email" id="lsdc_notification_email_log" > -->
+            <!-- <label class="tab" for="lsdc_notification_email_log"><?php //_e( 'Log', 'lsdcommerce'  ); ?></label> -->
 
             <?php do_action( 'lsdcommerce_notification_email_tab'); ?>
             
-            <input type="radio" name="email" id="lsdc_notification_email_settings"/>
+            <input type="radio" name="email" id="lsdc_notification_email_settings" checked="checked"/>
             <label class="tab" for="lsdc_notification_email_settings"><?php _e( 'Settings', 'lsdcommerce'  ); ?></label>
 
             <div class="tab-body-wrapper">

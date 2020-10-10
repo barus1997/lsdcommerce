@@ -1,11 +1,19 @@
 <style>
-    * {
-        outline: none !important;
+    /* -------------------------------------
+        GLOBAL RESETS
+    ------------------------------------- */
+
+    /*All the styling goes here*/
+
+    img {
+        border: none;
+        -ms-interpolation-mode: bicubic;
+        max-width: 100%;
     }
 
     body {
-        background-color: #eaebed !important;
-        font-family: 'Roboto';
+        background-color: #f1f1f1;
+        font-family: sans-serif;
         -webkit-font-smoothing: antialiased;
         font-size: 14px;
         line-height: 1.4;
@@ -13,12 +21,6 @@
         padding: 0;
         -ms-text-size-adjust: 100%;
         -webkit-text-size-adjust: 100%;
-    }
-
-    img {
-        border: none;
-        -ms-interpolation-mode: bicubic;
-        max-width: 100%;
     }
 
     table {
@@ -30,57 +32,328 @@
     }
 
     table td {
-        font-family: 'Roboto';
+        font-family: sans-serif;
         font-size: 14px;
-        padding-bottom: 0;
-        padding-top: 5px;
+        vertical-align: top;
+    }
+
+    /* -------------------------------------
+        BODY & CONTAINER
+    ------------------------------------- */
+
+    .body {
+        background-color: #f1f1f1;
+        width: 100%;
+    }
+
+    /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
+    .container {
+        display: block;
+        Margin: 0 auto !important;
+        /* makes it centered */
+        max-width: 580px;
+        padding: 10px;
+        width: 580px;
+    }
+
+    /* This should also be a block element, so that it will fill 100% of the .container */
+    .content {
+        box-sizing: border-box;
+        display: block;
+        Margin: 0 auto;
+        max-width: 580px;
+        padding: 10px;
+    }
+
+    /* -------------------------------------
+        HEADER, FOOTER, MAIN
+    ------------------------------------- */
+    .main {
+        background: #ffffff;
+        border-radius: 3px;
+        width: 100%;
+    }
+
+    .header {
+        padding: 20px 0;
+    }
+
+    .wrapper {
+        box-sizing: border-box;
+        padding: 20px;
+    }
+
+    .content-block {
+        padding-bottom: 10px;
+        padding-top: 10px;
+    }
+
+    .footer {
+        clear: both;
+        Margin-top: 10px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .footer td,
+    .footer p,
+    .footer span,
+    .footer a {
+        color: #9a9ea6;
+        font-size: 12px;
+        text-align: center;
+    }
+
+    /* -------------------------------------
+        TYPOGRAPHY
+    ------------------------------------- */
+    h1,
+    h2,
+    h3,
+    h4 {
+        color: #06090f;
+        font-family: sans-serif;
+        font-weight: 400;
+        line-height: 1.4;
+        margin: 0;
+        margin-bottom: 30px;
+    }
+
+    h1 {
+        font-size: 35px;
+        font-weight: 300;
+        text-align: center;
+        text-transform: capitalize;
+    }
+
+    p,
+    ul,
+    ol {
+        font-family: sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        margin: 0;
+        margin-bottom: 15px;
+    }
+
+    p li,
+    ul li,
+    ol li {
+        list-style-position: inside;
+        margin-left: 5px;
     }
 
     a {
+        color: #ec0867;
+        text-decoration: underline;
+    }
+
+    /* -------------------------------------
+        BUTTONS
+    ------------------------------------- */
+    .btn {
+        box-sizing: border-box;
+        min-width: 100%;
+        width: 100%;
+    }
+
+    .btn>tbody>tr>td {
+        padding-bottom: 15px;
+    }
+
+    .btn table {
+        min-width: auto;
+        width: auto;
+    }
+
+    .btn table td {
+        background-color: #ffffff;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .btn a {
+        background-color: #ffffff;
+        border: solid 1px #ec0867;
+        border-radius: 5px;
+        box-sizing: border-box;
+        color: #ec0867;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 14px;
+        font-weight: bold;
+        margin: 0;
+        padding: 12px 25px;
+        text-decoration: none;
+        text-transform: capitalize;
+    }
+
+    .btn-primary table td {
+        background-color: #ec0867;
+    }
+
+    .btn-primary a {
+        background-color: #ec0867;
+        border-color: #ec0867;
+        color: #ffffff;
+    }
+
+    /* -------------------------------------
+        OTHER STYLES THAT MIGHT BE USEFUL
+    ------------------------------------- */
+    .last {
+        margin-bottom: 0;
+    }
+
+    .first {
+        margin-top: 0;
+    }
+
+    .align-center {
+        text-align: center;
+    }
+
+    .align-right {
+        text-align: right;
+    }
+
+    .align-left {
+        text-align: left;
+    }
+
+    .clear {
+        clear: both;
+    }
+
+    .mt0 {
+        margin-top: 0;
+    }
+
+    .mb0 {
+        margin-bottom: 0;
+    }
+
+    .preheader {
+        color: transparent;
+        display: none;
+        height: 0;
+        max-height: 0;
+        max-width: 0;
+        opacity: 0;
+        overflow: hidden;
+        mso-hide: all;
+        visibility: hidden;
+        width: 0;
+    }
+
+    .powered-by a {
         text-decoration: none;
     }
 
-    button {
-        cursor: pointer;
+    .link-theme {
+        color: #A10009 !important;
     }
 
-    h5 {
-        font-size: 18px;
-        margin: 15px 0;
+    hr {
+        border: 0;
+        border-bottom: 1px solid #f6f6f6;
+        Margin: 20px 0;
     }
 
-    h6 {
-        font-size: 16px;
-        margin: 6px 0 0;
-        font-weight: normal;
+    /* -------------------------------------
+        RESPONSIVE AND MOBILE FRIENDLY STYLES
+    ------------------------------------- */
+    @media only screen and (max-width: 620px) {
+        table[class=body] h1 {
+            font-size: 28px !important;
+            margin-bottom: 10px !important;
+        }
+
+        table[class=body] p,
+        table[class=body] ul,
+        table[class=body] ol,
+        table[class=body] td,
+        table[class=body] span,
+        table[class=body] a {
+            font-size: 16px !important;
+        }
+
+        table[class=body] .wrapper,
+        table[class=body] .article {
+            padding: 10px !important;
+        }
+
+        table[class=body] .content {
+            padding: 0 !important;
+        }
+
+        table[class=body] .container {
+            padding: 0 !important;
+            width: 100% !important;
+        }
+
+        table[class=body] .main {
+            border-left-width: 0 !important;
+            border-radius: 0 !important;
+            border-right-width: 0 !important;
+        }
+
+        table[class=body] .btn table {
+            width: 100% !important;
+        }
+
+        table[class=body] .btn a {
+            width: 100% !important;
+        }
+
+        table[class=body] .img-responsive {
+            height: auto !important;
+            max-width: 100% !important;
+            width: auto !important;
+        }
     }
 
+    /* -------------------------------------
+        PRESERVE THESE STYLES IN THE HEAD
+    ------------------------------------- */
+    @media all {
+        .ExternalClass {
+            width: 100%;
+        }
+
+        .ExternalClass,
+        .ExternalClass p,
+        .ExternalClass span,
+        .ExternalClass font,
+        .ExternalClass td,
+        .ExternalClass div {
+            line-height: 100%;
+        }
+
+        .apple-link a {
+            color: inherit !important;
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            text-decoration: none !important;
+        }
+
+        .btn-primary table td:hover {
+            background-color: #d5075d !important;
+        }
+
+        .btn-primary a:hover {
+            background-color: #d5075d !important;
+            border-color: #d5075d !important;
+        }
+    }
+
+    /*Bank*/
     table.table-banks tr td.bank-logo {
         padding: 0px !important;
         vertical-align: middle;
         text-align: center;
-    }
-
-    table,
-    table tr {
-        border: none !important;
-    }
-
-    hr.half {
-        margin: 10px auto;
-        width: 60%;
-        background-color: #CB0001;
-    }
-
-    hr {
-        margin: 10px 0;
-        background-color: #f2f4f3;
-        height: 2px;
-        border: none;
-    }
-
-    .table-transaction td.text-right {
-        width: 30% !important;
     }
 
     .table-banks p,
@@ -90,96 +363,16 @@
         margin: 3px 0;
     }
 
+    .mb-0 {
+        margin-bottom: 0;
+    }
+
+    .table-transaction td.text-right {
+        width: 30% !important;
+    }
+
     .table-transaction .product-image {
         width: 60px;
-    }
-
-    .table-digital-product tr td {
-        padding: 5px 0;
-    }
-
-    .section-bank {
-        margin-bottom: 30px;
-    }
-
-    .py-10 {
-        padding: 0 0 20px;
-    }
-
-    .pt-10 {
-        padding-top: 10px
-    }
-
-    .pt-30 {
-        padding-top: 30px
-    }
-
-    .mb-10 {
-        margin-bottom: 10px;
-    }
-
-    .text-bold {
-        font-weight: 600;
-    }
-
-    .text-right {
-        text-align: right;
-    }
-
-    .text-left {
-        text-align: left;
-    }
-
-    .text-center {
-        text-align: center
-    }
-
-    .text-underline {
-        border-bottom: 1px solid #CB0001;
-    }
-
-    .card {
-        background: #fff;
-        padding: 30px 13px 40px;
-        max-width: 480px;
-        /*box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);*/
-        margin: 0 auto;
-        font-family: Roboto;
-    }
-
-    .page-content a {
-        text-decoration: none;
-    }
-
-    .page-content {
-        margin: 0 auto;
-        text-align: center;
-        width: 100%;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
-    }
-
-    .page-thankyou {
-        padding: 0 0 25px;
-    }
-
-    .page-thankyou .logo {
-        padding: 0 0 5px;
-        margin-bottom: 10px;
-    }
-
-    .logo img {
-        height: 32px;
-        width: auto;
-    }
-
-    .bank-account{
-        line-height: 23px;
-    }
-
-    .page-thankyou .notification {
-        text-align: center;
-        padding: 10px 15px;
-        background-color: #FFECE1;
     }
 
     .img-product img{
@@ -189,45 +382,14 @@
       object-fit:cover;
     }
 
-    .lsdc-btn {
-        border-radius: 0px;
-        padding: 7px 15px;
-        box-shadow: none !important;
-        border: 1px solid #ddd;
-    }
-
-    .lsdc-btn {
-        background-color: #CB0001;
-        border-color: #CB0001;
-        color: #FFECE1;
-    }
-
-    .page-thankyou .section-payment-instruction .icon img {
-        width: 160px;
-        height: auto;
-        margin: 20px 0 0;
-    }
-
-    .section-payment-instruction {
-        margin-bottom: 35px;
-    }
-
-    .section-payment-instruction {
-        text-align: center;
-    }
-
-    .text-primary {
-        color: #CB0001 !important;
-        font-size: 16px !important;
-    }
-
-    .mb-10 {
-        margin-bottom: 10px !important;
-    }
-
-    .d-block {
+    small {
         display: block;
     }
+
+    .text-right {
+        text-align: right;
+    }
+
 </style>
 
 <body class="">
@@ -235,145 +397,156 @@
         <tr>
             <td>&nbsp;</td>
             <td class="container">
+                <div class="header">
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="align-center">
+                                <a href="{{site_url}}"><img src="{{site_logo}}" height="55" alt="{{site_name}}"></a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
                 <div class="content">
 
                     <!-- START CENTERED WHITE CONTAINER -->
-        
-                    <main class="page-content">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="page-thankyou">
-                                  
-                                    <div class="logo text-left">
-                                        <img src="{{site_logo}}">
-                                    </div>
-                                    <p class="notification">
-                                        Pesanan Baru dari {{customer_name}}
-                                    </p>
+                    <span class="preheader">Pesanan anda #{{order_number}} telah selesai, berikut ini detail pesanan
+                        anda.</span>
+                    <table role="presentation" class="main">
 
-                                    <div class="section-payment-instruction">
-                                        <div class="icon">
-                                            <img src="http://lsdplugins.com/wp-content/uploads/2020/09/digital_shipping.png" alt="Digital Shipping">
-                                        </div>
-                                        <p style="line-height:20px">
-                                            Hi, Admin<br>
-                                            <small>Silahkan cek panel order, ada pesanan baru</small>
-                                        </p>
-                                    </div>
-                            
-                               <div class="section-bank">
-                                        <p class="text-primary mb-10 text-center">{{payment_name}}</p> <hr class="half">
-                                        <p class="grey text-center mb-10">{{payment_instruction}}</p>
+                        <!-- START MAIN CONTENT AREA -->
+                        <tr>
+                            <td class="wrapper">
+                                <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td>
+                                            <p>Hi Admin</p>
+                                            <p>Ada pesanan baru yang masuk.<br>Silahkan cek di halaman dashboard
+                                                pemesanan<br>
+                                        </td>
+                                    </tr>
+                                </table>
 
-                                        <table class="table table-banks">
-                                            <tbody>
-                                                <tr colspan="2">
-                                                    <td>
-                                                        <span class="bank-code">{{code_label}} {{code_value}}</span>
-                                                        <h6 class="bank-account">{{account_label}} {{account_code}} <span id="text-bold">{{account_number}}</span></h6>
-                                                        <p class="grey">{{holder_label}} {{holder_value}}</p>
-                                                    </td>
-                                                        <td class="bank-logo">
-                                                        <img src="{{payment_logo}}" alt="{{payment_name}}" height="40">
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                <div class="section-transaction">
+                                    <span class="text-primary font-weight-medium text-center">Order Number : #{{order_number}}</span><br>
+                                    <span class="text-primary mb-0 text-center">Pembayaran Melalui</span>
+                                    <p class="grey text-center mb-10">{{payment_name}}</p>
 
-                                    <div class="section-transaction">
-                                        <h6 class="text-primary font-weight-medium mb-10 text-center">Order #{{order_id}}</h6> <hr class="half">
-                                        <table class="table table-transaction">
-                                            <tbody>
-                                                {{#product_list}} 
-                                                <tr>
-                                                    <td class="product-image">
-                                                        <div class="img-product">
-                                                        <img src="{{thumbnail}}" alt="{{title}}">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        {{title}}<small class="d-block"> {{qty}} x {{price_unit}} </small>
-                                                        {{variation}}
-                                                    </td>
-                                                    <td class="text-right">
+                                    <hr class="half">
+                                    <table class="table table-transaction">
+                                        <tbody>
+                                            {{#product_list}}
+                                            <tr>
+                                                <td class="product-image">
+                                                    <div class="img-product">
+                                                        <img src="{{thumbnail}}" height="40" alt="{{title}}">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    {{title}}
+
+                                                    <small class="d-block">
+                                                        {{qty}} x {{price_unit_text}}
+                                                        {{#variations}}
+                                                            {{variations}}
+                                                        {{/variations}}
+                                                    </small>
+
+                                                </td>
+                                                <td class="text-right">
                                                     {{total}}
-                                                    </td>
-                                                </tr>
-                                                {{/product_list}}
-                                                <!-- SubTitle -->
-                                                <tr>
-                                                    <td colspan="2">
-                                                        <p>Sub Total</p>
-                                                    </td>
-                                                    <td class="text-right">
-                                                        <p>{{subtotal}}</p>
-                                                    </td>
-                                                </tr>
-                                                <!-- Extra -->
-                                                {{#extra_list}} 
-                                                <tr>
-                                                    <td colspan="2">
-                                                        {{label}}<p style="font-size:12px !important;" class="text-primary">{{bold}}</p>
-                                                    </td>
-                                                    <td class="text-right">
-                                                        {{sign}} {{value}}
-                                                    </td>
-                                                </tr>
-                                                {{/extra_list}}
-                                                <!-- Total -->
-                                                <tr>
-                                                    <td colspan="2">
-                                                        <h6 class="text-bold">Total</h6>
-                                                    </td>
-                                                    <td class="text-right" style="width:70% !important;">
-                                                        <h6 class="text-bold text-primary">{{total}}</h6>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                    
-                                    <div class="section-customer">
-                                        <h6 class="text-primary font-weight-medium text-center">Detail Pembeli</h6>
-                                        <hr class="half">
-                                        <table class="table table-transaction table-borderless">
-                                            <tbody>
-                                                <tr>
-                                                    <td colspan="2"  class="font-weight-medium">Nama</td>
-                                                    <td>{{customer_name}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="2"  class="font-weight-medium">Phone</td>
-                                                    <td>{{customer_phone}}</td>
-                                                </tr>
-                                                {{#customer_email}}
-                                                    <tr>
-                                                        <td colspan="2" class="font-weight-medium">Email</td>
-                                                        <td>{{customer_email}}</td>
-                                                    </tr>
-                                                {{/customer_email}}
-
-                                                {{#shipping_physical}}
-                                                {{/shipping_physical}}
-                                            </tbody>
-                                        </table>
-                                        <br>
-                                    
-                                    </div>
-                                    
+                                                </td>
+                                            </tr>
+                                            {{/product_list}}
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-transaction">
+                                        <tbody>
+                                            <!-- SubTitle -->
+                                            <tr>
+                                                <td colspan="2">
+                                                    <p>Sub Total</p>
+                                                </td>
+                                                <td class="text-right">
+                                                    <p>{{subtotal}}</p>
+                                                </td>
+                                            </tr>
+                                            <!-- Extra -->
+                                            {{#extra_list}}
+                                            <tr>
+                                                <td colspan="2">
+                                                    {{label}}
+                                                    <p style="font-size:12px !important;" class="text-primary">{{bold}}</p>
+                                                </td>
+                                                <td class="text-right">
+                                                    {{sign}} {{value}}
+                                                </td>
+                                            </tr>
+                                            {{/extra_list}}
+                                            <!-- Total -->
+                                            <tr>
+                                                <td colspan="2">
+                                                    <p>Total</p>
+                                                </td>
+                                                <td class="text-right" style="width:70% !important;">
+                                                    <p class="text-bold text-primary">{{total}}</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                            </div>
-                        </div>
-                    
-                        <p class="text-center pt-30">
-                        Powered by <a href="http://lsdplugins.com/lsdcommerce" class="text-bold text-primary">LSDCommerce</a>
-                        </p><br>
+              
+                                <hr class="half">
+                                <div class="section-customer">
+                                    <span class="text-primary font-weight-medium text-center">Detail Pembeli</span><br>
+                                    <table class="table table-transaction table-borderless">
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="2" class="font-weight-medium">Nama</td>
+                                                <td>{{customer_name}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" class="font-weight-medium">Phone</td>
+                                                <td>{{customer_phone}}</td>
+                                            </tr>
+                                            {{#customer_email}}
+                                            <tr>
+                                                <td colspan="2" class="font-weight-medium">Email</td>
+                                                <td>{{customer_email}}</td>
+                                            </tr>
+                                            {{/customer_email}}
+                                        </tbody>
+                                    </table>
 
-                    </main>
+                                </div>
 
-                  <!-- END CENTERED WHITE CONTAINER -->
-                  </div>               
+                            </td>
+                        </tr>
+
+                        <!-- END MAIN CONTENT AREA -->
+                    </table>
+
+
+                    <!-- START FOOTER -->
+                    <div class="footer">
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td class="content-block">
+                                    <span class="apple-link">{{store_address}}<br>{{store_city}}, {{store_state}}
+                                        {{store_postal}}</span>
+                                    <!-- <br> Tidak suka dengan email ini ? <a href="">Unsubscribe</a>. -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="content-block powered-by">
+                                    Powered by <a class="link-theme"href="https://lsdplugins.com/lsdcommerce/">LSDCommerce</a>.
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!-- END FOOTER -->
+
+                    <!-- END CENTERED WHITE CONTAINER -->
+                </div>
             </td>
             <td>&nbsp;</td>
         </tr>

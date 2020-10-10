@@ -33,7 +33,7 @@
         font-family: 'Roboto';
         font-size: 14px;
         padding-bottom: 0;
-        padding-top: 5px;
+        /* padding-top: 5px; */
     }
 
     a {
@@ -172,7 +172,7 @@
         width: auto;
     }
 
-    .bank-account{
+    .bank-account {
         line-height: 23px;
     }
 
@@ -182,11 +182,11 @@
         background-color: #FFECE1;
     }
 
-    .img-product img{
-      width: 40px !important;
-      height: 40px;
-      border-radius: 5px;
-      object-fit:cover;
+    .img-product img {
+        width: 40px !important;
+        height: 40px;
+        border-radius: 5px;
+        object-fit: cover;
     }
 
     .lsdc-btn {
@@ -238,39 +238,43 @@
                 <div class="content">
 
                     <!-- START CENTERED WHITE CONTAINER -->
-        
+
                     <main class="page-content">
                         <div class="card">
                             <div class="card-body">
                                 <div class="page-thankyou">
-                                  
-                                    <div class="logo text-left">
+
+                                    <!-- <div class="logo text-left">
                                         <img src="{{site_logo}}">
-                                    </div>
+                                    </div> -->
                                     <p class="notification">
                                         Pengiriman Produk Digital
                                     </p>
 
                                     <div class="section-payment-instruction">
                                         <div class="icon">
-                                            <img src="http://lsdplugins.com/wp-content/uploads/2020/09/digital_shipping.png" alt="Digital Shipping">
+                                            <img src="http://lsdplugins.com/wp-content/uploads/2020/09/digital_shipping.png"
+                                                alt="Digital Shipping">
                                         </div>
                                         <p>
                                             Berikut ini kami kirimkan produk digital<br>
                                             <small>Silahkan Download atau Login ke Member Area</small>
                                         </p>
                                     </div>
-                            
+
                                     <div class="section-bank">
-                                        <p class="text-primary mb-10 text-center">Detail Member Area</p> <hr class="half">
+                                        <p class="text-primary mb-10 text-center">Detail Member Area</p>
+                                        <hr class="half">
                                         <p class="grey text-center mb-10">Silahkan Login atau Download Langsung</p>
 
                                         <table class="table table-banks">
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                        <span class="bank-code">{{member_label}} <a href="{{member_link}}">{{member_text}}</a></span>
-                                                        <h6 class="bank-account">{{member_username_label}}<span id="text-bold"> {{member_username}}</span></h6>
+                                                        <span>{{member_label}} <a
+                                                                href="{{member_link}}">{{member_text}}</a></span><br>
+                                                        <span>{{member_username_label}}<strong>
+                                                                {{member_username}}</strong></span>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -278,14 +282,16 @@
                                     </div>
 
                                     <div class="section-transaction">
-                                        <h6 class="text-primary font-weight-medium mb-10 text-center">Order #{{order_number}}</h6> <hr class="half">
+                                        <h6 class="text-primary font-weight-medium mb-10 text-center">Order
+                                            #{{order_number}}</h6>
+                                        <hr class="half">
                                         <table class="table table-transaction">
                                             <tbody>
-                                                {{#product_list}} 
+                                                {{#product_list}}
                                                 <tr>
                                                     <td class="product-image">
                                                         <div class="img-product">
-                                                        <img src="{{thumbnail}}" alt="{{title}}">
+                                                            <img src="{{thumbnail}}" alt="{{title}}">
                                                         </div>
                                                     </td>
                                                     <td>
@@ -297,27 +303,28 @@
                                                         {{/variations}}
                                                     </td>
                                                     <td class="text-right">
-                                                    {{download_link}}
+                                                        <a href="{{download_link}}">Download v{{download_version}}</a>
                                                     </td>
                                                 </tr>
                                                 {{/product_list}}
-                                         
+
                                             </tbody>
                                         </table>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
-                    
+
                         <p class="text-center pt-30">
-                        Powered by <a href="http://lsdplugins.com/lsdcommerce" class="text-bold text-primary">LSDCommerce</a>
+                            Powered by <a href="http://lsdplugins.com/lsdcommerce"
+                                class="text-bold text-primary">LSDCommerce</a>
                         </p><br>
 
                     </main>
 
-                  <!-- END CENTERED WHITE CONTAINER -->
-                  </div>               
+                    <!-- END CENTERED WHITE CONTAINER -->
+                </div>
             </td>
             <td>&nbsp;</td>
         </tr>

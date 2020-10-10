@@ -82,8 +82,11 @@ function lsdc_column_content( $column, $post_id ) {
     // Type Column
     if ( 'action' === $column ) {
        ?>
-       <button class="button lsdc-action-button" title="Complete Order" data-action="completed" data-id="<?php echo $post_id; ?>"><svg xmlns="http://www.w3.org/2000/svg" style="margin-top:3px;padding:0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
+       <?php if( get_post_meta( $post_id, 'status', true ) != 'processed' ) : ?>
        <button class="button lsdc-action-button" title="Processing Order" data-action="processed" data-id="<?php echo $post_id; ?>"><svg xmlns="http://www.w3.org/2000/svg" style="margin-top:3px;padding:0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></button>
+       <?php endif; ?>
+       <button class="button lsdc-action-button" title="Shipped" data-action="shipped" data-id="<?php echo $post_id; ?>"><svg xmlns="http://www.w3.org/2000/svg" style="margin-top:3px;padding:0"  width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg></button>
+       <button class="button lsdc-action-button" title="Complete Order" data-action="completed" data-id="<?php echo $post_id; ?>"><svg xmlns="http://www.w3.org/2000/svg" style="margin-top:3px;padding:0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
        <?php
     }
 }

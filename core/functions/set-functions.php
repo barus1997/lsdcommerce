@@ -31,13 +31,13 @@ function lsdc_product_tabs_header(){
 }
 
 // Add Class to Body in Single Product Template
-function lsdcommerce_single_hook(){
-    add_filter( 'body_class', function( $class ) {
-       $class[] = 'lsdcommerce-single'; 
-       return $class;
-    });
-}
-add_action( 'lsdcommerce_single', 'lsdcommerce_single_hook' );
+// function lsdcommerce_single_hook(){
+//     add_filter( 'body_class', function( $class ) {
+//        $class[] = 'lsdcommerce-single'; 
+//        return $class;
+//     });
+// }
+// add_action( 'lsdcommerce_single', 'lsdcommerce_single_hook' );
 
 // Restrict Wp-Admin and Redirect to Member
 function lsdc_set_redirect_member() {

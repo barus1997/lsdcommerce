@@ -484,8 +484,6 @@ function lsdc_notification_schedule_action( $order_id, $event )
         $customer_email = $customer->email;
     }
 
-
-
     // Buyer
     if( isset( $notify[$event]['receiver'][0] ) ){
         $payload                       = array();
@@ -495,50 +493,47 @@ function lsdc_notification_schedule_action( $order_id, $event )
         $payload['order_number']       = $order_number;
         $payload['notification_event'] = $event;
         LSDC_Logger::log( 'Buyer Notification : ' . json_encode( $payload ) );
-        var_dump( $payload );
         LSDC_Notification::sender( $payload );
     }
 
-    
     // Admin
-    // if( isset( $notify[$event]['receiver'][1] ) ){
-    //     $payload                       = array();
-    //     $payload['email']              = get_bloginfo('admin_email');
-    //     $payload['subject']            = 'Pesanan Baru #' . $order_number;
-    //     $payload['order_number']       = $order_number;
-    //     $payload['notification_event'] = $event;
-    //     LSDC_Logger::log( 'Admin Notification : ' . json_encode( $payload ) );
-    //     LSDC_Notification::sender( $payload );
-    // }
-
+    if( isset( $notify[$event]['receiver'][1] ) ){
+        $payload                       = array();
+        $payload['email']              = 'lasidaziz@gmail.com';
+        $payload['subject']            = 'Pesanan Baru #' . $order_number;
+        $payload['order_id']           = $order_id;
+        $payload['order_number']       = $order_number;
+        $payload['role']               = 'admin';
+        $payload['notification_event'] = $event;
+        LSDC_Logger::log( 'Admin Notification : ' . json_encode( $payload ) );
+        LSDC_Notification::sender( $payload );
+    }
 
 }
 add_action( 'lsdc_notification_schedule', 'lsdc_notification_schedule_action', 10, 2 );
 
-
+function lsdc_order_get_email( $order_id ){
+    if( get_post_meta( $order_id, 'customer_id', true ) ){
+        $customer_id = abs( get_post_meta( $order_id, 'customer_id', true ) );
+        return lsdc_user_getemail( $customer_id );
+    }else{
+        $customer = json_decode( get_post_meta( $order_id, 'customer', true ) );
+        return $customer->email;
+    }
+}
 /**
  * Shipping Handler
+ * Just for Digital Product
  */
 function lsdc_shipping_schedule_action( $order_id ) 
 {
-    $customer_email = null;
-    if( get_post_meta( $order_id, 'customer_id', true ) ){
-        $customer_id = abs( get_post_meta( $order_id, 'customer_id', true ) );
-        $customer_email = lsdc_user_getemail( $customer_id );
-    }else{
-        $customer = json_decode( get_post_meta( $order_id, 'customer', true ) );
-        $customer_email = $customer->email;
-    }
-
     $payload = array();
     $payload['subject']     = __( "Product Delivery" , 'lsdcommerce' );
     $payload['order_id']    = $order_id;
     $payload['type']        = 'digital';
-    $payload['email']       = $customer_email;
-    LSDC_Logger::log( 'Shipping : #' . $order_id );
+    $payload['email']       = lsdc_order_get_email( $order_id );
+    LSDC_Logger::log( 'Shipping for Order: #' . $order_id );
     LSDC_Shipping::sender( $payload );
-
-
 
     // Auto Completed Order for Empty and Digital Purchase
     $total = abs( get_post_meta( $order_id, 'total', true ) );

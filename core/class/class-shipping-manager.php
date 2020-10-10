@@ -32,7 +32,7 @@ class LSDC_Shipping {
      */
     public static function sender(  $obj ){
         // Hook for multiple shipping
-        do_action( 'lsdc_shipping_hook', $obj );
+        do_action( 'lsdcommerce_shipping_hook', $obj );
 
     }
 

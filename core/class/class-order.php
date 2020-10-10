@@ -197,14 +197,16 @@ class LSDC_Order
         add_post_meta( $order_id, 'ip', esc_attr( $order_object['ip'] ) );
 
         // Triggering Notification
-        // lsdc_order_status( $order_id, 'new' );
+        lsdc_order_status( $order_id, 'new' );
 
         // Free Product
         if( $total == 0 ) {
             lsdc_order_status( $order_id, 'processed', true );
         }
 
-        lsdc_shipping_schedule_action( $order_id );
+        // Testing Shipping and Notification Direct
+        // lsdc_shipping_schedule_action( $order_id );
+        // lsdc_notification_schedule_action( $order_id, 'order' );
 
         // Flag Remove Token
         delete_transient( 'lsdc_checkout_' . $order_object['order_key']  );
