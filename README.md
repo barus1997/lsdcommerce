@@ -1,7 +1,8 @@
-# 🏪 LSDCommerce \
-Plugin Ecommerce WordPress Gratis dengan bepegang pada prinsip 3S ( Simple | Secure | Speed )
+# 🏪 LSDCommerce
+Plugin Ecommerce WordPress Gratis dengan bepegang pada prinsip 3S ( Simple | Secure | Speed )\
+bertujuan untuk membantu para penjual berjualan secara online dengan menyesuaikan iklim ecommerce di Indonesia.
 
-## Develop Plugin
+### Develop Plugin
 Untuk membantu mendevelop plugin ini anda hanya perlu install plugin, dan membaca dokumentasi plugin disini
 
 
