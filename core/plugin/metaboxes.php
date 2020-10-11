@@ -112,7 +112,7 @@ function lsdc_product_data()
             padding: 7px 0;
         }
 
-        .lsd-hide{
+        lsdp-hide{
             display:none;
         }
 
@@ -176,7 +176,7 @@ function lsdc_product_data()
         </div>
 
         <!-- Stock Tab -->
-        <div class="wp-tab-panel lsd-hide" id="stock">
+        <div class="wp-tab-panel lsdp-hide" id="stock">
             <div class="metabox-field">
                 <label for="stock"><?php esc_attr_e( 'Stock', 'lsdcommerce' ); ?> ( <small>9999 = <?php _e( 'Available', 'lsdcommerce' ); ?></small> )</label>
                 <p class="mfield"><input type="text" name="stock" placeholder="9999" value="<?php echo get_post_meta( $post->ID, '_stock', true ); ?>"></p>
@@ -187,7 +187,7 @@ function lsdc_product_data()
         </div>
 
         <!-- Shipping Tab -->
-        <div class="wp-tab-panel lsd-hide" id="shipping">
+        <div class="wp-tab-panel lsdp-hide" id="shipping">
             <div class="tabs tabs-inside">
                 <!-- Digital -->
                 <input name="shipping_tabs" value="digital" type="radio"/>
@@ -236,8 +236,8 @@ function lsdc_product_data()
                 $('.wp-tab-bar li', context).removeClass('wp-tab-active');
                 
                 $(this).closest('li').addClass('wp-tab-active');
-                $('.wp-tab-panel', context).addClass('lsd-hide');
-                $( $(this).attr('href'), context ).removeClass('lsd-hide');
+                $('.wp-tab-panel', context).addClass('lsdp-hide');
+                $( $(this).attr('href'), context ).removeClass('lsdp-hide');
 
             });
 

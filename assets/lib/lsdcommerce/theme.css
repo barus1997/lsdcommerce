@@ -306,7 +306,7 @@ body {
 }
 
 .lsdcommerce table.table tr td {
-    padding: 10px;
+    padding: 0;
     font-size: 15px;
     line-height: 1.3em;
     vertical-align: middle;

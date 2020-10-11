@@ -196,6 +196,7 @@ class LSDCommerce {
 		require_once LSDC_PATH . 'core/functions/helper-functions.php';
 		require_once LSDC_PATH . 'core/functions/set-functions.php';
 		require_once LSDC_PATH . 'core/functions/pluggable.php';
+		require_once LSDC_PATH . 'core/functions/updater.php';
 
 		// Register Custom PostType, Metabox and Shortcodes
 		require_once LSDC_PATH . 'core/plugin/posttypes.php';

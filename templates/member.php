@@ -1,4 +1,9 @@
-<?php get_header(); ?>
+<?php 
+if ( ! defined( 'ABSPATH' ) ) {
+  exit; // Exit if accessed directly
+}
+
+get_header(); ?>
 
 <?php if( is_user_logged_in() ) : ?>
 
@@ -260,7 +265,7 @@
                 <div class="columns">
         
                     <div class="column col-5">
-                        <p class="lsd-alert danger mt-10 mb-10 lsd-hide" id="alert-password"><?php _e( 'Your Input Wrong Old Password', 'lsdcommerce' ); ?></p>
+                        <p class="lsd-alert danger mt-10 mb-10 lsdp-hide" id="alert-password"><?php _e( 'Your Input Wrong Old Password', 'lsdcommerce' ); ?></p>
 
                         <h5 class="card-title"><?php _e( 'Change Password', 'lsdcommerce' ); ?></h5>
                         <br>

@@ -7,8 +7,8 @@
  */
 
 set_lsdcommerce();
-if ( ! defined( 'WPINC' ) ) {
-	die;
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
 }
 ?>
 

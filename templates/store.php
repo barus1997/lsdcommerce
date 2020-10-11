@@ -4,8 +4,8 @@
  * Displaying Store and All Products
  */
 
-if ( ! defined( 'WPINC' ) ) {
-	die;
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
 }
 set_lsdcommerce();
 ?>

@@ -76,11 +76,10 @@
   width: 50% !important;
 }
 
-
-
-.lsd-hide {
+.lsdp-hide {
   position: absolute;
   opacity: 0;
+  display: none;
 }
 
 .label {

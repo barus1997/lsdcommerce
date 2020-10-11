@@ -1,4 +1,10 @@
-<?php get_header(); ?>
+<?php 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+}
+
+get_header(); 
+?>
 
 <main class="page-content">
         <div class="card">

@@ -334,7 +334,7 @@ table.table-transaction tr:last-child td {
     object-position: center;
 }
 
-.svg-icon {
+.lsdc-svg {
     position: absolute;
     left: 15px;
     top: 60%;

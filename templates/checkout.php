@@ -7,10 +7,10 @@
  * - Payment ( Summary, Payment Method, Agree )
  */
 
-if ( ! defined( 'WPINC' ) ) {
-	die;
-}
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+}
 
 do_action( 'lsdcommerce_checkout' );
 // Set Token 10 Minutes for Checkout

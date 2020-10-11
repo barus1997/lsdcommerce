@@ -13,10 +13,10 @@ class LSDCommerce_Activator {
 
 	public static function activate() {
 
-		// Create Checkout Page
-
-		// Create Store Page
-
+		// Activate Theme
+		// Sending Usage Data
+		lsdc_track_init();
+		lsdc_track_push();
 	}
 	
 } 

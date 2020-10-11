@@ -1,4 +1,8 @@
 <?php 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+}
+
 add_filter( 'document_title_parts', function( $title ) use ( $hash ){
     $title['title'] = __( "Terimakasih telah berbelanja di toko kami", 'lsdcommerce' );
     return $title;

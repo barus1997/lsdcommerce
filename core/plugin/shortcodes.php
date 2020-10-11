@@ -391,4 +391,3 @@ function lsdcommerce_error_messages() {
 	}	
 }
 
-require_once LSDC_PATH . 'core/shortcodes/reset-password.php'; ?>

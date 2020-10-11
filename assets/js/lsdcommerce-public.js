@@ -46,14 +46,14 @@ Public Javascript and JQuery Function
 		var repeatpassword = $('#repeatpassword').val();
 
 		if ( lsdcommerce_empty(oldpassword) || lsdcommerce_empty(newpassword) || lsdcommerce_empty(repeatpassword) ) {
-			$('#alert-password').removeClass('lsd-hide');
+			$('#alert-password').removeClass('lsdp-hide');
 			$('#alert-password').text('Please Input Old and New Password...');
 		} else {
 			if (newpassword != repeatpassword) {
-				$('#alert-password').removeClass('lsd-hide');
+				$('#alert-password').removeClass('lsdp-hide');
 				$('#alert-password').text('You Repeat Password not Match...')
 			} else {
-				$('#alert-password').addClass('lsd-hide');
+				$('#alert-password').addClass('lsdp-hide');
 				$(this).addClass('loading');
 
 				$.post(lsdc_pub.ajax_url, {
@@ -65,10 +65,10 @@ Public Javascript and JQuery Function
 				}, function (response) {
 					$(that).removeClass('loading');
 					if (response == false) {
-						$('#alert-password').removeClass('lsd-hide');
+						$('#alert-password').removeClass('lsdp-hide');
 						$('#alert-password').text("Your Old Password didn't match...");
 					} else {
-						$('#alert-password').removeClass('lsd-hide');
+						$('#alert-password').removeClass('lsdp-hide');
 						$('#alert-password').text('Successfully Change your password...');
 					}
 					// Cookie Remove

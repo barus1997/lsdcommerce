@@ -18,8 +18,7 @@
 + Documentation
 
 [0.3.5] 11 Okt 2020
-+ Activate : Register Site ( Domain )
-+ Deactive : UnRegister Site ( Domain )
++ Track Usage
 # Notification and Shipping
 
 [0.3.4] ✅ 10 Okt 2020

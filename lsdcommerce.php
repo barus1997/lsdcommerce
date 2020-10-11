@@ -27,6 +27,8 @@ if ( ! defined( 'WPINC' ) ) {
 define( 'LSDCOMMERCE_VERSION', '0.0.1' );
 define( 'LSDC_PATH', plugin_dir_path( __FILE__ ) );
 define( 'LSDC_URL', plugin_dir_url( __FILE__ ) );
+define( 'LSDC_SERVER', 'https://lsdplugins.com' );
+define( 'LSDC_FILE', __FILE__ );
 
 /**
  * Set const LSDC_CONTENT to Refere
