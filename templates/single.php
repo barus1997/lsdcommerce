@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             data-price="<?php echo lsdc_product_price(); ?>" 
             data-weight="<?php echo lsdc_product_weight(); ?>" 
             data-thumbnail="<?php the_post_thumbnail_url( get_the_ID(), 'lsdcommerce-thumbnail-mini' ); ?>" 
-            data-limit="1"  
+            data-limit="<?php echo empty( get_post_meta( get_the_ID(), '_limit_order', true ) ) ? 9999 : get_post_meta( get_the_ID(), '_limit_order', true ); ?>"  
             class="card">
 
             <div class="card-body lsdcommerce-bg-color">

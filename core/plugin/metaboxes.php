@@ -165,6 +165,7 @@ function lsdc_product_data()
             <?php
             $price_normal = empty( get_post_meta( $post->ID, '_price_normal', true )) ? null : lsdc_currency_format( false, abs( get_post_meta( $post->ID, '_price_normal', true ) ) , lsdc_currency_get(), false  ) ;
             $price_discount = empty( get_post_meta( $post->ID, '_price_discount', true )) ? null : lsdc_currency_format(false, abs( get_post_meta( $post->ID, '_price_discount', true ) ) , lsdc_currency_get(), false );
+            $limit_order = empty( get_post_meta( $post->ID, '_limit_order', true ) ) ? 9999 : get_post_meta( $post->ID, '_limit_order', true );
             ?>
             <div class="metabox-field">
                 <label for="price_normal"><?php esc_attr_e( 'Normal Price', 'lsdcommerce' ); ?> ( <?php lsdc_currency_view( 'symbol' ); ?> )</label>
@@ -181,8 +182,11 @@ function lsdc_product_data()
                 <label for="stock"><?php esc_attr_e( 'Stock', 'lsdcommerce' ); ?> ( <small>9999 = <?php _e( 'Available', 'lsdcommerce' ); ?></small> )</label>
                 <p class="mfield"><input type="text" name="stock" placeholder="9999" value="<?php echo get_post_meta( $post->ID, '_stock', true ); ?>"></p>
 
-                <label for=stock_unit""><?php esc_attr_e( 'Stock Unit', 'lsdcommerce' ); ?> </label>
+                <label for="stock_unit"><?php esc_attr_e( 'Stock Unit', 'lsdcommerce' ); ?> </label>
                 <p class="mfield"><input type="text" name="stock_unit" placeholder="pcs" value="<?php echo get_post_meta( $post->ID, '_stock_unit', true ); ?>"></p>
+
+                <label for="limit_order"><?php esc_attr_e( 'Limit Order', 'lsdcommerce' ); ?> </label>
+                <p class="mfield"><input type="text" name="limit_order" placeholder="1" value="<?php echo abs( $limit_order ); ?>"></p>
             </div>
         </div>
 
@@ -285,6 +289,7 @@ function lsdc_metabox_save( $post_id ) {
 
     update_post_meta( $post_id, '_stock', empty( $_POST['stock'] ) ? 1 : abs( sanitize_text_field( $_POST['stock'])));
     update_post_meta( $post_id, '_stock_unit', sanitize_text_field( $_POST['stock_unit']));
+    update_post_meta( $post_id, '_limit_order', sanitize_text_field( $_POST['limit_order']));
 
     update_post_meta( $post_id, '_shipping_type', sanitize_text_field( $_POST['shipping_tabs']) );
 

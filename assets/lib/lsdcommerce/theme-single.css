@@ -171,10 +171,11 @@
 
 .lsdcommerce .product-item-name{
     line-height: 1.1rem;
-    /* margin-bottom: 5px; */
+    margin-bottom:3px;
 }
 
 .lsdcommerce .product-item-name a{
+    font-size: 1rem;
     color: #5a5a5a;
     font-weight: 600;
 }
@@ -345,7 +346,7 @@
 }
 
 .lsdcommerce .lsdc-tab-content {
-    padding: 10px;
+    padding: 13px;
 }
 
 .lsdcommerce .lsdc-tab-content .tab-pane {

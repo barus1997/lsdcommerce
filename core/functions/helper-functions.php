@@ -373,25 +373,25 @@ function lsdc_order_status_translate( $order_id )
     $status = esc_attr( get_post_meta( $order_id, 'status', true ) );
     switch ( $status ) {
         case 'new':
-            return __( "New Order", 'lsdcommerce' );
+            return __( "Baru", 'lsdcommerce' );
             break;
         case 'paid':
-            return __( "Paid", 'lsdcommerce' );
+            return __( "Dibayar", 'lsdcommerce' );
             break;
         case 'processed':
-            return __( "Processed", 'lsdcommerce' );
+            return __( "Diproses", 'lsdcommerce' );
             break;
         case 'canceled':
-            return __( "Canceled", 'lsdcommerce' );
+            return __( "Batal", 'lsdcommerce' );
             break;
         case 'shipped':
-            return __( "Shipped", 'lsdcommerce' );
+            return __( "Dikirim", 'lsdcommerce' );
             break;
         case 'completed':
-            return __( "Completed", 'lsdcommerce' );
+            return __( "Selesai", 'lsdcommerce' );
             break;
         case 'refunded':
-            return __( "Refunded", 'lsdcommerce' );
+            return __( "Dikembalikan", 'lsdcommerce' );
             break;
     }
 }

@@ -82,13 +82,19 @@ class LSDCommerce_Public {
 	 */
 	public function enqueue_scripts()
 	{
+		global $lsdcommerce;
+		
 		wp_enqueue_script( 'mustache', 'https://ajax.cdnjs.com/ajax/libs/mustache.js/0.3.0/mustache.min.js', null, null, false );
 		wp_enqueue_script( 'swiperJS', LSDC_URL . 'assets/lib/swiper/swiper.js', array( 'jquery' ), '5.3.6', false );
 
 		wp_enqueue_script( 'lsdcommerce-helper' , LSDC_URL . 'assets/js/lsdcommerce-helper.js', array(), $this->version, false );
 		wp_enqueue_script( $this->plugin_name, LSDC_URL . 'assets/js/lsdcommerce-public.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( $this->plugin_name . '-single', LSDC_URL . 'assets/js/lsdcommerce-single.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( $this->plugin_name . '-checkout', LSDC_URL . 'assets/js/lsdcommerce-checkout.js', array( 'jquery' ), $this->version, false );
+
+		// Enquene Script Checkout just in Checkout Page
+		if( is_page(  lsdc_get( 'general_settings', 'checkout_page' ) ) ){
+			wp_enqueue_script( $this->plugin_name . '-checkout', LSDC_URL . 'assets/js/lsdcommerce-checkout.js', array( 'jquery' ), $this->version, false );
+		}
 
 		wp_localize_script( $this->plugin_name , 'lsdc_pub', array(
 			'ajax_url' 		=> admin_url( 'admin-ajax.php' ),

@@ -377,7 +377,7 @@ function validateEmail(email) {
 		$(that).closest('tr.type-lsdc-order').find('.column-status span').removeClass( 'lsdc-pending lsdc-complete' ).addClass('lsdc-' + $(this).attr('data-action')).text( $(this).attr('data-action') );
 		
 		$.post( lsdc_adm.ajax_url, { 
-			action 		: 'lsdc_order_action',
+			action 		: 'lsdc_admin_order_action',
 			data		: $(this).attr('data-action'),
 			orderid		: $(this).attr('data-id'),
 			security 	: lsdc_adm.ajax_nonce,

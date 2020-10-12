@@ -46,10 +46,10 @@ Javascript Code in Single Product
 
 		// Set Product Variable
 		if (single.length) {
-			productID = parseInt(single.data('id'));
-			productPrice = parseInt(single.data('price'));
-			productThumb = single.data('thumbnail');
-			productTitle = single.data('title');
+			productID = parseInt(single.attr('data-id'));
+			productPrice = parseInt(single.attr('data-price'));
+			productThumb = single.attr('data-thumbnail');
+			productTitle = single.attr('data-title');
 			productLimit = single.attr('data-limit') == null ? 1 : parseInt(single.attr('data-limit'));
 		}
 
