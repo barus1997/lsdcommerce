@@ -19,7 +19,7 @@ add_filter( 'manage_lsdc-order_posts_columns', 'lsdc_admin_order_columns_tab' );
 
 
 function lsdc_admin_order_columns_content( $column, $order_id ) {
-    update_option('lsdc_order_counter', 0);
+    update_option('lsdc_order_unread_counter', 0);
 
     // Image column
     if ( 'order' === $column ) {

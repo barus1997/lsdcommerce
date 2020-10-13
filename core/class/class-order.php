@@ -210,7 +210,7 @@ class LSDC_Order
 
         // Flag Remove Token
         delete_transient( 'lsdc_checkout_' . $order_object['order_key']  );
-        lsdc_order_counter_add(); // Adding Order Counter
+        lsdc_order_unread_counter(); // Adding Order Counter
 
         $end_time = microtime(true); 
         $execution_time = ($end_time - $start_time); 

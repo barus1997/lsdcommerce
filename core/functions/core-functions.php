@@ -93,6 +93,20 @@ function lsdc_product_download_link( $product_id ){
     }
 }
 
+function lsdc_product_check_type( $order_id ){
+    $products = (array) json_decode( get_post_meta( $order_id, 'products', true) );
+    $types = array();
+
+    foreach ($products as $key => $product) {
+        $product_id = abs( $product->id );
+        $type = get_post_meta( $product_id, '_shipping_type', true );
+
+        if( ! in_array( $type, $types ) ){
+            array_push( $types, $type );
+        }
+    }
+    return $types;
+}
 
 function lsdc_cart_manager()
 {

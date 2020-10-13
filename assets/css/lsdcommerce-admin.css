@@ -398,6 +398,12 @@ th.column-total {
   color: #fff;
 }
 
+.lsdc-paid {
+  background: cornflowerblue;
+  color: #fff;
+}
+
+
 .lsdc-refunded,
 .lsdc-canceled {
   background: gray;
