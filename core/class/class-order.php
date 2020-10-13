@@ -152,10 +152,10 @@ class LSDC_Order
             'payment_instruction'   => lsdc_get_payment( $order_object['payment'], 'instruction' ),
             'code_label'            => lsdc_get_payment( $order_object['payment'], 'swiftcode' ) != null ? __( 'BIC/SWIFT : ', 'lsdcommerce' ) : null,
             'code_value'            => lsdc_get_payment( $order_object['payment'], 'swiftcode' ),
-            'account_label'         => lsdc_get_payment( $order_object['payment'], 'account_number' ) != null ? __( 'Account : ', 'lsdcommerce' ) : null,
+            'account_label'         => lsdc_get_payment( $order_object['payment'], 'account_number' ) != null ? __( 'No Rekening : ', 'lsdcommerce' ) : null,
             'account_code'          => lsdc_get_payment( $order_object['payment'], 'account_code' ) != null ? lsdc_get_payment( $order_object['payment'], 'account_code' ) : null,
             'account_number'        => lsdc_get_payment( $order_object['payment'], 'account_number' ),
-            'holder_label'          => lsdc_get_payment( $order_object['payment'], 'account_holder' ) != null ?__( 'Holder : ', 'lsdcommerce' ) : null,
+            'holder_label'          => lsdc_get_payment( $order_object['payment'], 'account_holder' ) != null ?__( 'Atas Nama : ', 'lsdcommerce' ) : null,
             'holder_value'          => lsdc_get_payment( $order_object['payment'], 'account_holder' )
         );
 
@@ -210,7 +210,7 @@ class LSDC_Order
 
         // Flag Remove Token
         delete_transient( 'lsdc_checkout_' . $order_object['order_key']  );
-        lsdc_order_counter_add(); // Adding Order Counter
+        lsdc_order_unread_counter(); // Adding Order Counter
 
         $end_time = microtime(true); 
         $execution_time = ($end_time - $start_time); 

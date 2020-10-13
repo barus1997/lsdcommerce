@@ -99,7 +99,7 @@ class LSDCommerce_Admin {
 	 */
 	public function register_admin_menu() 
 	{ 
-		$order_counter = ( get_option( 'lsdc_order_counter' ) > 0 ) ? abs(get_option( 'lsdc_order_counter' )) : '';
+		$order_counter = ( get_option( 'lsdc_order_unread_counter' ) > 0 ) ? abs(get_option( 'lsdc_order_unread_counter' )) : '';
 
 		// Add LSDCommerce Menu
 		add_menu_page( 

@@ -367,7 +367,7 @@ th.column-action {
 
 th.column-status,
 th.column-total {
-  width: 90px;
+  width: 100px;
 }
 
 .post-type-lsdc-order .column-date_order {
@@ -387,24 +387,36 @@ th.column-total {
 }
 
 .lsdc-status {
-  padding: 5px 10px;
+  padding: 7px 10px;
   text-transform: capitalize;
+  border-radius: 3px;
 }
 
 
+.lsdc-new {
+  background: purple;
+  color: #fff;
+}
 
-.lsdc-pending {
+.lsdc-paid {
+  background: cornflowerblue;
+  color: #fff;
+}
+
+
+.lsdc-refunded,
+.lsdc-canceled {
   background: gray;
   color: #fff;
 }
 
 .lsdc-processed {
-  background: red;
+  background: crimson;
   color: #fff;
 }
 
 .lsdc-shipped {
-  background: salmon;
+  background:aquamarine;
   color: #fff;
 }
 
@@ -495,4 +507,14 @@ div[data-repeater-item]{
 }
 td.image.column-image {
   padding: 10px 15px;
+}
+
+td.action.column-action,
+th#action {
+  text-align: center;
+}
+
+td.status.column-status,
+th#status {
+  text-align: center;
 }

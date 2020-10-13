@@ -324,21 +324,37 @@ function lsdc_admin_option_save(){
 
 // ORDER
 
-add_action( 'wp_ajax_nopriv_lsdc_order_action', 'lsdc_order_action' );
-add_action( 'wp_ajax_lsdc_order_action', 'lsdc_order_action' );
-function lsdc_order_action(){
+add_action( 'wp_ajax_nopriv_lsdc_admin_order_action', 'lsdc_admin_order_action' );
+add_action( 'wp_ajax_lsdc_admin_order_action', 'lsdc_admin_order_action' );
+function lsdc_admin_order_action(){
     if ( ! check_ajax_referer( 'lsdc_nonce', 'security' ) )  wp_send_json_error( 'Invalid security token sent.' );
 
     $_REQUEST   = array_map( 'stripslashes_deep', $_REQUEST );
     $data       = esc_attr( $_REQUEST['data'] );
     $order_id   = abs( $_REQUEST['orderid'] );
     switch ($data) {
-        case 'processing':
-            lsdc_order_status( $order_id, 'processing' );
+        case 'paid':
+            lsdc_order_status( $order_id, 'paid' );
             echo 'action_success';
             break;
-        case 'complete':
-            lsdc_order_status( $order_id, 'complete' );
+        case 'processed':
+            lsdc_order_status( $order_id, 'processed' );
+            echo 'action_success';
+            break;
+        case 'shipped':
+            lsdc_order_status( $order_id, 'shipped' );
+            echo 'action_success';
+            break;
+        case 'completed':
+            lsdc_order_status( $order_id, 'completed' );
+            echo 'action_success';
+            break;
+        case 'refunded':
+            lsdc_order_status( $order_id, 'refunded' );
+            echo 'action_success';
+            break;
+        case 'canceled':
+            lsdc_order_status( $order_id, 'canceled' );
             echo 'action_success';
             break;
     }

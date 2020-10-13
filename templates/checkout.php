@@ -155,7 +155,7 @@ $token  = isset( $_COOKIE['_lsdcommerce_token'] ) ? $_COOKIE['_lsdcommerce_token
                                                     <input type="checkbox" id="agreeterms" checked>
                                                     <label for="agreeterms">
                                                         <span><?php _e( 'I Agree', 'lsdcommerce' ); ?> <a href="<?php echo get_the_permalink( lsdc_get( 'general_settings', 'terms_conditions' )); ?>" target="_blank">
-                                                        <strong><?php _e( 'Terms and Conditions', 'lsdcommerce'); ?></strong></a></span>
+                                                        <?php _e( 'Terms and Conditions', 'lsdcommerce'); ?></a></span>
                                                     </label>
                                                 </div>
                                             </div>

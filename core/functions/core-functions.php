@@ -71,7 +71,7 @@ function lsdc_product_stock( $product_id = false )
     if( $product_id == null ) $product_id = get_the_ID(); //Fallback Product ID
 
     $stock = '<p>' . __( 'Stock', 'lsdcommerce' ) .'<span>';
-        if( get_post_meta( $product_id, '_stock', true ) == 9999 ) :
+        if( get_post_meta( $product_id, '_stock', true ) > 999 ) :
             $stock .= __( 'Available', 'lsdcommerce' );
         else :
             $stock .= abs( get_post_meta( get_the_ID(), '_stock', true ) ) . ' ' . esc_attr( get_post_meta( get_the_ID(), '_stock_unit', true ) );
@@ -93,6 +93,20 @@ function lsdc_product_download_link( $product_id ){
     }
 }
 
+function lsdc_product_check_type( $order_id ){
+    $products = (array) json_decode( get_post_meta( $order_id, 'products', true) );
+    $types = array();
+
+    foreach ($products as $key => $product) {
+        $product_id = abs( $product->id );
+        $type = get_post_meta( $product_id, '_shipping_type', true );
+
+        if( ! in_array( $type, $types ) ){
+            array_push( $types, $type );
+        }
+    }
+    return $types;
+}
 
 function lsdc_cart_manager()
 {
@@ -456,7 +470,7 @@ function lsdc_notification_schedule_action( $order_id, $event )
         ),
         'paid' => array(
             'subject'   => __( "Pesanan Dibayar" , 'lsdcommerce' ),
-            'receiver'  => array( 'buyer' )
+            // 'receiver'  => array( 'buyer' )
         ),
         'shipped' => array(
             'subject'   => __( "Sedang Dikirim" , 'lsdcommerce' ),
@@ -545,3 +559,9 @@ function lsdc_shipping_schedule_action( $order_id )
 add_action( 'lsdc_shipping_schedule', 'lsdc_shipping_schedule_action', 10, 1 );
 
 
+function lsdc_check_pro(){
+    if ( is_plugin_active( 'lsdcommerce-pro/lsdcommerce-pro.php' ) ) {
+        return true;
+    } 
+    return false;
+}
