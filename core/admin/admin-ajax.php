@@ -337,8 +337,24 @@ function lsdc_admin_order_action(){
             lsdc_order_status( $order_id, 'paid' );
             echo 'action_success';
             break;
-        case 'complete':
-            lsdc_order_status( $order_id, 'complete' );
+        case 'processed':
+            lsdc_order_status( $order_id, 'processed' );
+            echo 'action_success';
+            break;
+        case 'shipped':
+            lsdc_order_status( $order_id, 'shipped' );
+            echo 'action_success';
+            break;
+        case 'completed':
+            lsdc_order_status( $order_id, 'completed' );
+            echo 'action_success';
+            break;
+        case 'refunded':
+            lsdc_order_status( $order_id, 'refunded' );
+            echo 'action_success';
+            break;
+        case 'canceled':
+            lsdc_order_status( $order_id, 'canceled' );
             echo 'action_success';
             break;
     }

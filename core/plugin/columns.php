@@ -1,9 +1,8 @@
 <?php 
 /**
- * Column Information Order
+ * Column Order Information Header
  */
-add_filter( 'manage_lsdc-order_posts_columns', 'lsdc_column_header' );
-function lsdc_column_header( $columns ) {
+function lsdc_admin_order_columns_tab( $columns ) {
     $columns = array(
         'cb'        => $columns['cb'],
         'order'     => __( 'Pesanan' , 'lsdcommerce' ),
@@ -16,16 +15,18 @@ function lsdc_column_header( $columns ) {
     );
     return $columns;
 }
+add_filter( 'manage_lsdc-order_posts_columns', 'lsdc_admin_order_columns_tab' );
 
-add_action( 'manage_lsdc-order_posts_custom_column', 'lsdc_column_content', 10, 2);
-function lsdc_column_content( $column, $order_id ) {
 
+function lsdc_admin_order_columns_content( $column, $order_id ) {
     update_option('lsdc_order_counter', 0);
+
     // Image column
     if ( 'order' === $column ) {
         echo '<strong>INV#' . abs( get_post_meta( get_the_ID(), 'order_id', true )) . '</strong>';
     }
 
+    // Date Order
     if ( 'date_order' === $column ) {
         if( lsdc_date_diff(get_the_date( 'Y-m-d H:i:s', $order_id ), lsdc_date_now() ) > 1 ){
              echo get_the_date( 'j F Y', $order_id ) . ' @' . get_the_time('H:i:s', $order_id );
@@ -35,25 +36,31 @@ function lsdc_column_content( $column, $order_id ) {
         }
     }
 
+    // Shipping
     if ( 'shipping' === $column ) {
         $shippings = (array) json_decode( get_post_meta( $order_id, 'shipping', true ) );
 
         if( isset( $shippings['physical'] ) ){
             $service = 'JNE REG';
         }else if( isset( $shippings['digital'] ) ){
-            $service = 'Email';
+            $service = $shippings['digital']->service;
         }
         
         foreach ($shippings as $key => $item) {
             if( empty($key) ){
                 echo '_';
             }else{
-                echo ucfirst( $key . ' : <br><strong>' . $service . '</strong>' );
+                if( $service == 'lsdcommerce_shipping_email' ){
+                    echo ucfirst( $key . ' : <br><strong>Email</strong>' );
+                }else{
+                    echo ucfirst( $service );
+                }
             }
             
         }
     }
 
+    // Customer
     if ( 'customer' === $column ) {
         $customer_id = abs( get_post_meta( $order_id, 'customer_id', true ) );
         $customers = (array) json_decode( get_post_meta( $order_id, 'customer', true ) );
@@ -70,26 +77,63 @@ function lsdc_column_content( $column, $order_id ) {
 
     }
 
+    // Total Pembelian
     if ( 'total' === $column ) {
         echo lsdc_currency_format( true, get_post_meta( $order_id, 'total', true ) );
     }
 
-
+    // Status
     if ( 'status' === $column ) {
         echo '<span class="lsdc-status lsdc-'. strtolower( get_post_meta( $order_id, 'status', true )) .'">' . lsdc_order_status_translate( $order_id ) . '</span>';
     }
 
     // Type Column
     if ( 'action' === $column ) {
-       ?>
-       <?php if( get_post_meta( $order_id, 'status', true ) != 'paid' ) : ?>
-       <button class="button lsdc-action-button" title="Sudah Dibayar" data-action="paid" data-id="<?php echo $order_id; ?>"><svg xmlns="http://www.w3.org/2000/svg"  style="margin-top:3px;padding:0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></button>
-       <?php endif; ?>
-       <button class="button lsdc-action-button" title="Shipped" data-action="shipped" data-id="<?php echo $order_id; ?>"><svg xmlns="http://www.w3.org/2000/svg" style="margin-top:3px;padding:0"  width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg></button>
-       <button class="button lsdc-action-button" title="Complete Order" data-action="completed" data-id="<?php echo $order_id; ?>"><svg xmlns="http://www.w3.org/2000/svg" style="margin-top:3px;padding:0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
-       <?php
+       do_action( 'lsdcommerce_admin_order_action', $order_id );
+       switch ( get_post_meta( $order_id, 'status', true ) ) {
+           case 'new':
+                ?>
+                <button class="button lsdc-action-button" title="Sudah Dibayar" data-action="paid" data-id="<?php echo $order_id; ?>">
+                    <svg xmlns="http://www.w3.org/2000/svg"  style="margin-top:3px;padding:0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                </button><?php
+            break;
+            case 'paid':
+                ?>
+                <button class="button lsdc-action-button" title="Diproses" data-action="processed" data-id="<?php echo $order_id; ?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-top:3px;padding:0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+                </button>
+                <?php
+            break;
+            case 'processed':
+                ?>
+                <button class="button lsdc-action-button" title="Dikirim" data-action="shipped" data-id="<?php echo $order_id; ?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-top:3px;padding:0"  width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                </button>
+                <?php
+            break;
+            case 'shipped':
+                ?>
+                <button class="button lsdc-action-button" title="Complete Order" data-action="completed" data-id="<?php echo $order_id; ?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-top:3px;padding:0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </button>
+                <?php
+            break;
+            case 'completed':
+                ?>
+                <!-- Refund -->
+                <button class="button lsdc-action-button" title="Refund" data-action="refunded" data-id="<?php echo $order_id; ?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-top:3px;padding:0"  width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-ccw"><polyline points="1 4 1 10 7 10"></polyline><polyline points="23 20 23 14 17 14"></polyline><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path></svg>
+                </button><?php
+            break;
+            default:
+               # code...
+               break;
+       }
     }
 }
+add_action( 'manage_lsdc-order_posts_custom_column', 'lsdc_admin_order_columns_content', 10, 2 );
+
+
 
 add_filter('post_row_actions','my_action_row', 10, 2);
 

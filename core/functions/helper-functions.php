@@ -304,7 +304,6 @@ function lsdc_order_status( $order_id, $state, $block = false )
                 break;
 
             case 'processed':  // Resi Sudah di Input / Brang Gratis Pengiriman Barang
-                // Sending Shipping Schedule
                 wp_schedule_single_event( time() + 9, 'lsdc_shipping_schedule' , array( $order_id ) );
                 break;
 
