@@ -102,8 +102,8 @@ get_header(); ?>
               <tr>
                 <th><?php _e( 'Order', 'lsdcommerce' ); ?></th>
                 <th><?php _e( 'Download', 'lsdcommerce' ); ?></th>
-                <th><?php _e( 'Digital Shipping', 'lsdcommerce' ); ?></th>
-                <th><?php _e( 'Physical Shipping', 'lsdcommerce' ); ?></th>
+                <th><?php _e( 'Pengiriman Digital', 'lsdcommerce' ); ?></th>
+                <th><?php _e( 'Pengiirman Fisik', 'lsdcommerce' ); ?></th>
               </tr>
               <tr>
                 <td><?php echo count_user_posts( $current_user->ID, 'lsdc-order' ); ?> <?php _e( 'Order', 'lsdcommerce' ); ?></td>

@@ -679,16 +679,13 @@ body {
     padding: 13px;
     cursor: pointer;
     border: 2px solid #e5e5e5;
-    /* transition: all 0.3s ease-in-out; */
     border-radius: 5px;
     position: relative
 }
 
 
 .lsdcommerce .item-radio input~label img {
-    max-height: 40px;
-    /* width: auto;
-    margin-bottom: 5px */
+    max-height: 30px;
 }
 
 .lsdcommerce .item-radio input~label p {
@@ -1214,9 +1211,9 @@ span.price {
     padding-right: 0; */
 }
 
-#checkout-extras {
+/* #checkout-extras {
     padding-top: 8px;
-}
+} */
 
 .lsdc-product-item {
     padding-left: 0 !important;

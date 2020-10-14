@@ -135,7 +135,7 @@ Class LSDCommerce_Shipping_AJAX{
     
         ?>
         <?php if( !empty($shipping_digital_list) ) : ?>
-            <h6 class="text-primary font-weight-medium lsdp-mb-10"><?php _e( "Digital Shipping", 'lsdcommerce' ); ?></h6>
+            <h6 class="text-primary font-weight-medium lsdp-mb-10"><?php _e( "Pengiriman Digital", 'lsdcommerce' ); ?></h6>
                 <div id="digital-shipping" class="lsdp-row no-gutters radio-courier">
                     <?php do_action( 'lsdcommerce_shipping_digital' ); ?>
                 </div>
@@ -143,7 +143,7 @@ Class LSDCommerce_Shipping_AJAX{
         <?php endif; ?>
     
         <?php if( !empty($shipping_physical_list) ) : ?>
-            <h6 class="text-primary font-weight-medium mb-10"><?php _e( "Physical Shipping", 'lsdcommerce' ); ?></h6>
+            <h6 class="text-primary font-weight-medium lsdp-mb-10"><?php _e( "Pengiriman Fisik", 'lsdcommerce' ); ?></h6>
             <?php do_action( 'lsdcommerce_shipping_physical_control' ); ?>
             
             <div id="physical-shipping" class="lsdp-row no-gutters radio-courier">
@@ -263,7 +263,7 @@ Class LSDCommerce_Checkout_AJAX{
 
         $templates = null;
         if( $extras ) {
-            $templates = '<div id="checkout-extras" data-total="' . intval( $extra_cost ) . '">'; 
+            $templates .= '<div id="checkout-extras" data-total="' . intval( $extra_cost ) . '">'; 
                 $templates .= '<table class="table table-borderless"><tbody>';
                     foreach ( $extras as $key => $item) {
                         if( !empty($item) && !empty( $item['value'] ) ) {

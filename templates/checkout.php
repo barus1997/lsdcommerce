@@ -40,13 +40,13 @@ $token  = isset( $_COOKIE['_lsdcommerce_token'] ) ? $_COOKIE['_lsdcommerce_token
                     <div class="swiper-container swiper-tabs-nav">
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
-                                <?php _e( 'Buyer', 'lsdcommerce' ); ?>
+                                <?php _e( 'Pembeli', 'lsdcommerce' ); ?>
                             </div>
                             <div class="swiper-slide">
-                                <?php _e( 'Shipping', 'lsdcommerce' ); ?>
+                                <?php _e( 'Pengiriman', 'lsdcommerce' ); ?>
                             </div>
                             <div class="swiper-slide">
-                                <?php _e( 'Payment', 'lsdcommerce' ); ?>
+                                <?php _e( 'Pembayaran', 'lsdcommerce' ); ?>
                             </div>
                         </div>
                     </div>
@@ -64,7 +64,7 @@ $token  = isset( $_COOKIE['_lsdcommerce_token'] ) ? $_COOKIE['_lsdcommerce_token
 
                                         <!-- Greeting for User -->
                                         <?php if( is_user_logged_in() ) : ?>
-                                            <h6 class="text-primary font-weight-medium lsdp-mb-15"><?php _e( "Welcome back", 'lsdcommerce') ?> 😊 <?php echo lsdc_user_getname(); ?></h6>
+                                            <h6 class="text-primary font-weight-medium lsdp-mb-15"><?php _e( "Selamat Datang kembali", 'lsdcommerce') ?> 😊 <?php echo lsdc_user_getname(); ?></h6>
                                         <?php endif; ?>
 
                                         <!-- Load Form -->
@@ -76,9 +76,9 @@ $token  = isset( $_COOKIE['_lsdcommerce_token'] ) ? $_COOKIE['_lsdcommerce_token
                                         <?php if( ! is_user_logged_in() ) : ?>
 
                                             <?php if( ! is_plugin_active( 'lsdcommerce-pro') ) : ?>
-                                                <a href="<?php echo wp_login_url(); ?>" class="text-primary swiper-no-swiping"><?php _e( 'Already have an account ? Please Login', 'lsdcommerce' ); ?></a>
+                                                <a href="<?php echo wp_login_url(); ?>" class="text-primary swiper-no-swiping"><?php _e( 'Sudah punya akun ? Silahkan Masuk', 'lsdcommerce' ); ?></a>
                                             <?php else: ?>
-                                                <a toggle="embed-login" class="text-primary lsdp-toggle swiper-no-swiping"><?php _e( 'Already have an account ? Please Login', 'lsdcommerce' ); ?></a>
+                                                <a toggle="embed-login" class="text-primary lsdp-toggle swiper-no-swiping"><?php _e( 'Sudah punya akun ? Silahkan Masuk', 'lsdcommerce' ); ?></a>
                                             <?php endif; ?>
 
                                         <?php endif; ?>
@@ -90,7 +90,7 @@ $token  = isset( $_COOKIE['_lsdcommerce_token'] ) ? $_COOKIE['_lsdcommerce_token
                                     <div class="bottom">
                                         <button class="lsdp-btn lsdc-btn btn-primary btn-block lsdcommerce-customer swiper-no-swiping">
                                             <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"style="margin-top:-4px;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shield"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
-                                            <?php _e( 'Continue', 'lsdcommerce' ); ?>
+                                            <?php _e( 'Lanjut', 'lsdcommerce' ); ?>
                                         </button>
                                     </div>
                                 </form>
@@ -105,7 +105,7 @@ $token  = isset( $_COOKIE['_lsdcommerce_token'] ) ? $_COOKIE['_lsdcommerce_token
                                     <div class="bottom py-10">
                                         <button class="lsdp-btn lsdc-btn btn-primary btn-block lsdcommerce-shipping swiper-no-swiping">
                                             <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"style="margin-top:-4px;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shield"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
-                                            <?php _e( 'Continue', 'lsdcommerce' ); ?>
+                                            <?php _e( 'Lanjut', 'lsdcommerce' ); ?>
                                         </button>
                                     </div>
                                 </form>
@@ -119,7 +119,7 @@ $token  = isset( $_COOKIE['_lsdcommerce_token'] ) ? $_COOKIE['_lsdcommerce_token
                                         <?php do_action( 'lsdcommerce_checkout_summary_before' ); ?>
 
                                             <h6 class="text-primary font-weight-medium lsdp-mb-0 lsdc-toggle-collapse swiper-no-swiping" lsdc-toggle="collapse" data-target="#summary" aria-expanded="false">
-                                                <?php _e( "Order Summary", 'lsdcommerce' ); ?>
+                                                <?php _e( "Rangkuman Pesanan", 'lsdcommerce' ); ?>
                                             </h6>
                                             
                                             <div id="summary" class="lsdc-collapse">
@@ -142,7 +142,7 @@ $token  = isset( $_COOKIE['_lsdcommerce_token'] ) ? $_COOKIE['_lsdcommerce_token
                                         <!-- Payment List Section -->
                                         <?php do_action( 'lsdcommerce_checkout_payment_before' ); ?>
 
-                                            <h6 class="text-primary font-weight-medium lsdp-mb-10 swiper-no-swiping"><?php _e( 'Payment Method', 'lsdcommerce' ); ?></h6>
+                                            <h6 class="text-primary font-weight-medium lsdp-mb-10 swiper-no-swiping"><?php _e( 'Metode Pembayaran', 'lsdcommerce' ); ?></h6>
 
                                             <?php do_action( 'lsdcommerce_checkout_payment' ); ?>
 
@@ -167,7 +167,7 @@ $token  = isset( $_COOKIE['_lsdcommerce_token'] ) ? $_COOKIE['_lsdcommerce_token
                                             <div class="icon">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" style="margin-top:-4px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
                                             </div>
-                                            <?php _e( 'Pay', 'lsdcommerce' ); ?>
+                                            <?php _e( 'Selesaikan Pembayaran', 'lsdcommerce' ); ?>
                                         </button>
                                     </div>
                                 </form>
@@ -181,7 +181,7 @@ $token  = isset( $_COOKIE['_lsdcommerce_token'] ) ? $_COOKIE['_lsdcommerce_token
 
             <?php else : ?>      
             
-                <div class="lsdp-alert danger mt-10 mb-10">
+                <div class="lsdp-alert danger mt-10 mb-10 lsdp-mx-10">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                     <p><?php _e( 'Your cart is empty', 'lsdcommerce' ); ?></p>
                 </div>

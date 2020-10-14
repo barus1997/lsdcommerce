@@ -101,7 +101,7 @@ class LSDC_Payment {
                                             <!-- </div> -->
                                         </div>
                                         <span class="type">
-                                        <?php $confirmation == 'manual' ? _e('Manual','lsdcommerce') :  _e('Automatic','lsdcommerce') ; ?>
+                                        <?php $confirmation == 'manual' ? _e('Manual','lsdcommerce') :  _e('Otomatis','lsdcommerce') ; ?>
                                         </span>
                                     </label>
                                 </div>
