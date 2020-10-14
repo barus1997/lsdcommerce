@@ -81,6 +81,12 @@ Public Javascript and JQuery Function
 	//---> Customer ( form validation )
 	$(document).on('click', '.lsdcommerce-customer', function (e) {
 		e.preventDefault();
+
+		let carts = cart.get('formatted');
+		if (!carts) {
+			location.reload();
+		}
+		
 		let err_name, err_phone, err_email = false;
 
 		let name = checkout.find('input[name="name"]').val();
@@ -326,7 +332,7 @@ Public Javascript and JQuery Function
 					if (response == '_token_expired') {
 						lsdcommerce_checkout_notify('Token Expired, Please reCheckout Again');
 						setTimeout(() => {
-							// location.reload();
+							location.reload();
 						}, 1500);
 					}
 
@@ -339,14 +345,14 @@ Public Javascript and JQuery Function
 					// Response Success :: Redirect
 					response = JSON.parse(response);
 					if (response.code == '_order_created') {
-						// cart.reset();
-						// location.href = response.redirect; // Default Thankyou Page
+						cart.reset();
+						location.href = response.redirect; // Default Thankyou Page
 					}
 
 				}).fail(function () {
 				// Auto Reload when Error
-				// alert('Failed, please check your internet');
-				// location.reload();
+				alert('Failed, please check your internet');
+				location.reload();
 			});
 		} else { //Validation False = Back to First Slide
 			lsdc_checkout_nextslide(0);

@@ -54,7 +54,7 @@
 
 [0.2.6] ✅ 10 Sept 2020 😷
 + PRO : Single Product :: Extend Tab Specification
-+ PRO : Single Product :: Badge Discount Percentage
++ PRO : Single Product :: Badge Promo Percentage
 + Column Product ( Image, Price )
 
 [0.2.5] ✅ 09 Sept 2020

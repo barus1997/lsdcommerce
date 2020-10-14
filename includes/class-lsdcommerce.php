@@ -195,6 +195,7 @@ class LSDCommerce {
 		require_once LSDC_PATH . 'core/functions/core-functions.php';
 		require_once LSDC_PATH . 'core/functions/helper-functions.php';
 		require_once LSDC_PATH . 'core/functions/order-functions.php';
+		require_once LSDC_PATH . 'core/functions/product-functions.php';
 		require_once LSDC_PATH . 'core/functions/set-functions.php';
 		require_once LSDC_PATH . 'core/functions/pluggable.php';
 		require_once LSDC_PATH . 'core/functions/updater.php';

@@ -288,7 +288,7 @@ class LSDC_Order
      */
     public function thankyou_url( $token ){
         return json_encode(array(
-            'code' => 'order_created',
+            'code' => '_order_created',
             'redirect' => get_site_url() . '/payment/thankyou/'. $token . '/'
         ));
     }

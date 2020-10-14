@@ -3,110 +3,6 @@ use LSDCommerce\Notification\LSDC_Notification;
 use LSDCommerce\Shipping\LSDC_Shipping;
 use LSDCommerce\Logger\LSDC_Logger;
 
-// Display price Plain
-function lsdc_product_price( $product_id = false )
-{
-    if( $product_id == null ) $product_id = get_the_ID(); //Fallback Product ID
-
-    $normal     = lsdc_price_normal( $product_id );
-    $discount   = lsdc_price_discount( $product_id );
-
-    if( $discount ){
-        return abs($discount);
-    }else{
-        if( $normal ){
-            return abs($normal);
-        }else{
-            return 0;
-        }
-    }
-}
-
-// Display price Plain
-function lsdc_product_variation_price( $product_id, $variation_id )
-{
-    if( $product_id == null ) $product_id = get_the_ID(); //Fallback Product ID
-    $variation_id = esc_attr( $variation_id );
-
-    $variations = (array) json_decode( get_post_meta( $product_id, '_variations', true ) ); 
-
-    $variation_price = null;
-
-    foreach ( $variations as $key => $items) {
-        foreach ( $items->items as $child => $item) {
-
-            if( strtolower($item->name) == strtolower($variation_id) ){
-                $variation_price = abs($item->price);
-            }
-        }
-    }
-    // $variations['items'][$variation_id]['price'];
-
-    $normal     = lsdc_price_normal( $product_id );
-    $discount   = lsdc_price_discount( $product_id );
-
-    if( $discount ){
-        return abs($discount) + abs($variation_price);
-    }else{
-        if( $normal ){
-            return abs($normal) + abs( $variation_price );
-        }else{
-            return 0;
-        }
-    }
-}
-
-
-// Display Weight Product
-function lsdc_product_weight( $product_id = false )
-{
-    if( $product_id == null ) $product_id = get_the_ID(); //Fallback Product ID
-    
-    return abs( lsdc_currency_clear( get_post_meta( $product_id, '_physical_weight', true ) ) );
-}
-
-// Display price Plain
-function lsdc_product_stock( $product_id = false )
-{
-    if( $product_id == null ) $product_id = get_the_ID(); //Fallback Product ID
-
-    $stock = '<p>' . __( 'Stock', 'lsdcommerce' ) .'<span>';
-        if( get_post_meta( $product_id, '_stock', true ) > 999 ) :
-            $stock .= __( 'Available', 'lsdcommerce' );
-        else :
-            $stock .= abs( get_post_meta( get_the_ID(), '_stock', true ) ) . ' ' . esc_attr( get_post_meta( get_the_ID(), '_stock_unit', true ) );
-        endif;
-    $stock .= '</span></p>';
-
-    return $stock;
-}
-
-function lsdc_product_download_version( $product_id ){
-    if( get_post_meta( $product_id, '_digital_version', true ) ){
-        return esc_attr( get_post_meta( $product_id, '_digital_version', true ) );
-    }
-}
-
-function lsdc_product_download_link( $product_id ){
-    if( get_post_meta( $product_id, '_digital_url', true ) ){
-        return esc_url( get_post_meta( $product_id, '_digital_url', true ) );
-    }
-}
-
-function lsdc_product_check_type( $order_id ){
-    $products = (array) json_decode( get_post_meta( $order_id, 'products', true) );
-    $types = array();
-
-    foreach ($products as $key => $product) {
-        $product_id = abs( $product->id );
-        $type = get_post_meta( $product_id, '_shipping_type', true );
-
-        if( ! in_array( $type, $types ) ){
-            array_push( $types, $type );
-        }
-    }
-    return $types;
-}
 
 function lsdc_cart_manager()
 {
@@ -260,7 +156,6 @@ function lsdc_currency_get(){
 
 
 
-
 /**
  * @package LSDCommerce
  * @subpackage Date
@@ -294,7 +189,6 @@ function lsdc_price_normal( $product_id = false ){
 function lsdc_price_discount( $product_id = false ){
     return abs( get_post_meta( $product_id, '_price_discount', true ) );
 }
-
 // Display Price with HTML
 function lsdc_price_frontend( $product_id = false ){
     if( $product_id == null ) $product_id = get_the_ID(); //Fallback Product ID
@@ -322,6 +216,9 @@ function lsdc_price_frontend( $product_id = false ){
     <?php endif;
 }
 
+
+
+
 function lsdc_variation_ID( $id, $variation = false ){
     $ids = explode( "-", $id );
     if( $variation == true ){
@@ -337,9 +234,6 @@ function lsdc_variation_ID( $id, $variation = false ){
 
 }
 
-/**
- * Checking isVariation Exist or Not
- */
 function lsdc_isVariation( $id, $variation ){
     $variations = json_decode( get_post_meta( $id, '_variations', true) );
 
@@ -369,7 +263,7 @@ function lsdc_variation_label(  $id, $variation ){
 }
 
 /**
- * Getting Option from Settings, with Parent and Point Selectord
+ * Getting Admin Setting by Option and Item
  * 
  * @package LSDCommerce
  * @subpackage General
@@ -385,18 +279,23 @@ function lsdc_get( $option, $item ){
 /**
  * Create ID
  * @param string $string
- * return lower case and striped
+ * return lower case and striped IN: Lasida Azis, OUT : lasida-azis
  */
 function lsdc_createID( $string ){
     return sanitize_title( strtolower(preg_replace("/[^a-z0-9]+/i", "-", $string )));
 }
 
 
-// Shipping --------------------------------------------------------------
+/**
+ * General Purpose Function
+ * 
+ * Number
+ * - Clear Format
+ */
 function lsdc_number_clear( $formatted_number ){
 	$formatted_number = preg_replace('/[^0-9]/', '', $formatted_number );
 	$formatted_number = preg_replace('/\,/', '', $formatted_number );
-	return abs( preg_replace('/\./', '', $formatted_number ) ); // Rp 10.000 -> 10000
+	return abs( preg_replace('/\./', '', $formatted_number ) ); // Rp 10.000 -> 10000 || 1.000 kg -> 1000
 }
 
 function lsd_create_schedule( $name, $time ){
@@ -461,7 +360,7 @@ function lsdc_notification_schedule_action( $order_id, $event )
 {
     $notify = array(
         'order' => array(
-            'subject'   => __( "Pesanan Diterima" , 'lsdcommerce' ),
+            'subject'   => __( "Menunggu Pembayaran" , 'lsdcommerce' ),
             'receiver'  => array( 'buyer', 'admin' )
         ),
         'canceled' => array(
@@ -469,7 +368,7 @@ function lsdc_notification_schedule_action( $order_id, $event )
             'receiver'  => array( 'buyer' )
         ),
         'paid' => array(
-            'subject'   => __( "Pesanan Dibayar" , 'lsdcommerce' ),
+            'subject'   => __( "Pembayaran Diterima" , 'lsdcommerce' ),
             // 'receiver'  => array( 'buyer' )
         ),
         'shipped' => array(
@@ -542,7 +441,7 @@ function lsdc_order_get_email( $order_id ){
 function lsdc_shipping_schedule_action( $order_id ) 
 {
     $payload = array();
-    $payload['subject']     = __( "Product Delivery" , 'lsdcommerce' );
+    $payload['subject']     = __( "Pengiriman Produk " , 'lsdcommerce' );
     $payload['order_id']    = $order_id;
     $payload['type']        = 'digital';
     $payload['email']       = lsdc_order_get_email( $order_id );
