@@ -90,15 +90,15 @@ Class LSDC_Shipping_Email Extends LSDC_Shipping {
         $product_downloads = array();
         foreach ($products as $key => $value) {
             $item = (array) $value;
-            $product_downloads['thumbnail'] = $item['thumbnail'];
-            $product_downloads['title'] = $item['title'];
-            $product_downloads['thumbnail'] = $item['thumbnail'];
-            $product_downloads['download_link'] = lsdc_product_download_link( $item['id'] );
-            $product_downloads['download_version'] = lsdc_product_download_version( $item['id'] );
+            $product_downloads[$key]['thumbnail'] = $item['thumbnail'];
+            $product_downloads[$key]['title'] = $item['title'];
+            $product_downloads[$key]['thumbnail'] = $item['thumbnail'];
+            $product_downloads[$key]['download_link'] = lsdc_product_download_link( $item['id'] );
+            $product_downloads[$key]['download_version'] = lsdc_product_download_version( $item['id'] );
 
             /* Pro Code */
             if( isset( $item['variations'] ) ){
-                $product_downloads['variations'] = $item['variations'];
+                $product_downloads[$key]['variations'] = $item['variations'];
             }
             /* Pro Code */
         }
@@ -108,7 +108,7 @@ Class LSDC_Shipping_Email Extends LSDC_Shipping {
         // Data
         $data = array(
             'order_number'          => $order_number,
-            'site_logo'             => 'https://lasida-demo.now.sh/assets/img/logo.png',
+            // 'site_logo'             => 'https://lasida-demo.now.sh/assets/img/logo.png',
             'member_label'          => __('Member Area : ', 'lsdcommerce'),
             'member_link'           => get_permalink( lsdc_get( 'general_settings', 'member_area') ),
             'member_text'           => __('Masuk', 'lsdcommerce'),

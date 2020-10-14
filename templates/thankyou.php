@@ -27,14 +27,14 @@ if( ! wp_doing_ajax() ){
 ?>
 
 <?php if( $order_id ) : ?>
-<main id="lsdcommerce-thankyou" class="page-content max480">
+<main id="lsdcommerce-thankyou" class="page-content max480 lsdcommerce">
      <div class="card">
         <div class="card-body">
             <div class="page-thankyou">
             
                 <div id="checkout-alert" class="lsdp-alert danger info mt-10">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                    <p><?php _e( 'Terimakasih telah memesan, status pesanan  ' , 'lsdcommerce' ); ?> <?php echo strtolower( lsdc_order_status_translate( $order_id ) ); ?> </p>
+                    <p><?php _e( 'Pesanan anda telah kami terima, terimakasih telah memesan' , 'lsdcommerce' ); ?></p>
                 </div>
 
                 <div class="section-payment-instruction">
@@ -45,7 +45,7 @@ if( ! wp_doing_ajax() ){
                         <p><?php _e( 'Tolong selesaikan pembayaran anda dan ikuti instruksi berikut ini' , 'lsdcommerce' ); ?></p>
                         <p><small><?php _e( 'Silahkan transfer sesuai dengan total yang tertera' , 'lsdcommerce' ); ?></small></p>
 
-                        <h5 class="copy-nominal mb-0">
+                        <h5 class="copy-nominal lsdp-mb-5">
                             <?php echo str_replace( substr($total, -3), '', lsdc_currency_format( true, $total ) ); ?><span class="text-underline"><?php  echo substr($total, -3); ?></span>
                         </h5>
 

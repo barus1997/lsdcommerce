@@ -231,10 +231,8 @@ table.table-transaction tr {
     border-bottom: 1px solid #eee
 }
 
-/* 
-table.table-transaction tr td {
-    padding: 5px 10px
-} */
+
+
 
 table.table-transaction tr td:first-child {
     padding-right: 0
@@ -261,6 +259,14 @@ table.table-transaction tr td .img-product img {
 
 table.table-transaction tr:last-child td {
     padding: 10px
+}
+
+#lsdcommerce-thankyou .table.table-transaction tr td {
+    padding: 10px;
+} 
+
+#lsdcommerce-thankyou table p{
+    margin:0;
 }
 
 .copy-text {
@@ -332,6 +338,10 @@ table.table-transaction tr:last-child td {
     height: 100%;
     object-fit: cover;
     object-position: center;
+}
+
+#lsdcommerce-checkout .lsdp-alert p{
+    padding: 7px;
 }
 
 .lsdc-svg {

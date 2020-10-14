@@ -6,13 +6,13 @@
  * - Shipping ( Digital, Physical )
  * - Payment ( Summary, Payment Method, Agree )
  */
-
+do_action( 'lsdcommerce_checkout' );
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
-do_action( 'lsdcommerce_checkout' );
+
 // Set Token 10 Minutes for Checkout
 $cart   = isset( $_COOKIE['_lsdcommerce_cart'] ) ? (array) json_decode( stripslashes(  $_COOKIE['_lsdcommerce_cart'] ) ) : null;
 $token  = isset( $_COOKIE['_lsdcommerce_token'] ) ? $_COOKIE['_lsdcommerce_token'] : null;

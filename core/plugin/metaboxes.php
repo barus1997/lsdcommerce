@@ -171,7 +171,7 @@ function lsdc_product_data()
                 <label for="price_normal"><?php esc_attr_e( 'Normal Price', 'lsdcommerce' ); ?> ( <?php lsdc_currency_view( 'symbol' ); ?> )</label>
                 <p class="mfield"><input type="text" name="price_normal" class="currency" placeholder="<?php lsdc_currency_view( 'format' ); ?>" value="<?php echo $price_normal; ?>"></p>
                 
-                <label for="price_discount"><?php esc_attr_e( 'Discount Price', 'lsdcommerce' ); ?> ( <?php lsdc_currency_view( 'symbol' ); ?> )</label>
+                <label for="price_discount"><?php esc_attr_e( 'Promo Price', 'lsdcommerce' ); ?> ( <?php lsdc_currency_view( 'symbol' ); ?> )</label>
                 <p class="mfield"><input type="text" name="price_discount" class="currency" placeholder="<?php lsdc_currency_view( 'format' ); ?>" value="<?php echo $price_discount; ?>"></p>
             </div>
         </div>

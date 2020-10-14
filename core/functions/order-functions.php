@@ -36,7 +36,10 @@ function lsdc_order_status( $order_id, $status, $notification = true )
         {
             // New Order
             case 'new':
-                wp_schedule_single_event( time() + 3, 'lsdc_notification_schedule', array( $order_id, 'order' ) );   // Notification Cron
+                // Not Digital Product and Not Free Product -> Send Notification Waiting Payment
+                if( ! in_array( 'digital', lsdc_product_check_type(  $order_id ) ) && ! lsdc_order_get_total( $order_id ) == 0 ){
+                    wp_schedule_single_event( time() + 3, 'lsdc_notification_schedule', array( $order_id, 'order' ) ); 
+                } 
             break;
 
             // Paid Order
@@ -44,19 +47,19 @@ function lsdc_order_status( $order_id, $status, $notification = true )
                 if( in_array( 'digital', lsdc_product_check_type(  $order_id ) ) ){
                     lsdc_order_status( $order_id, 'processed' );
                 }else{
-                    wp_schedule_single_event( time() + 3, 'lsdc_notification_schedule', array( $order_id, 'paid' ) );  // Notification Cron
+                    // wp_schedule_single_event( time() + 9, 'lsdc_notification_schedule', array( $order_id, 'paid' ) );  // Notification Cron
                 }
             break;
 
             // Canceled Order
             case 'canceled': 
-                wp_schedule_single_event( time() + 3, 'lsdc_notification_schedule', array( $order_id, 'canceled' ) );   // Notification Cron
+                // wp_schedule_single_event( time() + 9, 'lsdc_notification_schedule', array( $order_id, 'canceled' ) );   // Notification Cron
             break;
 
             // Processed Order
             case 'processed':
                 if( in_array( 'digital', lsdc_product_check_type(  $order_id ) ) ){
-                    wp_schedule_single_event( time() + 6, 'lsdc_shipping_schedule' , array( $order_id ) );  // Shipping Cron
+                    wp_schedule_single_event( time() + 15, 'lsdc_shipping_schedule' , array( $order_id ) );  // Shipping Cron
                     lsdc_order_status( $order_id, 'shipped' );
                 }
             break;
@@ -66,13 +69,13 @@ function lsdc_order_status( $order_id, $status, $notification = true )
                 if( in_array( 'digital', lsdc_product_check_type(  $order_id ) ) ){
                     lsdc_order_status( $order_id, 'completed' );
                 }else{
-                    wp_schedule_single_event( time() + 6, 'lsdc_notification_schedule', array( $order_id, 'shipped' ) );   // Notification Cron
+                    // wp_schedule_single_event( time() + 9, 'lsdc_notification_schedule', array( $order_id, 'shipped' ) );   // Notification Cron
                 }
             break;
 
             // Complete Order
             case 'completed': // Pesanan Selesai
-                wp_schedule_single_event( time() + 6, 'lsdc_notification_schedule', array( $order_id, 'completed' ) );   // Notification Cron
+                wp_schedule_single_event( time() + 15, 'lsdc_notification_schedule', array( $order_id, 'completed' ) );   // Notification Cron
             break;
 
             // Refunded Order
@@ -160,5 +163,13 @@ function lsdc_order_ID( $hash )
         return false;
     }
     
+}
+
+/**
+ * Getting Total Order by OrderID
+ *
+ */
+function lsdc_order_get_total( $order_id ){
+    return abs( get_post_meta( $order_id, 'total', true) );
 }
 ?>

@@ -23,7 +23,9 @@ function lsdc_admin_order_columns_content( $column, $order_id ) {
 
     // Image column
     if ( 'order' === $column ) {
-        echo '<strong>INV#' . abs( get_post_meta( get_the_ID(), 'order_id', true )) . '</strong>';
+        echo '<strong>INV#' . abs( get_post_meta( get_the_ID(), 'order_id', true )) . '</strong> ';
+        $products = (array) json_decode( get_post_meta( $order_id, 'products', true ) );
+        echo ' - ' . count( $products ) . __( ' Produk', 'lsdcommerce' );
     }
 
     // Date Order
@@ -39,9 +41,12 @@ function lsdc_admin_order_columns_content( $column, $order_id ) {
     // Shipping
     if ( 'shipping' === $column ) {
         $shippings = (array) json_decode( get_post_meta( $order_id, 'shipping', true ) );
+       
 
         if( isset( $shippings['physical'] ) ){
-            $service = 'JNE REG';
+            $extras = (array) json_decode( get_post_meta( $order_id, 'extras', true ) );
+            echo $extras['shipping']->bold;
+            echo '<br><strong>' .  $extras['shipping']->value . '</strong>';
         }else if( isset( $shippings['digital'] ) ){
             $service = $shippings['digital']->service;
         }

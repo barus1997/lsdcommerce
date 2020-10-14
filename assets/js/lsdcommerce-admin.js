@@ -373,9 +373,7 @@ function validateEmail(email) {
 	$(document).on("click",".lsdc-action-button",function( e ) {
 		e.preventDefault();
 		$(this).addClass('loading');
-		var that = this;
-		$(that).closest('tr.type-lsdc-order').find('.column-status span').removeClass( 'lsdc-pending lsdc-complete' ).addClass('lsdc-' + $(this).attr('data-action')).text( $(this).attr('data-action') );
-		
+
 		$.post( lsdc_adm.ajax_url, { 
 			action 		: 'lsdc_admin_order_action',
 			data		: $(this).attr('data-action'),
@@ -383,8 +381,7 @@ function validateEmail(email) {
 			security 	: lsdc_adm.ajax_nonce,
 			}, function( response ){
 				if( response.trim() == 'action_success' ){
-					
-					$(that).removeClass('loading');
+					location.reload();
 				}
 			}).fail(function(){
 				alert('Failed, please check your internet');
