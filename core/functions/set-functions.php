@@ -66,7 +66,7 @@ add_action( 'lsdcommerce_single_price', 'lsdc_price_frontend');
  * @param action lsdcommerce_shipping_physical_control
  */
 function lsdc_set_shipping_controls(){ ?>
-    <p class="mb-10"><?php _e( "Shipping Address", 'lsdcommerce' ); ?></p>
+    <p class="lsdp-mb-5"><?php _e( "Alamat Pengiriman", 'lsdcommerce' ); ?></p>
     <?php 
         $store_settings         = get_option( 'lsdc_store_settings' ); 
         $country_selected       = isset( $store_settings['lsdc_store_country'] ) ? esc_attr( $store_settings['lsdc_store_country'] ) : 'ID';
@@ -99,7 +99,7 @@ function lsdc_set_shipping_controls(){ ?>
         <div class="col-6">
             <div class="form-group">
                 <select class="form-control custom-select swiper-no-swiping shipping-reset" id="cities">  
-                <option value=""><?php _e( "Choose City", 'lsdcommerce' ); ?></option>
+                <option value=""><?php _e( "Pilih Kota", 'lsdcommerce' ); ?></option>
                 <?php foreach ( $cities as $key => $city) : ?>
                     <?php if ( $city->province_id == $state_selected ) : ?>
                         <option value="<?php echo $city->city_id; ?>"><?php echo $city->type . ' ' . $city->city_name; ?></option>

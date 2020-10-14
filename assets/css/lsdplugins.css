@@ -2534,6 +2534,11 @@ hr {
     margin-right: 1rem  !important;
 }
 
+.lsdp-mx-10 {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+}
+
 .my-20 {
     margin: 20px auto !important;
 }
@@ -2581,6 +2586,9 @@ hr {
 .px-15 {
     padding-left: 15px !important;
     padding-right: 15px !important;
+}
+.lsdp-pl-10{
+    padding-left: 10px;
 }
 
 .lsdp-px-0{

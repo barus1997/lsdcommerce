@@ -88,10 +88,6 @@
 
 
 
-#checkout-extras table.table tr td {
-    padding: 3px 10px;
-}
-
 @media only screen and (max-width: 480px) {
     .lsdcommerce .item-radio {
         margin: 0;
@@ -349,4 +345,9 @@ table.table-transaction tr:last-child td {
     left: 15px;
     top: 60%;
     transform: translateY(-50%);
+}
+
+hr.border {
+    border-top: 1px solid #f2f4f3;
+    margin: 7px 0;
 }
