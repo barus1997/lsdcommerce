@@ -9,7 +9,7 @@
  * @wordpress-plugin
  * Plugin Name:       #DEV# LSDCommerce
  * Plugin URI:        lsdplugins.com/lsdcommerce
- * Description:       WordPress Ecommerce Indonesia
+ * Description:       Plugin Toko Online Indonesia
  * Version:           1.0.0
  * Author:            LSD Plugins
  * Author URI:        lsdplugins.com

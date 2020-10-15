@@ -8,5 +8,5 @@ Untuk membantu mendevelop plugin ini anda hanya perlu install plugin, dan membac
 
 
 *Special Thanks*\
-✅ WordPress ✅ WPBB.io ✅ ✅ Github ✅ Stackoverflow ✅ CodePen\
-✅ SpectreCSS ✅ Pippinsplugins.com ✅ Rudrastyh.com 
+✅ WordPress ✅ WPBB.io ✅ Github ✅ Stackoverflow ✅ CodePen\
+✅ Spectre CSS ✅ Pippinsplugins.com ✅ Rudrastyh.com 

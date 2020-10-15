@@ -17,11 +17,11 @@ if( ! wp_doing_ajax() ){
         $products   = json_decode( get_post_meta( $order_id, 'products', true ) );
         $extras     = json_decode( get_post_meta( $order_id, 'extras', true ) );
         $total      = json_decode( get_post_meta( $order_id, 'total', true ) );
-        $customer   = json_decode( get_post_meta( $order_id, 'customer', true ) );
         $shipping   = json_decode( get_post_meta( $order_id, 'shipping', true ) );
         
         $payment_id = get_post_meta( $order_id, 'payment_id', true );
         $order_ip   = get_post_meta( $order_id, 'ip', true );
+        $customer_id = abs( get_post_meta( $order_id, 'customer_id', true ) );
     endif;
 }
 ?>
@@ -78,7 +78,7 @@ if( ! wp_doing_ajax() ){
                     <hr class="half">
 
                     <!-- Instruction Text -->
-                    <p class="grey text-center mb-10"><?php echo esc_attr( $payment_data['instruction_text'] ); ?></p>
+                    <p class="grey text-center lsdp-mb-10"><?php echo esc_attr( $payment_data['instruction_text'] ); ?></p>
 
                     <table class="table table-banks table-borderless ">
                         <tbody>
@@ -185,16 +185,18 @@ if( ! wp_doing_ajax() ){
                         
                                     <tr>
                                         <td colspan="2"  class="font-weight-medium"><?php _e('Name', 'lsdcommerce'); ?></td>
-                                        <td><?php echo esc_attr( $customer->name ); ?></td>
+                                        <td><?php echo lsdc_user_getname(  $customer_id  ); ?></td>
                                     </tr>
+                                    <?php if( ! empty( lsdc_user_getphone(  $customer_id  ) ) ) : ?>
                                     <tr>
                                         <td colspan="2"  class="font-weight-medium"><?php _e('Phone', 'lsdcommerce'); ?></td>
-                                        <td><?php echo esc_attr( $customer->phone ); ?></td>
+                                        <td><?php echo lsdc_user_getphone(  $customer_id  ); ?></td>
                                     </tr>
-                                    <?php if( ! empty($customer->email ) ) : ?>
+                                    <?php endif; ?>
+                                    <?php if( ! empty( lsdc_user_getemail(  $customer_id  ) ) ) : ?>
                                         <tr>
                                             <td colspan="2"  class="font-weight-medium"><?php _e('Email', 'lsdcommerce'); ?></td>
-                                            <td><?php echo esc_attr( $customer->email  ); ?></td>
+                                            <td><?php echo lsdc_user_getemail(  $customer_id  ); ?></td>
                                         </tr>
                                     <?php endif; ?>
 

@@ -13,10 +13,59 @@ class LSDCommerce_Activator {
 
 	public static function activate() {
 
-		// Activate Theme
+		// Create Donation Page
+		$title = __( 'Etalase', 'lsdcommerce' );
+		$check = get_page_by_title($title);
+		$page = array(
+			'post_title' 	=> $title,
+			'post_type' 	=> 'page',
+			'post_status' 	=> 'publish',
+			'post_slug' 	=> __( 'checkout', 'lsdcommerce' ),
+			'page_template' => 'store.php'
+		);
+
+		if( ! isset( $check->ID ) ){
+			$id = wp_insert_post($page);
+		}
+
+		$title = __( 'Checkout', 'lsdcommerce' );
+		$check = get_page_by_title($title);
+		$page = array(
+			'post_title' 	=> $title,
+			'post_type' 	=> 'page',
+			'post_status' 	=> 'publish',
+			'post_slug' 	=> __( 'checkout', 'lsdcommerce' ),
+			'post_content' => '[lsdcommerce_checkout]'
+		);
+
+		if( ! isset( $check->ID ) ){
+			$id = wp_insert_post($page);
+			lsdc_set( 'general_settings', 'checkout_page', $id );
+		}
+	
+		// Create Payment Page
+		$title = __( 'Member', 'lsdcommerce' );
+		$check = get_page_by_title($title);
+		$page = array(
+			'post_title' 	=> $title,
+			'post_type' 	=> 'page',
+			'post_status' 	=> 'publish',
+			'post_slug' 	=> __( 'member', 'lsdcommerce' ),
+			'page_template' => 'member.php'
+		);
+
+		if( ! isset( $check->ID ) ){
+			$id = wp_insert_post($page);
+			lsdc_set( 'general_settings', 'member_area', $id );
+		}
+
+		// Set Report Read
+		update_option('lsdd_report_unread', 0);
+
+
 		// Sending Usage Data
 		lsdc_track_init();
-		lsdc_track_push();
+		lsdc_track_act();
 	}
 	
 } 

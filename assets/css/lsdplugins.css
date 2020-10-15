@@ -2864,6 +2864,11 @@ img {
     max-width: 100%;
 }
 
+.max480{
+    max-width: 480px;
+    margin: 0 auto;
+}
+
 
 
 /* #f7f7f7 */
