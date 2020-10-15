@@ -272,9 +272,25 @@ function lsdc_variation_label(  $id, $variation ){
  * Usage ::  get_the_permalink( lsdc_get( 'general_settings', 'checkout_page' ) );
  */
 function lsdc_get( $option, $item ){
-    $settings = get_option( 'lsdc_' . $option, true ); 
+    $settings = get_option( 'lsdc_' . $option ); 
     return empty( $settings[$item] ) ? null : esc_attr( $settings[$item] );
 }
+
+/**
+ * Getting Admin Setting by Option and Item
+ * 
+ * @package LSDCommerce
+ * @subpackage General
+ * @since 1.0.0
+ * 
+ * Usage ::  get_the_permalink( lsdc_get( 'general_settings', 'checkout_page' ) );
+ */
+function lsdc_set( $option, $item, $value ){
+    $settings = empty( get_option( 'lsdc_' . $option ) ) ? array() : get_option( 'lsdc_' . $option );
+    $settings[$item] = sanitize_text_field( $value );
+    update_option( 'lsdc_' . $option, $settings ); 
+}
+
 
 /**
  * Create ID

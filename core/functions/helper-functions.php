@@ -329,6 +329,11 @@ function lsdc_format_phone( $phone )
         $format = $phone;
     }
 
+    // Checking Phone Length
+    if( strlen( $phone ) > 13 || strlen( $phone) < 11 ){
+        $format = null;
+    }
+
     return trim($format);
 }
 

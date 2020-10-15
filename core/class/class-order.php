@@ -18,6 +18,9 @@ class LSDC_Order
         if( is_user_logged_in() ) {
             // Set ID
             $order_object['form']['id'] = get_current_user_id();
+            $order_object['form']['name'] = null;
+            $order_object['form']['phone'] = null;
+            $order_object['form']['email'] = null;
 
         } else {
             // Validation and Sanitize Customer
@@ -139,7 +142,6 @@ class LSDC_Order
                 }
             }
         }
-
 
         // unset($extras['extras']);
         $order_object['weights']   = $weights;

@@ -155,14 +155,13 @@ function lsdcommerce_plugin_updater() {
 }
 add_action('plugins_loaded', 'lsdcommerce_plugin_updater');
 
-
 /**
  * Initzialze Tracking
  * Fired : When Plugin Active and Empty Track Data
  */
 function lsdc_track_init(){
     global $wpdb;
-    $site_usage = get_option( plugin_basename( LSDC_PATH ) . '_site_usage', true );
+    $site_usage = get_option( plugin_basename( LSDC_PATH ) . '_site_usage' );
     if( empty( $site_usage )  ){
         $theme = wp_get_theme();
         $domain = str_replace( ".","_", parse_url(get_site_url())['host']);
@@ -183,7 +182,7 @@ function lsdc_track_init(){
             'plugin_usage' => array(
                 'plugin' => plugin_basename( LSDC_PATH ),
                 'active' => is_plugin_active( plugin_basename( LSDC_PATH ) . '/'.  plugin_basename( LSDC_PATH ) .'.php' ),
-                'active_day' => array(), 
+                'active_day' => 0, 
                 'updated' => 0,
                 'version' => LSDCOMMERCE_VERSION,
                 'storage' => is_dir( LSDC_CONTENT ),
@@ -195,12 +194,24 @@ function lsdc_track_init(){
 }
 
 /**
+ * Function to Updating Track
+ * On Active or Deactive
+ */
+function lsdc_track_act(){
+    $site_usage = get_option( plugin_basename( LSDC_PATH ) . '_site_usage' );
+    $domain = str_replace( ".","_", parse_url(get_site_url())['host']);
+    $site_usage[$domain]['plugin_usage']['active'] = ! is_plugin_active( plugin_basename( LSDC_PATH ) . '/'.  plugin_basename( LSDC_PATH ) .'.php' );
+    update_option( plugin_basename( LSDC_PATH ) . '_site_usage', $site_usage );
+    lsdc_track_push();
+}
+
+/**
  * Function to Updating Update Log
  * Fired : When plugin update
  */
 function lsdc_track_updated(){
     $domain = str_replace( ".","_", parse_url(get_site_url())['host']);
-    $site_usage = get_option( plugin_basename( LSDC_PATH ) . '_site_usage', true );
+    $site_usage = get_option( plugin_basename( LSDC_PATH ) . '_site_usage');
     $old = $site_usage[$domain]['plugin_usage']['updated'];
 
     if( is_array( $old ) ) {
@@ -222,11 +233,14 @@ function lsdc_track_updated(){
  */
 function lsdc_track_activeday(){
     $domain = str_replace( ".","_", parse_url(get_site_url())['host']);
-    $site_usage = get_option( plugin_basename( LSDC_PATH ) . '_site_usage', true );
+    $site_usage = get_option( plugin_basename( LSDC_PATH ) . '_site_usage');
     $old = abs( $site_usage[$domain]['plugin_usage']['active_day'] );
     $site_usage[$domain]['plugin_usage']['active_day'] = $old + 1; // Updating Data Active
     update_option( plugin_basename( LSDC_PATH ) . '_site_usage', $site_usage );
+    lsdc_track_push();
 }
+
+
 
 /**
  * Function to get random hoour today, for cron fired
@@ -249,7 +263,7 @@ function lsdc_date_randomhour_today(){
  */
 function lsdc_track_push(){
     $domain = str_replace( ".","_", parse_url(get_site_url())['host']);
-    $body	= get_option( plugin_basename( LSDC_PATH ) . '_site_usage', true );
+    $body	= get_option( plugin_basename( LSDC_PATH ) . '_site_usage');
 
     $headers = array(
         'Content-Type'  => 'application/json',
@@ -272,3 +286,8 @@ function lsdc_track_push(){
     }
     return $response;
 }
+
+/**
+ * Create Cron to Sending
+ * Track Data Daily
+ */

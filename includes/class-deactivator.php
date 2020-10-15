@@ -12,7 +12,8 @@
 class LSDCommerce_Deactivator {
     
 	public static function deactivate() {
-
+		lsdc_track_push();
+		lsdc_track_act();
 	}
 
 }
