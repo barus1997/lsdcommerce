@@ -32,7 +32,7 @@ if( ! wp_doing_ajax() ){
         <div class="card-body">
             <div class="page-thankyou">
             
-                <div id="checkout-alert" class="lsdp-alert danger info mt-10">
+                <div id="checkout-alert" class="lsdp-alert lsdc-info lsdp-mt-10">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                     <p><?php _e( 'Pesanan anda telah kami terima, terimakasih telah memesan' , 'lsdcommerce' ); ?></p>
                 </div>

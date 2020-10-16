@@ -4,13 +4,13 @@
  *
  * @link              lsdplugins.com
  * @package           LSDCommerce
- * @since             1.0.0
+ * @since             0.4.0
  *
  * @wordpress-plugin
  * Plugin Name:       #DEV# LSDCommerce
  * Plugin URI:        lsdplugins.com/lsdcommerce
  * Description:       Plugin Toko Online Indonesia
- * Version:           1.0.0
+ * Version:           0.4.0
  * Author:            LSD Plugins
  * Author URI:        lsdplugins.com
  * License:           GPL-3.0+
@@ -24,10 +24,9 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define( 'LSDCOMMERCE_VERSION', '0.0.1' );
+define( 'LSDCOMMERCE_VERSION', '0.4.0' );
 define( 'LSDC_PATH', plugin_dir_path( __FILE__ ) );
 define( 'LSDC_URL', plugin_dir_url( __FILE__ ) );
-define( 'LSDC_SERVER', 'https://lsdplugins.com' );
 define( 'LSDC_FILE', __FILE__ );
 
 /**
