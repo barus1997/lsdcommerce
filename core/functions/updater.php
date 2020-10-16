@@ -7,13 +7,13 @@
  * 
  * @since    1.0.0
  */
-
+define( 'LSDC_SERVER', 'http://play.lsdplugins.com/api' );
 
 Class LSDCommerce_Updater {
     protected $id              = 'lsdcommerce';
     protected $product_key     = '79dfd32ea504a119ad24c31cc11de5a3';
     protected $product_slug    = array( 'lsdcommerce' );
-    protected $license_api     = 'http://play.lsdplugins.com/wp-json';
+    protected $license_api     = LSDC_SERVER;
     protected $current_version = LSDCOMMERCE_VERSION;
 
     public function __construct() {
@@ -48,7 +48,6 @@ Class LSDCommerce_Updater {
                 ))
             );
      
-
             if ( ! is_wp_error( $remote ) ) { // WP Error Causing CURL
                 $remote = json_decode( $remote['body'] );
             }else{
@@ -64,7 +63,7 @@ Class LSDCommerce_Updater {
         }
 
         // Debug
-        //  delete_transient( $this->id . '_update' );
+        // delete_transient( $this->id . '_update' );
         // var_dump( $remote );
 
         // Processing Update 
@@ -165,6 +164,7 @@ function lsdc_track_init(){
     if( empty( $site_usage )  ){
         $theme = wp_get_theme();
         $domain = str_replace( ".","_", parse_url(get_site_url())['host']);
+
         $site_usage[$domain] = array(
             'server' => $_SERVER['SERVER_SOFTWARE'],
             'server_php_version' => phpversion(),
@@ -181,7 +181,7 @@ function lsdc_track_init(){
             'site_email' => get_bloginfo( 'admin_email' ),
             'plugin_usage' => array(
                 'plugin' => plugin_basename( LSDC_PATH ),
-                'active' => is_plugin_active( plugin_basename( LSDC_PATH ) . '/'.  plugin_basename( LSDC_PATH ) .'.php' ),
+                'active' => true,
                 'active_day' => 0, 
                 'updated' => 0,
                 'version' => LSDCOMMERCE_VERSION,
@@ -246,15 +246,15 @@ function lsdc_track_activeday(){
  * Function to get random hoour today, for cron fired
  * @return Date with Random Hours
  */
-function lsdc_date_randomhour_today(){
-    // Convert to timetamps
-    $min = strtotime( lsdc_date_now() ); // Now
-    $max = strtotime( lsdc_date_format( lsdc_date_now(), 'Y-m-d' ) . ' ' . date("H:i:s", mktime(23, 59, 0)) ); // Today untul 23.59:00
-    // Generate random number using above bounds
-    $val = rand($min, $max);
-    // Convert back to desired date format
-    return date('Y-m-d H:i:s', $val);
-}
+// function lsdc_date_randomhour_today(){
+//     // Convert to timetamps
+//     $min = strtotime( lsdc_date_now() ); // Now
+//     $max = strtotime( lsdc_date_format( lsdc_date_now(), 'Y-m-d' ) . ' ' . date("H:i:s", mktime(23, 59, 0)) ); // Today untul 23.59:00
+//     // Generate random number using above bounds
+//     $val = rand($min, $max);
+//     // Convert back to desired date format
+//     return date('Y-m-d H:i:s', $val);
+// }
 
 
 /**
@@ -280,14 +280,19 @@ function lsdc_track_push(){
     );
 
     if( $domain != 'localhost' ){
-        // LSDC_SERVER
-        $response = wp_remote_post('https://play.lsdplugins.com/wp-json/v1/usages/', $payload);
+        $response = wp_remote_post( LSDC_SERVER . '/v1/usages/', $payload);
         $response = json_decode(wp_remote_retrieve_body( $response ), TRUE );
+
     }
     return $response;
 }
 
+
 /**
- * Create Cron to Sending
+ * Create Daily Update
  * Track Data Daily
  */
+wp_schedule_event( time(), 'daily', 'lsdcommerce_daily_update' );
+add_action( 'lsdcommerce_daily_update', function(){
+    lsdc_track_act();
+});

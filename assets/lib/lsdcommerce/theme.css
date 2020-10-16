@@ -153,7 +153,6 @@ body {
     color: #fff;
 }
 
-
 .lsdcommerce .lsdc-btn.btn-primary:hover,
 .lsdcommerce .lsdc-btn.btn-primary:focus,
 .lsdcommerce .lsdc-btn.btn-primary:active {
@@ -1278,3 +1277,7 @@ hr.half {
     margin: 0;
 }
 
+.lsdp-alert.lsdc-info{
+    background-color: var(--lsdc-darker-color);
+    color: #fff;
+}

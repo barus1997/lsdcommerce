@@ -1,23 +1,21 @@
 ✅ Roadmap Development ✅
 
-[0.3.9] 15 Okt 2020
+[0.3.9] 18 Okt 2020
 # Public Release
 # Integration Test
 # Unit Test
 + LSDCommerce Extension
 
-[0.3.8] 14 Okt 2020
+[0.3.8] 17 Okt 2020
 + LSDCommerce PRO
 
-[0.3.7] 13 Okt 2020
-+ LSDCommerce PRO
+[0.3.7] 16 Okt 2020
++ Member
 
-[0.3.6] 12 Okt 2020
-+ Track Store Data ( For Visualization User )
-+ Member Area Final
-+ Documentation
+[0.3.6] ✅ 12 Okt 2020
++ Track Store Data
 
-[0.3.5] 11 Okt 2020
+[0.3.5] ✅ 11 Okt 2020
 + Track Usage
 # Notification and Shipping
 

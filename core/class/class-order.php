@@ -2,7 +2,6 @@
 namespace LSDCommerce\Order;
 use LSDCommerce\Shipping\LSDC_Shipping;
 use LSDCommerce\Logger\LSDC_Logger;
-
 /**
  * Order Handle
  */
@@ -18,6 +17,27 @@ class LSDC_Order
         if( is_user_logged_in() ) {
             // Set ID
             $order_object['form']['id'] = get_current_user_id();
+            if( trim(lsdc_user_getname()) == '' ){
+                $names = explode( ' ' , $order_object['form']['name'], 2 );
+                if( isset( $names[1] ) ){
+                    wp_update_user([
+                        'ID' => get_current_user_id(), // this is the ID of the user you want to update.
+                        'first_name' => $names[0],
+                        'last_name' => $names[1],
+                    ]);
+                }else{
+                    wp_update_user([
+                        'ID' => get_current_user_id(), // this is the ID of the user you want to update.
+                        'first_name' => $order_object['form']['name'],
+                    ]);
+                }
+             
+            }
+
+            if( trim(lsdc_user_getphone()) == '' ){
+                update_user_meta( get_current_user_id(), 'user_phone',  $order_object['form']['phone']  );
+            }
+
             $order_object['form']['name'] = null;
             $order_object['form']['phone'] = null;
             $order_object['form']['email'] = null;
