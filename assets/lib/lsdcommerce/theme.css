@@ -643,7 +643,7 @@ body {
 .lsdcommerce .floating-label .form-control:focus~label,
 .lsdcommerce .floating-label .form-control:not(:placeholder-shown)~label {
     color: var(--lsdc-color);
-    top: -5px;
+    top: -3px;
     background-color: #FFF;
     transform: translateY(0);
     transition: all 0.3s ease-in-out;

@@ -113,7 +113,7 @@ Class LSDC_Shipping_Email Extends LSDC_Shipping {
             'member_link'           => get_permalink( lsdc_get( 'general_settings', 'member_area') ),
             'member_text'           => __('Masuk', 'lsdcommerce'),
             'member_username_label' => __( 'Username : ', "lsdcommerce" ),
-            'member_username'       => $user_info->user_login . '/' . lsdc_user_getemail( $customer_id ),
+            'member_username'       => $user_info->user_login . '/' . lsdc_get_user_email( $customer_id ),
             'product_list'          => $product_downloads,
         );
 

@@ -185,18 +185,18 @@ if( ! wp_doing_ajax() ){
                         
                                     <tr>
                                         <td colspan="2"  class="font-weight-medium"><?php _e('Name', 'lsdcommerce'); ?></td>
-                                        <td><?php echo lsdc_user_getname(  $customer_id  ); ?></td>
+                                        <td><?php echo lsdc_get_user_name(  $customer_id  ); ?></td>
                                     </tr>
-                                    <?php if( ! empty( lsdc_user_getphone(  $customer_id  ) ) ) : ?>
+                                    <?php if( ! empty( lsdc_get_user_phone(  $customer_id  ) ) ) : ?>
                                     <tr>
                                         <td colspan="2"  class="font-weight-medium"><?php _e('Phone', 'lsdcommerce'); ?></td>
-                                        <td><?php echo lsdc_user_getphone(  $customer_id  ); ?></td>
+                                        <td><?php echo lsdc_get_user_phone(  $customer_id  ); ?></td>
                                     </tr>
                                     <?php endif; ?>
-                                    <?php if( ! empty( lsdc_user_getemail(  $customer_id  ) ) ) : ?>
+                                    <?php if( ! empty( lsdc_get_user_email(  $customer_id  ) ) ) : ?>
                                         <tr>
                                             <td colspan="2"  class="font-weight-medium"><?php _e('Email', 'lsdcommerce'); ?></td>
-                                            <td><?php echo lsdc_user_getemail(  $customer_id  ); ?></td>
+                                            <td><?php echo lsdc_get_user_email(  $customer_id  ); ?></td>
                                         </tr>
                                     <?php endif; ?>
 

@@ -12,7 +12,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
-
 // Set Token 10 Minutes for Checkout
 $cart   = isset( $_COOKIE['_lsdcommerce_cart'] ) ? (array) json_decode( stripslashes(  $_COOKIE['_lsdcommerce_cart'] ) ) : null;
 $token  = isset( $_COOKIE['_lsdcommerce_token'] ) ? $_COOKIE['_lsdcommerce_token'] : null;
@@ -60,22 +59,22 @@ $token  = isset( $_COOKIE['_lsdcommerce_token'] ) ? $_COOKIE['_lsdcommerce_token
                                 <form id="lsdcommerce-form" class="full-height">
                                     <div class="top">
                                         <!-- Before Form -->
-                                        <?php do_action( 'lsdcommerce_checkout_form_before'); ?>
+                                        <?php do_action( 'lsdcommerce_checkout_form_before' ); ?>
 
                                         <!-- Greeting for User -->
                                         <?php if( is_user_logged_in() ) : ?>
-                                            <h6 class="text-primary font-weight-medium lsdp-mb-15"><?php _e( "Selamat Datang kembali", 'lsdcommerce') ?> 😊 <?php echo lsdc_user_getname(); ?></h6>
+                                            <h6 class="text-primary font-weight-medium lsdp-mb-15"><?php _e( "Selamat Datang kembali", 'lsdcommerce') ?> 😊 <?php echo lsdc_get_user_name(); ?></h6>
                                         <?php endif; ?>
 
                                         <!-- Load Form -->
                                         <div class="checkout-form lsdp-pt-10">
-                                            <?php do_action( 'lsdcommerce_checkout_form'); ?>
+                                            <?php do_action( 'lsdcommerce_checkout_form' ); ?>
                                         </div>
                                     
                                         <!-- Login Instruction -->
                                         <?php if( ! is_user_logged_in() ) : ?>
 
-                                            <?php if( ! is_plugin_active( 'lsdcommerce-pro') ) : ?>
+                                            <?php if( ! class_exists( 'LSDCommerce_PRO' ) ) : ?>
                                                 <a href="<?php echo wp_login_url(); ?>" class="text-primary swiper-no-swiping"><?php _e( 'Sudah punya akun ? Silahkan Masuk', 'lsdcommerce' ); ?></a>
                                             <?php else: ?>
                                                 <a toggle="embed-login" class="text-primary lsdp-toggle swiper-no-swiping"><?php _e( 'Sudah punya akun ? Silahkan Masuk', 'lsdcommerce' ); ?></a>

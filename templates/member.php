@@ -1,4 +1,5 @@
 <?php 
+set_lsdcommerce();
 if ( ! defined( 'ABSPATH' ) ) {
   exit; // Exit if accessed directly
 }
@@ -8,12 +9,7 @@ get_header(); ?>
 <?php if( is_user_logged_in() ) : ?>
 
   <style>
-    main.page-content {
-        min-height: 50vh;
-        max-width: 500px;
-        margin: 0 auto;
-        transition: all 0.3s ease-in-out;
-    }
+
     .tabs-component input[type=radio] {
       display: none !important;
     }
@@ -44,8 +40,8 @@ get_header(); ?>
     }
 
     .tabs-component input[type=radio]:checked + label.tab {
-      border-bottom: 3px solid var(--lsdc-theme-color);
-      color : var(--lsdc-theme-color);
+      border-bottom: 3px solid var(--lsdc-color);
+      color : var(--lsdc-color);
       margin: 0;
       margin-bottom: 2px;
     }
@@ -53,7 +49,7 @@ get_header(); ?>
     .tabs-component .tab-body {
       position: absolute;
       opacity: 0;
-      padding: 20px 0;
+      padding: 13px;
     }
 
     .tab-body-component {
@@ -70,10 +66,11 @@ get_header(); ?>
       top: 0;
       opacity: 1
     }
+
   </style>
 
   <div id="lsdcommerce">
-    <main class="page-content lsdcommerce-member">
+    <main class="page-content lsdc-bg-color max480">
     <input type="hidden" id="member-nonce" value="<?php echo wp_create_nonce( 'member-nonce' ); ?>" />
 
       <div class="tabs-component">
@@ -93,10 +90,8 @@ get_header(); ?>
 
           <!-- Dashboard -->
           <div id="tab-body-1" class="tab-body">
-            <?php 
-            $current_user = wp_get_current_user(); 
-            ?>
-            <?php _e( 'Welcome', 'lsdcommerce' ); ?>, <span class="text-primary"><?php echo ucfirst( $current_user->user_nicename ); ?></span><br><br>
+            <?php $current_user = wp_get_current_user(); ?>
+            <?php _e( 'Welcome', 'lsdcommerce' ); ?>, <span class="text-primary"><?php echo lsdc_get_user_name( $current_user->ID ); ?></span><br><br>
 
             <table>
               <tr>
@@ -107,9 +102,9 @@ get_header(); ?>
               </tr>
               <tr>
                 <td><?php echo count_user_posts( $current_user->ID, 'lsdc-order' ); ?> <?php _e( 'Order', 'lsdcommerce' ); ?></td>
-                <td>4 <?php _e( 'File', 'lsdcommerce' ); ?></td>
-                <td>1 <?php _e( 'Package', 'lsdcommerce' ); ?></td>
-                <td>1 <?php _e( 'Package', 'lsdcommerce' ); ?></td>
+                <td></td>
+                <td></td>
+                <td></td>
               </tr>
             </table>
 
@@ -120,10 +115,10 @@ get_header(); ?>
           <div id="tab-body-2" class="tab-body">
             <table>
                 <tr>
-                  <th>Order</th>
-                  <th>Status</th>
-                  <th>Total</th>
-                  <th>Date</th>
+                  <th><?php _e( "Pesanan", 'lsdcommerce' ); ?></th>
+                  <th><?php _e( "Status", 'lsdcommerce' ); ?></th>
+                  <th><?php _e( "Total", 'lsdcommerce' ); ?></th>
+                  <th><?php _e( "Tanggal", 'lsdcommerce' ); ?></th>
                 </tr>
                 <?php 
                     $query = new WP_Query( array( 
@@ -136,7 +131,7 @@ get_header(); ?>
                     <?php while ( $query->have_posts() ) : $query->the_post(); ?>
                       <tr>
                         <td>#<?php the_ID(); ?></td>
-                        <td><?php echo empty( get_post_meta( get_the_ID(), 'status', true ) ) ? "Pending" : get_post_meta( get_the_ID(), 'status', true ); ?></td>
+                        <td><?php echo lsdc_order_status_translate( get_the_ID() ); ?></td>
                         <td><?php echo lsdc_currency_format( true, get_post_meta( get_the_ID(), 'total', true )); ?></td>
                         <td><?php echo lsdc_date_format( get_the_date(), 'j M Y' ); ?></td>
                       </tr>
@@ -189,19 +184,19 @@ get_header(); ?>
                 'post_type'   => 'lsdc-order',
                 // 'post_status' => 'publish',
                 // 'post_author' => $current_user->ID,
-                // 'meta_query'  => array(
-                //   // 'relation'  => 'OR', /* <-- here */
-                //   array(
-                //       'key'     => 'status',
-                //       'value'   => 'complete',
-                //       'compare' => '='
-                //   ),
-                //   // array(
-                //   //     'key'     => 'status',
-                //   //     'value'   => 'shipped',
-                //   //     'compare' => '='
-                //   // )
-                // )
+                'meta_query'  => array(
+                  // 'relation'  => 'OR', /* <-- here */
+                  array(
+                      'key'     => 'status',
+                      'value'   => 'shipped',
+                      'compare' => '='
+                  ),
+                  // array(
+                  //     'key'     => 'status',
+                  //     'value'   => 'shipped',
+                  //     'compare' => '='
+                  // )
+                )
             ));
           ?>
           <div id="tab-body-3" class="tab-body">
@@ -265,14 +260,13 @@ get_header(); ?>
                 <div class="columns">
         
                     <div class="column col-5">
-                        <p class="lsd-alert danger mt-10 mb-10 lsdp-hide" id="alert-password"><?php _e( 'Your Input Wrong Old Password', 'lsdcommerce' ); ?></p>
+                        <p class="lsdp-alert lsdc-info lsdp-hidden" id="alert-password"><?php _e( 'Your Input Wrong Old Password', 'lsdcommerce' ); ?></p>
 
-                        <h5 class="card-title"><?php _e( 'Change Password', 'lsdcommerce' ); ?></h5>
-                        <br>
-
+                        <h6 class="card-title lsdp-mb-10"><?php _e( 'Change Password', 'lsdcommerce' ); ?></h6>
+           
                         <form class="form-horizontal" action="">
                             <div class="lsdp-form-group">
-                                <div class="col-5 col-sm-12 mb-5">
+                                <div class="col-5 col-sm-12 lsdp-mb-5">
                                     <label class="form-label" for="oldpassword"><?php _e( 'Old Password', 'lsdcommerce' ); ?></label>
                                 </div>
                                 <div class="col-12 col-sm-12">
@@ -280,7 +274,7 @@ get_header(); ?>
                                 </div>
                             </div>
                             <div class="lsdp-form-group">
-                                <div class="col-5 col-sm-12 mb-5 mt-15">
+                                <div class="col-5 col-sm-12 lsdp-mb-5 mt-15">
                                     <label class="form-label" for="newpassword"><?php _e( 'New Password', 'lsdcommerce' ); ?></label>
                                 </div>
                                 <div class="col-12 col-sm-12">
@@ -288,14 +282,14 @@ get_header(); ?>
                                 </div>
                             </div>
                             <div class="lsdp-form-group">
-                                <div class="col-5 col-sm-12 mb-5 mt-15">
+                                <div class="col-5 col-sm-12 lsdp-mb-5 mt-15">
                                     <label class="form-label" for="repeatpassword"><?php _e( 'Repeat New Password', 'lsdcommerce' ); ?></label>
                                 </div>
                                 <div class="col-12 col-sm-12">
                                     <input class="form-input fullwidth" id="repeatpassword" type="password" placeholder="Repeat Password" autocomplete="on">
                                 </div>
                             </div>
-                            <br>
+
                             <button class="lsdp-btn lsdc-btn btn-primary btn-block change-password"><?php _e( 'Update Password', 'lsdcommerce' ); ?></button>
                         </form>
                     </div>

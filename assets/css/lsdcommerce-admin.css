@@ -383,7 +383,7 @@ th.column-total {
 }
 
 .post-type-lsdc-order .column-status {
-  padding: 15px 0 15px 15px;
+  padding: 20px 0 15px 15px;
 }
 
 .lsdc-status {
@@ -510,11 +510,32 @@ td.image.column-image {
 }
 
 td.action.column-action,
-th#action {
-  text-align: center;
-}
-
+th#action,
 td.status.column-status,
 th#status {
   text-align: center;
+}
+
+
+@media only screen and (max-width: 480px) {
+
+  td.action.column-action,
+  th#action,
+  td.status.column-status,
+  th#status {
+    text-align: left;
+  }
+  td.action.column-action {
+    height: 60px;
+  }
+
+  .inputresi {
+    position: absolute;
+    top: -5px;
+    right: 0;
+    left: -4px;
+    display: inline-block;
+    padding: 12px;
+  }
+  
 }

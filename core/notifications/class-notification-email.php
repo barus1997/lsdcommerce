@@ -80,9 +80,9 @@ Class LSDC_Notification_Email Extends LSDC_Notification {
 
         if( get_post_meta( $order_id, 'customer_id', true ) ){
             $customer_id = abs( get_post_meta( $order_id, 'customer_id', true ) );
-            $customer_name = lsdc_user_getname( $customer_id );
-            $customer_phone = lsdc_user_getphone( $customer_id );
-            $customer_email = lsdc_user_getemail( $customer_id );
+            $customer_name = lsdc_get_user_name( $customer_id );
+            $customer_phone = lsdc_get_user_phone( $customer_id );
+            $customer_email = lsdc_get_user_email( $customer_id );
         }else{
             $customer = json_decode( get_post_meta( $order_id, 'customer', true ) );
             $customer_name = $customer->name;
