@@ -2865,6 +2865,7 @@ img {
 }
 
 .max480{
+    min-height: 80vh;
     max-width: 480px;
     margin: 0 auto;
 }

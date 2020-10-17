@@ -160,8 +160,8 @@ add_action('plugins_loaded', 'lsdcommerce_plugin_updater');
  */
 function lsdc_track_init(){
     global $wpdb;
-    $site_usage = get_option( plugin_basename( LSDC_PATH ) . '_site_usage' );
-    if( empty( $site_usage )  ){
+    $site_usage = get_option( plugin_basename( LSDC_PATH ) . '_site_usage', true );
+    if( empty( $site_usage ) || ! isset( $site_usage['server'] ) ){
         $theme = wp_get_theme();
         $domain = str_replace( ".","_", parse_url(get_site_url())['host']);
 
@@ -191,6 +191,7 @@ function lsdc_track_init(){
         );
         update_option( plugin_basename( LSDC_PATH ) . '_site_usage', $site_usage );
     }
+    lsdc_track_act();
 }
 
 /**

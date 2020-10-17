@@ -71,7 +71,7 @@ function lsdc_admin_order_columns_content( $column, $order_id ) {
         $customers = (array) json_decode( get_post_meta( $order_id, 'customer', true ) );
 
         if( $customer_id ){
-            echo lsdc_user_getname( $customer_id ) . ' - ' . lsdc_user_getphone( $customer_id ) . '<br><strong>' . lsdc_user_getemail( $customer_id ) . '</strong>' ;
+            echo lsdc_get_user_name( $customer_id ) . ' - ' . lsdc_get_user_phone( $customer_id ) . '<br><strong>' . lsdc_get_user_email( $customer_id ) . '</strong>' ;
         }else{
             if( ! empty( $customers['name'] ) ){
                 echo $customers['name'] . ' - ' . $customers['phone'] . '<br><strong>' . $customers['email'] . '</strong>' ;
@@ -111,9 +111,31 @@ function lsdc_admin_order_columns_content( $column, $order_id ) {
             break;
             case 'processed':
                 ?>
-                <button class="button lsdc-action-button" title="Dikirim" data-action="shipped" data-id="<?php echo $order_id; ?>">
-                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-top:3px;padding:0"  width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-                </button>
+                <div class="inputresi">
+                    <input type="text" class="resi" placeholder="Kode Resi">
+                    <button class="button lsdc-action-button" title="Dikirim" data-action="shipped" data-id="<?php echo $order_id; ?>">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-top:3px;padding:0"  width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                    </button>
+                </div>
+
+                <style>
+                td.action.column-action{
+                    position: relative;
+                }
+                .inputresi {
+                    position: absolute;
+                    top: 0;
+                    width: 260px;
+                    right: 0;
+                    display: inline-block;
+                    padding: 10px;
+                }
+
+                .inputresi input{
+                    width: 200px;
+                    padding: 3px 10px;
+                }
+                </style>
                 <?php
             break;
             case 'shipped':
@@ -121,6 +143,7 @@ function lsdc_admin_order_columns_content( $column, $order_id ) {
                 <button class="button lsdc-action-button" title="Complete Order" data-action="completed" data-id="<?php echo $order_id; ?>">
                     <svg xmlns="http://www.w3.org/2000/svg" style="margin-top:3px;padding:0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </button>
+
                 <?php
             break;
             case 'completed':

@@ -29,7 +29,7 @@ class LSDC_Form
                switch ( $id ) 
                {
                    case 'name':
-                       $value = lsdc_user_getname( $user_id );
+                       $value = lsdc_get_user_name( $user_id );
                        break;
                    case 'phone':
                        $value = lsdc_format_phone( get_user_meta( $user_id, 'user_phone' , true ) );
