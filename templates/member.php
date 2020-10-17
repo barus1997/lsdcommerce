@@ -304,9 +304,9 @@ get_header(); ?>
     </main>
   </div>
 <?php else: ?>
-  <p class="lsd-alert danger mt-10 mb-10" id="alert-password"><?php _e( 'Please Sign In to your accoun', 'lsdcommerce' ); ?></p>
+  <div class="container max480">
+    <p class="lsdp-alert lsdc-info lsdp-mt-10 lsdp-mb-10 lsdp-mx-10"><?php _e( 'Silahkan Login untuk Mengakses Member Area', 'lsdcommerce' ); ?></p>
+  </div>
 <?php endif; ?>
-
-
 
 <?php get_footer(); ?>
