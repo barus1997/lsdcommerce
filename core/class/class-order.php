@@ -17,7 +17,7 @@ class LSDC_Order
         if( is_user_logged_in() ) {
             // Set ID
             $order_object['form']['id'] = get_current_user_id();
-            if( trim(lsdc_get_user_name()) == '' ){
+            if( trim( lsdc_get_user_name() ) == '' ){
                 $names = explode( ' ' , $order_object['form']['name'], 2 );
                 if( isset( $names[1] ) ){
                     wp_update_user([
@@ -34,7 +34,7 @@ class LSDC_Order
              
             }
 
-            if( trim(lsdc_get_user_phone()) == '' ){
+            if( trim( lsdc_get_user_phone() ) == '' ){
                 update_user_meta( get_current_user_id(), 'user_phone',  $order_object['form']['phone']  );
             }
 
@@ -50,7 +50,7 @@ class LSDC_Order
                         $order_object['form'][$key] = sanitize_text_field( $item );
                         break;
                     case 'phone':
-                        $order_object['form'][$key] = abs( $item );
+                        $order_object['form'][$key] = lsdc_format_phone( $item );
                         break;
                     case 'email':
                         $order_object['form'][$key] = sanitize_email( $item );
@@ -62,10 +62,12 @@ class LSDC_Order
             }
 
             // Setup User
-            $phone      = abs( $order_object['form']['phone'] );
             $username   = lsdc_format_username( $order_object['form']['name'] );
             $password   = lsdc_generate_password();
             $names      = explode( ' ', $order_object['form']['name'], 2 );
+            if( ! isset( $names[1] ) ){
+                $names = $order_object['form']['name'];
+            }
 
             // Register User
             $user_data = array(
@@ -81,7 +83,7 @@ class LSDC_Order
             if( $user_id ) {
 
                 wp_send_new_user_notifications($user_id); // Send Credentials
-                update_user_meta( $user_id, 'user_phone', lsdc_format_phone( $phone ) );
+                update_user_meta( $user_id, 'user_phone', $order_object['form']['phone'] );
 
                 //Do Action for Addon Verification Email
                 //update_user_meta( $new_user_id, 'verification', false );

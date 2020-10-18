@@ -133,7 +133,7 @@ Public Javascript and JQuery Function
 			lsdc_checkout_nextslide(1);
 			customer = true;
 		} else {
-			lsdcommerce_checkout_notify('Fill Customer Form Correctly');
+			lsdcommerce_checkout_notify('Silahkan isi data pembeli dengan benar');
 			lsdc_checkout_nextslide(0)
 		}
 	});
@@ -251,7 +251,7 @@ Public Javascript and JQuery Function
 				};
 				shipping_physical = true;
 			} else {
-				checkout.find('#checkout-alert p').text('Fill Address Information Correctly');
+				checkout.find('#checkout-alert p').text('Masukan data alamat secara benar');
 			}
 		}
 
@@ -330,21 +330,21 @@ Public Javascript and JQuery Function
 				function (response) {
 					// Response Failed :: ( Token Expired ) 
 					if (response == '_token_expired') {
-						lsdcommerce_checkout_notify('Token Expired, Please reCheckout Again');
+						lsdcommerce_checkout_notify('Token Kadaluarsa, Halaman akan di perbaharui');
 						setTimeout(() => {
 							location.reload();
 						}, 1500);
 					}
 
 					if ($.trim(response) == '_email_registered') {
-						lsdcommerce_checkout_notify('Email Already Registered, Please Login');
+						lsdcommerce_checkout_notify('Email sudah terdaftar, silahkan masuk');
 						$(that).removeClass('loading');
 						lsdc_checkout_nextslide(0);
 					}
 
 					// Response Success :: Redirect
 					response = JSON.parse(response);
-					if (response.code == '_order_created') {
+					if ( response.code == '_order_created') {
 						cart.reset();
 						location.href = response.redirect; // Default Thankyou Page
 					}

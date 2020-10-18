@@ -180,9 +180,9 @@ $token  = isset( $_COOKIE['_lsdcommerce_token'] ) ? $_COOKIE['_lsdcommerce_token
 
             <?php else : ?>      
             
-                <div class="lsdp-alert lsdc-info mt-10 mb-10 lsdp-mx-10">
+                <div class="lsdp-alert lsdc-info lsdp-mt-10 lsdp-mb-10 lsdp-mx-10">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                    <p><?php _e( 'Your cart is empty', 'lsdcommerce' ); ?></p>
+                    <p><?php _e( 'Keranjang anda kosong', 'lsdcommerce' ); ?></p>
                 </div>
 
             <?php endif; ?>

@@ -25,7 +25,7 @@ Class LSDCommerce_Public_AJAX{
         $user_token     = esc_attr( $_REQUEST['token'] );
         $token          = explode( '-', $user_token )[0];
         $server_token   = get_transient( 'lsdc_checkout_' . $token  ); // Get Transient from Server based on Client Token
-       
+        // var_dump( $user_token );
         $timestamp      = strtotime( lsdc_date_now() ) - strtotime( $server_token ); 
 
         $validation     = false;

@@ -220,7 +220,7 @@ Javascript Code in Single Product
 
 	//  AddtoCart via QTY Add
 	$(document).on('click', '.plus', function (e) {
-		let plusInCart = null; // Add Qty on Cart
+		let plusInCart 	= null; // Add Qty on Cart
 		let plusInFloat = null; //Add Qty on FLoting Qty
 		controlCartQty = $(this).closest('.lsdc-qty').find('input[name="qty"]');
 		productQty = controlCartQty.val() == null ? 1 : parseInt(controlCartQty.val()); // Force set 1 if empty
@@ -237,8 +237,9 @@ Javascript Code in Single Product
 
 		if (productQty < productLimit) { // Limit Order
 			controlCartQty.val(++productQty); // Increase Quantity
-			let carts = cart.get('product', productID); //Get Detail Product by ID
 			controlQty.find('input[name="qty"]').val(productQty); // Sync and Set Qty
+
+			let product_cart = cart.get('product', productID); //Get Detail Product by ID
 
 			$(this).closest('.cart-basket')
 				.find('.item[id="' + productID + '"] .price')

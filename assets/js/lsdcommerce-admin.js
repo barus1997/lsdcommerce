@@ -375,11 +375,9 @@ function validateEmail(email) {
 		$(this).addClass('loading');
 
 		if( $(this).attr('data-action') == 'shipped' ){
-
-		}else{
 			$.post( lsdc_adm.ajax_url, { 
-				action 		: 'lsdc_admin_order_action',
-				data		: $(this).attr('data-action'),
+				action 		: 'lsdc_admin_order_resi',
+				resi		: $(this).prev().val(),
 				orderid		: $(this).attr('data-id'),
 				security 	: lsdc_adm.ajax_nonce,
 				}, function( response ){
@@ -391,6 +389,22 @@ function validateEmail(email) {
 				}
 			);
 		}
+
+
+		$.post( lsdc_adm.ajax_url, { 
+			action 		: 'lsdc_admin_order_action',
+			data		: $(this).attr('data-action'),
+			orderid		: $(this).attr('data-id'),
+			security 	: lsdc_adm.ajax_nonce,
+			}, function( response ){
+				if( response.trim() == 'action_success' ){
+					location.reload();
+				}
+			}).fail(function(){
+				alert('Failed, please check your internet');
+			}
+		);
+
 
 
 	});

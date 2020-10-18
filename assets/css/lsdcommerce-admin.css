@@ -399,7 +399,7 @@ th.column-total {
 }
 
 .lsdc-paid {
-  background: cornflowerblue;
+  background: blue;
   color: #fff;
 }
 
@@ -416,7 +416,7 @@ th.column-total {
 }
 
 .lsdc-shipped {
-  background:aquamarine;
+  background:blueviolet;
   color: #fff;
 }
 
@@ -531,7 +531,7 @@ th#status {
 
   .inputresi {
     position: absolute;
-    top: -5px;
+    top: -3px !important;
     right: 0;
     left: -4px;
     display: inline-block;

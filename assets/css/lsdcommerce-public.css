@@ -343,8 +343,8 @@ table.table-transaction tr:last-child td {
     object-position: center;
 }
 
-#lsdcommerce-checkout .lsdp-alert p{
-    padding: 7px;
+.lsdp-alert p{
+    padding: 5px 7px;
 }
 
 .lsdc-svg {
@@ -359,10 +359,15 @@ hr.border {
     margin: 7px 0;
 }
 
-/* #checkout-extras {
-    border-bottom: 2px solid #f2f4f3;
+#physical-shipping h6 {
+    line-height: 1.2rem;
+    font-size: 1rem;
 }
 
-#checkout-extras table {
-    margin: 7px 0;
-} */
+#checkout-extras {
+    margin-top: 5px;
+}
+
+#checkout-products tr{
+    height: 50px;
+}

@@ -18,6 +18,7 @@ if( ! wp_doing_ajax() ){
         $extras     = json_decode( get_post_meta( $order_id, 'extras', true ) );
         $total      = json_decode( get_post_meta( $order_id, 'total', true ) );
         $shipping   = json_decode( get_post_meta( $order_id, 'shipping', true ) );
+        $status   = esc_attr( get_post_meta( $order_id, 'status', true ) );
         
         $payment_id = get_post_meta( $order_id, 'payment_id', true );
         $order_ip   = get_post_meta( $order_id, 'ip', true );
@@ -34,7 +35,11 @@ if( ! wp_doing_ajax() ){
             
                 <div id="checkout-alert" class="lsdp-alert lsdc-info lsdp-mt-10">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                    <p><?php _e( 'Pesanan anda telah kami terima, terimakasih telah memesan' , 'lsdcommerce' ); ?></p>
+                    <?php if( $status != 'completed' ): ?>
+                        <p><?php _e( 'Pesanan anda telah kami terima, terimakasih telah memesan' , 'lsdcommerce' ); ?></p>
+                    <?php else: ?>
+                        <p><?php _e( 'Pesanan telah selesai, terimakasih telah berbelanja' , 'lsdcommerce' ); ?></p>
+                    <?php endif; ?>
                 </div>
 
                 <div class="section-payment-instruction">
@@ -59,46 +64,48 @@ if( ! wp_doing_ajax() ){
                 </div>
 
                 <?php if( $total != 0 ) : ?>
-                <div class="section-bank">
-                <?php 
-                    $payment_data = array(
-                        'payment_name'      => lsdc_get_payment( $payment_id, 'groupname' ) . lsdc_get_payment( $payment_id, 'name' ),
-                        'payment_image'     => lsdc_get_payment( $payment_id, 'logo' ),
-                        'code_label'        => lsdc_get_payment( $payment_id, 'swiftcode' ) != null ? __( 'BIC/SWIFT : ' , 'lsdcommerce' ) : null,
-                        'code_value'        => lsdc_get_payment( $payment_id, 'swiftcode' ),
-                        'account_label'     => lsdc_get_payment( $payment_id, 'account_number' ) != null ? __( 'Rekening : ', 'lsdcommerce') : null,
-                        'account_code'      => lsdc_get_payment( $payment_id, 'account_code' ) != null ? lsdc_get_payment( $payment_id, 'account_code' ) : null,
-                        'account_number'    => lsdc_get_payment( $payment_id, 'account_number' ),
-                        'holder_label'      => lsdc_get_payment( $payment_id, 'account_holder' ) != null ?__( 'Atas Nama : ', 'lsdcommerce') : null,
-                        'holder_value'      => lsdc_get_payment( $payment_id, 'account_holder' ),
-                        'instruction_text'  => lsdc_get_payment( $payment_id, 'instruction' )
-                    );
-                ?>
-                    <h6 class="text-primary font-weight-medium text-center"><?php echo esc_attr(  $payment_data['payment_name'] ); ?></h6>
-                    <hr class="half">
+                    <?php if( $status != 'completed' ): ?>
+                    <div class="section-bank">
+                    <?php 
+                        $payment_data = array(
+                            'payment_name'      => lsdc_get_payment( $payment_id, 'groupname' ) . lsdc_get_payment( $payment_id, 'name' ),
+                            'payment_image'     => lsdc_get_payment( $payment_id, 'logo' ),
+                            'code_label'        => lsdc_get_payment( $payment_id, 'swiftcode' ) != null ? __( 'BIC/SWIFT : ' , 'lsdcommerce' ) : null,
+                            'code_value'        => lsdc_get_payment( $payment_id, 'swiftcode' ),
+                            'account_label'     => lsdc_get_payment( $payment_id, 'account_number' ) != null ? __( 'Rekening : ', 'lsdcommerce') : null,
+                            'account_code'      => lsdc_get_payment( $payment_id, 'account_code' ) != null ? lsdc_get_payment( $payment_id, 'account_code' ) : null,
+                            'account_number'    => lsdc_get_payment( $payment_id, 'account_number' ),
+                            'holder_label'      => lsdc_get_payment( $payment_id, 'account_holder' ) != null ?__( 'Atas Nama : ', 'lsdcommerce') : null,
+                            'holder_value'      => lsdc_get_payment( $payment_id, 'account_holder' ),
+                            'instruction_text'  => lsdc_get_payment( $payment_id, 'instruction' )
+                        );
+                    ?>
+                        <h6 class="text-primary font-weight-medium text-center"><?php echo esc_attr(  $payment_data['payment_name'] ); ?></h6>
+                        <hr class="half">
 
-                    <!-- Instruction Text -->
-                    <p class="grey text-center lsdp-mb-10"><?php echo esc_attr( $payment_data['instruction_text'] ); ?></p>
+                        <!-- Instruction Text -->
+                        <p class="grey text-center lsdp-mb-10"><?php echo esc_attr( $payment_data['instruction_text'] ); ?></p>
 
-                    <table class="table table-banks table-borderless ">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <img src="<?php echo esc_url( $payment_data['payment_image'] ); ?>" alt="<?php echo esc_attr(  $payment_data['payment_name'] ); ?>" height="25">
-                                </td>
-                                <td>
-                                    <span class="bank-code"><?php echo esc_attr( $payment_data['code_label'] ); ?> <?php echo esc_attr( $payment_data['code_value'] ); ?></span>
-                                    <h6 class="bank-account"><?php echo esc_attr( $payment_data['account_label'] ); ?> <?php echo esc_attr( $payment_data['account_code'] ); ?> <span id="copy-account" class="font-medium"><?php echo esc_attr( $payment_data['account_number'] ); ?></span></h6>
-                                    <p class="grey"><?php echo esc_attr( $payment_data['holder_label'] ); ?> <?php echo esc_attr( $payment_data['holder_value'] ); ?></p>
-                                </td>
-                                <td class="text-right action">
-                                    <button class="lsdp-btn lsdc-btn btn-primary copy-btn" onclick="lsdcommerce_copy('#copy-account', this)"><?php _e( 'Salin', 'lsdcommerce' ); ?></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                        <table class="table table-banks table-borderless ">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <img src="<?php echo esc_url( $payment_data['payment_image'] ); ?>" alt="<?php echo esc_attr(  $payment_data['payment_name'] ); ?>" height="25">
+                                    </td>
+                                    <td>
+                                        <span class="bank-code"><?php echo esc_attr( $payment_data['code_label'] ); ?> <?php echo esc_attr( $payment_data['code_value'] ); ?></span>
+                                        <h6 class="bank-account"><?php echo esc_attr( $payment_data['account_label'] ); ?> <?php echo esc_attr( $payment_data['account_code'] ); ?> <span id="copy-account" class="font-medium"><?php echo esc_attr( $payment_data['account_number'] ); ?></span></h6>
+                                        <p class="grey"><?php echo esc_attr( $payment_data['holder_label'] ); ?> <?php echo esc_attr( $payment_data['holder_value'] ); ?></p>
+                                    </td>
+                                    <td class="text-right action">
+                                        <button class="lsdp-btn lsdc-btn btn-primary copy-btn" onclick="lsdcommerce_copy('#copy-account', this)"><?php _e( 'Salin', 'lsdcommerce' ); ?></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                </div>
+                    </div>
+                    <?php endif; ?>
                 <?php endif; ?>
 
                     <div class="section-transaction">
