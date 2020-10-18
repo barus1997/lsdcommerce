@@ -127,7 +127,6 @@ class LSDCommerce_Public {
 	public function public_dependency()
 	{
 		// Require Public Ajax
-		require_once LSDC_PATH . 'core/public/public-ajax.php';
 		require_once LSDC_PATH . 'core/public/class-public-ajax.php';
 	}
 

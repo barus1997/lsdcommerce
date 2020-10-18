@@ -361,5 +361,16 @@ function lsdc_admin_order_action(){
     wp_die();
 }
 
+add_action( 'wp_ajax_nopriv_lsdc_admin_order_resi', 'lsdc_admin_order_resi' );
+add_action( 'wp_ajax_lsdc_admin_order_resi', 'lsdc_admin_order_resi' );
+function lsdc_admin_order_resi(){
+    if ( ! check_ajax_referer( 'lsdc_nonce', 'security' ) )  wp_send_json_error( 'Invalid security token sent.' );
+
+    $_REQUEST   = array_map( 'stripslashes_deep', $_REQUEST );
+    $resi       = esc_attr( $_REQUEST['resi'] );
+    $order_id   = abs( $_REQUEST['orderid'] );
+    update_post_meta( $order_id, 'resi', $resi );
+}
+
 
 ?>

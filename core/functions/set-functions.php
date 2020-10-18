@@ -159,32 +159,6 @@ function lsdc_set_shipping_packages(){
         }
     }
 
-    // $shipping_option = array(
-    //     'jne-reg' => array(
-    //         'logo'  =>  LSDC_URL . '/assets/img/jne.png',
-    //         'label' => 'JNE REG ( 2-3 Hari )',
-    //         'cost'  => 9000
-    //     ),
-    //     'jne-yes' => array(
-    //         'logo'  =>  LSDC_URL . '/assets/img/jne.png',
-    //         'label' => 'JNE YES ( 1 Hari )',
-    //         'cost'  => 15000
-    //     ),
-    //     'free-shipping' => array(
-    //         'logo'  =>  LSDC_URL . '/assets/img/logo.png',
-    //         'label' => 'Gratis Ongkir',
-    //         'cost'  => 0
-    //     )
-    // );
-
-    // foreach ($lsdc_shippings as $key => $shipping) {
-    //     $object = new $shipping;
-    //     if( $object->type == 'physical' ){
-    //         $shipping_option = $object->calc_list(); // a
-    //     }
-        
-    // }
-
     lsdc_array_sort_bykey($shipping_option,"cost");
     ?>
 

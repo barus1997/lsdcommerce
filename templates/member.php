@@ -130,10 +130,10 @@ get_header(); ?>
                 <?php if ( $query->have_posts() ) : ?>
                     <?php while ( $query->have_posts() ) : $query->the_post(); ?>
                       <tr>
-                        <td>#<?php the_ID(); ?></td>
+                        <td>INV#<?php echo abs( get_post_meta( get_the_ID(), 'order_id', true )); ?></td>
                         <td><?php echo lsdc_order_status_translate( get_the_ID() ); ?></td>
                         <td><?php echo lsdc_currency_format( true, get_post_meta( get_the_ID(), 'total', true )); ?></td>
-                        <td><?php echo lsdc_date_format( get_the_date(), 'j M Y' ); ?></td>
+                        <td><?php echo get_the_date( 'j M Y'); ?></td>
                       </tr>
                     <?php endwhile; wp_reset_postdata(); ?>
                 <?php else: ?>
@@ -185,17 +185,17 @@ get_header(); ?>
                 // 'post_status' => 'publish',
                 // 'post_author' => $current_user->ID,
                 'meta_query'  => array(
-                  // 'relation'  => 'OR', /* <-- here */
+                  'relation'  => 'OR', /* <-- here */
                   array(
                       'key'     => 'status',
                       'value'   => 'shipped',
                       'compare' => '='
                   ),
-                  // array(
-                  //     'key'     => 'status',
-                  //     'value'   => 'shipped',
-                  //     'compare' => '='
-                  // )
+                  array(
+                      'key'     => 'status',
+                      'value'   => 'completed',
+                      'compare' => '='
+                  )
                 )
             ));
           ?>
@@ -204,25 +204,32 @@ get_header(); ?>
               <tr>
                 <th>Tipe</th>
                 <th>Order</th>
-                <th>Tanggal</th>
+                <th>Produk</th>
                 <th>Tindakan</th>
               </tr>
               <?php if ( $shiping_query->have_posts() ) : ?>
                     <?php while ( $shiping_query->have_posts() ) : $shiping_query->the_post(); ?>
                     <?php $type = json_decode( get_post_meta( get_the_ID(), 'shipping', true ) ); ?>
                     <?php if( isset($type->digital) ) : ?>
-                      <tr>
-                        <td>Digital</td>
-                        <td>#<?php the_ID(); ?></td>
-                        <td><?php echo lsdc_date_format( get_the_date(), 'j M Y' ); ?></td>
-                        <td><a class="text-primary">Download</a></td>
-                      </tr>
+                    <!-- Digital Product As Each Item -->
+                      <?php 
+                      $products = json_decode( get_post_meta( get_the_ID(), 'products', true ));
+                      ?>
+                      <?php foreach ( $products as $key => $product ) : ?>
+                        <tr>
+                          <td>Digital</td>
+                          <td>INV#<?php echo abs( get_post_meta( get_the_ID(), 'order_id', true )); ?></td>
+                          <td><?php echo get_the_title( $product->id ); ?></td>
+                          <td><a class="text-primary" href="<?php echo lsdc_product_download_link( $product->id ); ?>">Download v<?php echo lsdc_product_download_version( $product->id ); ?></a></td>
+                        </tr>
+                      <?php endforeach; ?>
+        
                     <?php else: ?>
                       <tr>
                         <td>Fisik</td>
-                        <td>#<?php the_ID(); ?></td>
-                        <td><?php echo lsdc_date_format( get_the_date(), 'j M Y' ); ?></td>
-                        <td><a class="text-primary">Cek Resi</a></td>
+                        <td>INV#<?php echo abs( get_post_meta( get_the_ID(), 'order_id', true )); ?></td>
+                        <td><?php echo get_the_date( 'j M Y' ); ?></td>
+                        <td><a class="text-primary" target="_blank" href="https://cekresi.com/?noresi=<?php echo esc_attr( get_post_meta( get_the_ID(), 'resi', true ) ); ?>">Cek Resi</a></td>
                       </tr>
                     <?php endif; ?>
                 <?php endwhile; wp_reset_postdata(); ?>
@@ -305,7 +312,10 @@ get_header(); ?>
   </div>
 <?php else: ?>
   <div class="container max480">
-    <p class="lsdp-alert lsdc-info lsdp-mt-10 lsdp-mb-10 lsdp-mx-10"><?php _e( 'Silahkan Login untuk Mengakses Member Area', 'lsdcommerce' ); ?></p>
+    <div class="lsdp-alert lsdc-info lsdp-mt-10 lsdp-mb-10 lsdp-mx-10">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        <p><?php _e( 'Silahkan Login untuk Mengakses Member Area', 'lsdcommerce' ); ?></p>
+    </div>
   </div>
 <?php endif; ?>
 
