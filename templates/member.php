@@ -120,11 +120,18 @@ get_header(); ?>
                   <th><?php _e( "Total", 'lsdcommerce' ); ?></th>
                   <th><?php _e( "Tanggal", 'lsdcommerce' ); ?></th>
                 </tr>
-                <?php 
+                <?php
                     $query = new WP_Query( array( 
-                        'post_type' => 'lsdc-order',
-                        'post_status' => 'publish',
-                        'post_author' => $current_user->ID
+                      'post_type'   => 'lsdc-order',
+                      'post_status' => 'publish',
+                      'post_author' => $current_user->ID,
+                      'meta_query'  => array(
+                        array(
+                            'key'     => 'customer_id',
+                            'value'   => $current_user->ID,
+                            'compare' => '='
+                        )
+                      )
                     ));
                 ?>
                 <?php if ( $query->have_posts() ) : ?>
@@ -182,19 +189,27 @@ get_header(); ?>
           <?php 
             $shiping_query = new WP_Query( array( 
                 'post_type'   => 'lsdc-order',
-                // 'post_status' => 'publish',
-                // 'post_author' => $current_user->ID,
+                'post_status' => 'publish',
+                'post_author' => $current_user->ID,
                 'meta_query'  => array(
-                  'relation'  => 'OR', /* <-- here */
+                  'relation'  => 'AND', /* <-- here */
                   array(
-                      'key'     => 'status',
-                      'value'   => 'shipped',
-                      'compare' => '='
+                    'relation'  => 'OR', /* <-- here */
+                    array(
+                        'key'     => 'status',
+                        'value'   => 'shipped',
+                        'compare' => '='
+                    ),
+                    array(
+                        'key'     => 'status',
+                        'value'   => 'completed',
+                        'compare' => '='
+                    )
                   ),
                   array(
-                      'key'     => 'status',
-                      'value'   => 'completed',
-                      'compare' => '='
+                    'key'     => 'customer_id',
+                    'value'   => $current_user->ID,
+                    'compare' => '='
                   )
                 )
             ));

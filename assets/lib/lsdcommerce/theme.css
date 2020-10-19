@@ -563,14 +563,6 @@ body {
     appearance: none;
 }
 
-.lsdcommerce .form-group .inside-input {
-    right: 6px;
-    position: absolute;
-    top: 6px;
-    z-index: 999;
-    padding: 6px 25px 9px 24px;
-    background: var(--lsdc-color);
-}
 
 .lsdcommerce .form-control:focus,
 .lsdcommerce .form-control:active {

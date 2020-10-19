@@ -371,3 +371,11 @@ hr.border {
 #checkout-products tr{
     height: 50px;
 }
+
+.lsdc-tab-content h2 {
+    font-size: 1.2rem;
+}
+
+td.product-item.text-right {
+    width: 28%;
+}

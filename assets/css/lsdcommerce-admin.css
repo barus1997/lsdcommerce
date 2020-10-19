@@ -539,3 +539,7 @@ th#status {
   }
   
 }
+
+#appearance .form-group{
+  margin-bottom: 0 !important;
+}

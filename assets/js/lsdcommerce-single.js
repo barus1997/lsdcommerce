@@ -99,102 +99,97 @@ Javascript Code in Single Product
 	// ------------- Add to Cart ----------------- //
 	function lsdcommerce_addto_cart(inType, inID, inQTY, inPrice, inTitle) {
 		let cartProduct = cart.get('product', productID);
+		let variationElement = $('.product-variant .container .variant-item'); 
+		let variationID, variationName, variationPrice;
+		let variationObject = {};
 		let inputable = false;
 
 		// Set Qty to Zero if Undefined
-		if (cartProduct == undefined) {
-			cartProduct = {}
-			cartProduct['qty'] = 0;
-		}
+		if ( cartProduct == undefined ) cartProduct = {}; cartProduct['qty'] = 0;
 
-		let singleQtyControl = controlQty.find('.lsdc-qty input[name="qty"]'); // get single qrt
+		let singleQtyControl = controlQty.find('.lsdc-qty input[name="qty"]'); // get single qty
 		let singleQty = parseInt(singleQtyControl.val()) == null ? 0 : cartProduct.qty;
 
+		// Barang Masuk Ke keranjang
 		if (inType == 'add') {
-			if (cartProduct.qty < parseInt(productLimit)) {
-				productQty = singleQty + 1;
-				inputable = true;
+			/* PRO Code -- Ignore, But Don't Delete */
+			let variantSelected = {};
+
+			// Iterate Variations
+			variationElement.each(function (i, obj) {
+				// Get Variant ID 
+				let variantID = $(obj).find('.variant-name').attr('data-id');
+				// Get Variant Selected in Variant List
+				let variant = $(obj).find('input[type="radio"][name="' + variantID + '"]:checked');
+				let variantName = $(obj).find('label[for="' + variant.attr('id') + '"]').text();
+
+				console.log( variantID );
+				// Create Object Variant Selected
+				variantSelected = {
+					'id': variant.attr('id'),
+					'name': variantName,
+					'price': variant.attr('price'),
+					'qty': variant.attr('qty')
+				}
+				console.log( variantSelected );
+				// Populate Variation
+				variationID += variant.attr('id') + '-'; // Create ID Variation 123-hitam-xl
+				variationName = ' - ' + variantName;
+				variationPrice = parseInt(inPrice != null ? inPrice : productPrice) + parseInt(variant.attr('price'));
+				variationObject[variantID] = variantSelected;
+			});
+
+			console.log( variationObject );
+
+			// Removing Last Char '-' from add recrusive
+			variationID = variationID.slice(0, -1);
+
+			// Redefine Product ID if Variation Exists
+			if (variationID) {
+				variationID = productID + '-' + variationID;
+			} else {
+				variationID = productID;
 			}
 
-			// console.log( input_qty );
-			// if( input_type == 'sub' ){
-			// 	productQty = productQty - 1;
-			// }
-
-			/* PRO Code -- Ignore, But Don't Delete */
-			// let variant 		= $('.product-variant .container .variant-item');
-			// let variantChoose 	= {};
-			// let variationsID 	= '';
-			// let variationsName 	= '';
-			// let variationsPrice = '';
-
-			// // // Iterate Variations
-			// // variant.each(function (i, obj) {
-			// // 	let variantID = $(obj).find('.variant-name').attr('data-id');
-			// // 	let variantSelect = $(obj).find('input[type="radio"][name="' + variantID + '"]:checked');
-
-			// // 	let variantSelectedID = variantSelect.attr('id');
-			// // 	let variantName = $(obj).find('label[for="' + variantSelectedID + '"]').text();
-			// // 	let variantSelected = {
-			// // 		'id': variantSelectedID,
-			// // 		'name': variantName,
-			// // 		'price': variantSelect.attr('price'),
-			// // 		'qty': variantSelect.attr('qty')
-			// // 	}
-
-			// 	// Populate Variation
-			// 	variationsID 				+= variantSelectedID + '-';
-			// 	variationsPrice 			= parseInt(productPrice) + parseInt(variantSelect.attr('price'));
-			// 	variantChoose[variantID] 	= variantSelected;
-			// 	variationsName 				= ' - ' + variantName;
-			// });
-
-			// // Removing Last Char '-' from add recrusive
-			// variationsID = variationsID.slice(0, -1);
-
-			// // Redefine Product ID if Variation Exists
-			// if( variationsID ){
-			// 	let variationID = productID + '-' + variationsID;
-			// }else{
-			// 	let variationID = null;
-			// }
-			/* PRO Code -- Ignore, But Don't Delete */
-
-			/* PRO Code -- START - Ignore, But Don't Delete */
-			// if ( lsdc_checkVal(variantChoose) ) {
-			// 	// Set ID with Variation { productid-variationid }
-			// 	cart.set( input_type != null ? input_type : 'add', {
-			// 		"root" : variationID != null  ? variationID : productID,
-			// 		"id": input_id != null ? input_id : productID,
-			// 		"qty": input_qty != null ? input_qty : productQty,
-			// 		"title": input_title != null ? input_price : productTitle + variationsName,
-			// 		"price": input_price != null ? input_price : variationsPrice,
-			// 		"thumbnail": productThumb,
-			// 		"variations": variantChoose
-			// 	});
-			// /* PRO Code -- END - Ignore, But Don't Delete */
-			// } else {
-
-			// }
+				// Limiting Add to Cart
+				if( variationElement.length ){
+					if (cartProduct.qty < parseInt(productLimit)) {
+						productQty = singleQty + 1;
+					}
+				}else{
+					if (cartProduct.qty < parseInt(productLimit)) {
+						productQty = singleQty + 1;
+					}
+				}
+			// inType = inType != null ? inType : 'add';
+			// productID = inID != null ? inID : productID;
 		} else if (inType == 'sub') {
-			inputable = true;
+			inputable = false;
 		}
 
-		if (inputable) {
-			inType = inType != null ? inType : 'add';
-			productID = inID != null ? inID : productID;
-			let variationsID = null;
-
-			cart.set(inType, {
-				"id": productID,
-				"qty": inQTY != null ? inQTY : productQty,
-				"title": inTitle != null ? inTitle : productTitle,
-				"price": inPrice != null ? inPrice : productPrice,
-				"thumbnail": productThumb,
-				"variations": variationsID // Variation ID #Pro
-			});
+		// Check Variation ID Avaialble
+		if( inputable ){
+			if( variationID ){
+				cart.set(inType, {
+					"id": inID != null ? inID : productID,
+					"qty": inQTY != null ? inQTY : productQty,
+					"title": inTitle != null ? inTitle : productTitle + variationName,
+					"price": inPrice != null ? inPrice : variationPrice,
+					"thumbnail": productThumb,
+					"variation_id" : variationsID,
+					"variations": variantObject,
+				});
+			}else{
+				cart.set(inType, {
+					"id": inID != null ? inID : productID,
+					"qty": inQTY != null ? inQTY : productQty,
+					"title": inTitle != null ? inTitle : productTitle + variationName,
+					"price": inPrice != null ? inPrice : variationPrice,
+					"thumbnail": productThumb,
+				});
+			}
 		}
-
+	
 		return productID;
 	}
 
@@ -220,7 +215,7 @@ Javascript Code in Single Product
 
 	//  AddtoCart via QTY Add
 	$(document).on('click', '.plus', function (e) {
-		let plusInCart 	= null; // Add Qty on Cart
+		let plusInCart = null; // Add Qty on Cart
 		let plusInFloat = null; //Add Qty on FLoting Qty
 		controlCartQty = $(this).closest('.lsdc-qty').find('input[name="qty"]');
 		productQty = controlCartQty.val() == null ? 1 : parseInt(controlCartQty.val()); // Force set 1 if empty
@@ -269,7 +264,6 @@ Javascript Code in Single Product
 		} else {
 			minusInCart = true;
 		}
-
 		// Decrease Qty on click
 		controlCartQty.val(--productQty);
 
@@ -303,11 +297,40 @@ Javascript Code in Single Product
 			};
 			cartPopup.removeClass('show');
 			$('#cart-popup.overlay').trigger('click');
-			lsdcommerce_single_cartmanager(total.total_qty, lsdc_pub.translation.cart_empty );
+			lsdcommerce_single_cartmanager(total.total_qty, lsdc_pub.translation.cart_empty);
 			controlQty.hide();
 		} else {
 			lsdcommerce_single_cartmanager(total.total_qty, lsdcommerce_currency_format(true, total.total_price));
 		}
 	});
+	
 
 })(jQuery);
+
+// Produk Biasa
+// "58":{
+// 	"id":"58",
+// 	"qty":2,
+// 	"title":"Multimeter Digital",
+// 	"price":50000,
+// 	"thumbnail":"https://tokoalus.com/wp-content/uploads/2020/09/multitester-digital-ukuran-kantong.jpg",
+// }}
+
+// Produk Variasi
+// "58-hitam-xl":{
+// 	"id":"58",
+// 	"qty":2,
+// 	"title":"Multimeter Digital",
+// 	"price":50000,
+// 	"thumbnail":"https://tokoalus.com/wp-content/uploads/2020/09/multitester-digital-ukuran-kantong.jpg",
+// 	"variations": {
+// 		'hitam' : {
+// 			'price' : 10000,
+// 			'title' : 'Hitam'
+// 		},
+// 		'ukuran' : {
+// 			'price' : 20000,
+// 			'title' : 'XL'
+// 		}
+// 	}
+// }}
