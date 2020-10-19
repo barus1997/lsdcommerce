@@ -32,7 +32,7 @@ function lsdc_metabox_register()
 {
     add_meta_box(
         'lsdc_product_data',  
-         __( 'Product Data', 'lsdcommerce' ) ,              
+         __( 'Data Produk', 'lsdcommerce' ) ,              
         'lsdc_product_data', 
         'lsdc-product',                
         'normal',                 
@@ -140,19 +140,19 @@ function lsdc_product_data()
             <li class="wp-tab-active">
                 <a href="#price">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
-                    <span><?php _e( 'Price', 'lsdcommerce' ); ?></span>
+                    <span><?php _e( 'Harga', 'lsdcommerce' ); ?></span>
                 </a>
             </li>
             <li>
                 <a href="#stock">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-package"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                    <span><?php _e( 'Stock', 'lsdcommerce' ); ?></span>
+                    <span><?php _e( 'Stok', 'lsdcommerce' ); ?></span>
                 </a>
             </li>
             <li>
                 <a href="#shipping">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-                    <span><?php _e( 'Shipping', 'lsdcommerce' ); ?></span>
+                    <span><?php _e( 'Pengiriman', 'lsdcommerce' ); ?></span>
                 </a>
             </li>
 
@@ -168,10 +168,10 @@ function lsdc_product_data()
             $limit_order = empty( get_post_meta( $post->ID, '_limit_order', true ) ) ? 9999 : get_post_meta( $post->ID, '_limit_order', true );
             ?>
             <div class="metabox-field">
-                <label for="price_normal"><?php esc_attr_e( 'Normal Price', 'lsdcommerce' ); ?> ( <?php lsdc_currency_view( 'symbol' ); ?> )</label>
+                <label for="price_normal"><?php esc_attr_e( 'Harga Normal', 'lsdcommerce' ); ?> ( <?php lsdc_currency_view( 'symbol' ); ?> )</label>
                 <p class="mfield"><input type="text" name="price_normal" class="currency" placeholder="<?php lsdc_currency_view( 'format' ); ?>" value="<?php echo $price_normal; ?>"></p>
                 
-                <label for="price_discount"><?php esc_attr_e( 'Promo Price', 'lsdcommerce' ); ?> ( <?php lsdc_currency_view( 'symbol' ); ?> )</label>
+                <label for="price_discount"><?php esc_attr_e( 'Harga Promo', 'lsdcommerce' ); ?> ( <?php lsdc_currency_view( 'symbol' ); ?> )</label>
                 <p class="mfield"><input type="text" name="price_discount" class="currency" placeholder="<?php lsdc_currency_view( 'format' ); ?>" value="<?php echo $price_discount; ?>"></p>
             </div>
         </div>
@@ -179,14 +179,15 @@ function lsdc_product_data()
         <!-- Stock Tab -->
         <div class="wp-tab-panel lsdp-hide" id="stock">
             <div class="metabox-field">
-                <label for="stock"><?php esc_attr_e( 'Stock', 'lsdcommerce' ); ?> ( <small>9999 = <?php _e( 'Available', 'lsdcommerce' ); ?></small> )</label>
+                <label for="stock"><?php esc_attr_e( 'Stok', 'lsdcommerce' ); ?> ( <small>9999 = <?php _e( 'Available', 'lsdcommerce' ); ?></small> )</label>
                 <p class="mfield"><input type="text" name="stock" placeholder="9999" value="<?php echo get_post_meta( $post->ID, '_stock', true ); ?>"></p>
 
-                <label for="stock_unit"><?php esc_attr_e( 'Stock Unit', 'lsdcommerce' ); ?> </label>
+                <label for="stock_unit"><?php esc_attr_e( 'Stok Unit', 'lsdcommerce' ); ?> </label>
                 <p class="mfield"><input type="text" name="stock_unit" placeholder="pcs" value="<?php echo get_post_meta( $post->ID, '_stock_unit', true ); ?>"></p>
 
-                <label for="limit_order"><?php esc_attr_e( 'Limit Order', 'lsdcommerce' ); ?> </label>
+                <label for="limit_order"><?php esc_attr_e( 'Limit Pembelian', 'lsdcommerce' ); ?> </label>
                 <p class="mfield"><input type="text" name="limit_order" placeholder="1" value="<?php echo abs( $limit_order ); ?>"></p>
+                <small>Setiap orang yang berbelanja hanya bisa memasukan barang sesuai dengan limit pembelian</small>
             </div>
         </div>
 
@@ -195,12 +196,12 @@ function lsdc_product_data()
             <div class="tabs tabs-inside">
                 <!-- Digital -->
                 <input name="shipping_tabs" value="digital" type="radio"/>
-                <label class="label" for="shipping-1"><?php esc_attr_e( 'Digital', 'lsdcommerce' ); ?></label>
+                <label class="label" for="shipping-1"><?php esc_attr_e( 'Produk Digital', 'lsdcommerce' ); ?></label>
                 <div class="pane-metabox">
-                    <label for="digital_version"><?php esc_attr_e( 'Version', 'lsdcommerce' ); ?> : </label>
+                    <label for="digital_version"><?php esc_attr_e( 'Versi', 'lsdcommerce' ); ?> : </label>
                     <input type="text" class="form-input" name="digital_version" placeholder="1.0.0" value="<?php echo get_post_meta( $post->ID, '_digital_version', true ); ?>">
 
-                    <label for="digital_file" style="margin-left:10px;"><?php esc_attr_e( 'Product File', 'lsdcommerce' ); ?> : </label>
+                    <label for="digital_file" style="margin-left:10px;"><?php esc_attr_e( 'File', 'lsdcommerce' ); ?> : </label>
                      <!-- Hookable :: Extending for Upload via DropBox -->
                     <?php do_action( 'lsdc_product_upload' ); ?>
        
@@ -209,9 +210,9 @@ function lsdc_product_data()
                 </div>
                 <!-- Physical -->
                 <input name="shipping_tabs" value="physical" type="radio" />
-                <label class="label" for="shipping-2"><?php esc_attr_e( 'Physical', 'lsdcommerce' ); ?></label>
+                <label class="label" for="shipping-2"><?php esc_attr_e( 'Produk Fisik', 'lsdcommerce' ); ?></label>
                 <div class="pane-metabox">
-                    <label for="physical_weight"><?php esc_attr_e( 'Weight', 'lsdcommerce' ); ?> /g : </label>
+                    <label for="physical_weight"><?php esc_attr_e( 'Berat', 'lsdcommerce' ); ?> /g : </label>
                     <input type="text" class="form-input currency" name="physical_weight" placeholder="50" value="<?php echo get_post_meta( $post->ID, '_physical_weight', true ); ?>">
 
                     <label for="physical_volume" style="margin-left:10px"><?php esc_attr_e( 'Volume', 'lsdcommerce' ); ?> /cm : </label>

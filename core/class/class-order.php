@@ -73,8 +73,8 @@ class LSDC_Order
             $user_data = array(
                 'user_login'    => $username,
                 'user_pass'     => $password,
-                'first_name'    => esc_attr( $names[0] ),
-                'last_name'     => esc_attr( $names[1] ),
+                'first_name'    => ( ! isset( $names[1] ) ) ? $names : esc_attr( $names[0] ),
+                'last_name'     => ( ! isset( $names[1] ) ) ? '' : esc_attr( $names[1] ),
                 'user_email'    => $order_object['form']['email'],
                 'role'          => 'customer'
             );
@@ -129,20 +129,25 @@ class LSDC_Order
             }
              /* End - Pro CODE, Ignore, Don't Delete */
             
+            //  Product Price Support Variation
             $product_price = $variation_id != null ? lsdc_product_variation_price( $product_id, $variation_id ) : lsdc_product_price( $product_id );
+
+            // Product QTy based on LImit Order
+            $limit_order = get_post_meta( $product_id, '_limit_order', true );
+            $product_qty = $limit_order > abs( $product['qty'] )  ? abs( $product['qty'] ) : abs( $limit_order );
 
             // ReAssign to Order Object
             $order_object['products'][$key]['id']           = $product_id;
-            $order_object['products'][$key]['qty']          = abs( $product['qty'] );
+            $order_object['products'][$key]['qty']          = $product_qty ;
             $order_object['products'][$key]['price_unit']   = $product_price; 
             $order_object['products'][$key]['price_unit_text'] = $product_price != 0 ? lsdc_currency_format( false, $product_price ) : __( 'Gratis', 'lsdcommerce' ); 
             $order_object['products'][$key]['weight_unit']  = abs( get_post_meta( $product_id, '_physical_weight', true ) );
             $order_object['products'][$key]['title']        = get_the_title( $product_id );
             $order_object['products'][$key]['thumbnail']    = get_the_post_thumbnail_url( $product_id , 'lsdc-thumbnail-mini' );
-            $order_object['products'][$key]['total']        = lsdc_currency_format( true, $product_price * abs( $product['qty'] ) );
+            $order_object['products'][$key]['total']        = lsdc_currency_format( true, $product_price * $product_qty );
 
-            $subtotal   += $product_price * abs( $product['qty'] );
-            $weights    += abs( get_post_meta( $product_id, '_physical_weight', true ) ) * abs( $product['qty'] );
+            $subtotal   += $product_price * $product_qty;
+            $weights    += abs( get_post_meta( $product_id, '_physical_weight', true ) ) * $product_qty;
         }
 
         //--> Calculating Extras Cost
@@ -198,7 +203,7 @@ class LSDC_Order
             'post_type'     => 'lsdc-order', 
             'post_title'    => $order_object['order_id'],
             'post_status'   => 'publish', 
-            'post_author'   => $order_object['form']['id']
+            'post_author'   => get_current_user_id()
         );
         $order_id = wp_insert_post( $args );
 

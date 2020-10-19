@@ -30,7 +30,7 @@ function lsdc_admin_order_columns_content( $column, $order_id ) {
 
     // Date Order
     if ( 'date_order' === $column ) {
-        if( lsdc_date_diff(get_the_date( 'Y-m-d H:i:s', $order_id ), lsdc_date_now() ) > 1 ){
+        if( lsdc_date_diff(get_the_date( 'Y-m-d H:i:s', $order_id ), lsdc_date_now() ) > 0 ){
              echo get_the_date( 'j F Y', $order_id ) . ' @' . get_the_time('H:i:s', $order_id );
         }else{
             echo human_time_diff(  strtotime( get_the_date( 'Y-m-d H:i:s', $order_id ) )  , current_time( 'timestamp' ) ) . __( ' ago', 'lsdcommerce' );

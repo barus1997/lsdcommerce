@@ -36,7 +36,7 @@ set_lsdcommerce();
                             ));
                         ?>
                         <?php if ( $query->have_posts() ) : ?>
-                            <div class="lsdp-row pt-20 lsdp-pl-10">
+                            <div class="lsdp-row lsdp-pt-10 lsdp-pl-10">
                             <?php while ( $query->have_posts() ) : $query->the_post(); ?>
 
                                 <div class="lsdc-product-item col-6">

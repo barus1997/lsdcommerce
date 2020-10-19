@@ -167,7 +167,7 @@ function lsdc_date_now(){
     return date( 'Y-m-d H:i:s', current_time( 'timestamp', 0 ) );
 }
 // Format Date
-function lsdc_date_format( $str, $format = 'j M Y ' ){
+function lsdc_date_format( $str, $format = 'j M Y' ){
     return date( $format, strtotime( $str ));
 }
 // Getting Date Diff
