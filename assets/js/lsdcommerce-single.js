@@ -100,12 +100,15 @@ Javascript Code in Single Product
 	function lsdcommerce_addto_cart(inType, inID, inQTY, inPrice, inTitle) {
 		let cartProduct = cart.get('product', productID);
 		let variationElement = $('.product-variant .container .variant-item'); 
-		let variationID, variationName, variationPrice;
+		let variationID, variationName, variationPrice = '';
 		let variationObject = {};
 		let inputable = false;
 
 		// Set Qty to Zero if Undefined
 		if ( cartProduct == undefined ) cartProduct = {}; cartProduct['qty'] = 0;
+
+		// Reset Product ID from Variation ID
+		if( isNaN( productID ) ) productID = productID.split( '-', 2 )[0];
 
 		let singleQtyControl = controlQty.find('.lsdc-qty input[name="qty"]'); // get single qty
 		let singleQty = parseInt(singleQtyControl.val()) == null ? 0 : cartProduct.qty;
@@ -113,84 +116,86 @@ Javascript Code in Single Product
 		// Barang Masuk Ke keranjang
 		if (inType == 'add') {
 			/* PRO Code -- Ignore, But Don't Delete */
-			let variantSelected = {};
 
-			// Iterate Variations
-			variationElement.each(function (i, obj) {
-				// Get Variant ID 
-				let variantID = $(obj).find('.variant-name').attr('data-id');
-				// Get Variant Selected in Variant List
-				let variant = $(obj).find('input[type="radio"][name="' + variantID + '"]:checked');
-				let variantName = $(obj).find('label[for="' + variant.attr('id') + '"]').text();
+			if( variationElement.length ){
+				let variantSelected = {};
+				variationID = '';
+				// Iterate Variations
+				variationElement.each(function (i, obj) {
+					// Get Variant ID 
+					let variantID = $(obj).find('.variant-name').attr('data-id');
+					// Get Variant Selected in Variant List
+					let variant = $(obj).find('input[type="radio"][name="' + variantID + '"]:checked');
+					let variantName = $(obj).find('label[for="' + variant.attr('id') + '"]').text();
+					let variantQtyLimit = variant.attr('qty');
 
-				console.log( variantID );
-				// Create Object Variant Selected
-				variantSelected = {
-					'id': variant.attr('id'),
-					'name': variantName,
-					'price': variant.attr('price'),
-					'qty': variant.attr('qty')
+					// Create Object Variant Selected
+					variantSelected[variant.attr('id')] = {
+						'name': variantName,
+						'price': variant.attr('price')
+					}
+					
+					// Populate Variation
+					if( variant.attr('id') ){
+						variationID += variant.attr('id') + '-'; // Create ID Variation 123-hitam-xl
+						variationName = ' - ' + variantName;
+						variationPrice = parseInt(inPrice != null ? inPrice : productPrice) + parseInt(variant.attr('price'));
+						variationObject[variantID] = variantSelected;
+					}
+
+				});
+				// Removing Last Char '-' from add recrusive
+				variationID = variationID.slice(0, -1);
+
+				// Redefine Product ID if Variation Exists
+				if (variationID) {
+					variationID = productID + '-' + variationID;
+				} else {
+					variationID = productID;
 				}
-				console.log( variantSelected );
-				// Populate Variation
-				variationID += variant.attr('id') + '-'; // Create ID Variation 123-hitam-xl
-				variationName = ' - ' + variantName;
-				variationPrice = parseInt(inPrice != null ? inPrice : productPrice) + parseInt(variant.attr('price'));
-				variationObject[variantID] = variantSelected;
-			});
 
-			console.log( variationObject );
-
-			// Removing Last Char '-' from add recrusive
-			variationID = variationID.slice(0, -1);
-
-			// Redefine Product ID if Variation Exists
-			if (variationID) {
-				variationID = productID + '-' + variationID;
-			} else {
-				variationID = productID;
+				// Limit Add to Cart over Quantity Max
+				productQty = singleQty + 1;
+			}else{
+				// Limit Order
+				if (cartProduct.qty < parseInt(productLimit)) {
+					productQty = singleQty + 1;
+				}
 			}
 
-				// Limiting Add to Cart
-				if( variationElement.length ){
-					if (cartProduct.qty < parseInt(productLimit)) {
-						productQty = singleQty + 1;
-					}
-				}else{
-					if (cartProduct.qty < parseInt(productLimit)) {
-						productQty = singleQty + 1;
-					}
-				}
-			// inType = inType != null ? inType : 'add';
-			// productID = inID != null ? inID : productID;
+			inputable = true;
 		} else if (inType == 'sub') {
-			inputable = false;
+			inputable = true;
+			// Sub Product Variation
 		}
+		
 
 		// Check Variation ID Avaialble
 		if( inputable ){
 			if( variationID ){
 				cart.set(inType, {
-					"id": inID != null ? inID : productID,
+					"id": variationID,
 					"qty": inQTY != null ? inQTY : productQty,
 					"title": inTitle != null ? inTitle : productTitle + variationName,
 					"price": inPrice != null ? inPrice : variationPrice,
 					"thumbnail": productThumb,
-					"variation_id" : variationsID,
-					"variations": variantObject,
+					"variation_id" : variationID,
+					"variations": variationObject,
 				});
+				return variationID;
 			}else{
 				cart.set(inType, {
 					"id": inID != null ? inID : productID,
 					"qty": inQTY != null ? inQTY : productQty,
-					"title": inTitle != null ? inTitle : productTitle + variationName,
-					"price": inPrice != null ? inPrice : variationPrice,
+					"title": inTitle != null ? inTitle : productTitle,
+					"price": inPrice != null ? inPrice : productPrice,
 					"thumbnail": productThumb,
 				});
+				return productID;
 			}
 		}
 	
-		return productID;
+	
 	}
 
 	// AddtoCart via Button
@@ -203,13 +208,15 @@ Javascript Code in Single Product
 		cartPopup.find('.cart-body').addClass('hidden');
 		controlQty.show(); // Show Qty
 
-		// Adding to Cart
+		// Adding to Carta
 		productID = lsdcommerce_addto_cart('add');
 		let carts = cart.get('product', productID);
-		let total = cart.get('total');
-
+		 //Change ID for Variation
+		controlQty.attr( 'product-id', productID );
 		// Set Qty and CartManager by Carts Quantity
 		controlQty.find('.lsdc-qty input[name="qty"]').val(carts.qty);
+
+		let total = cart.get('total');
 		lsdcommerce_single_cartmanager(total.total_qty, lsdcommerce_currency_format(true, total.total_price));
 	});
 
@@ -253,10 +260,10 @@ Javascript Code in Single Product
 	$(document).on('click', '.minus', function (e) {
 		let minusInCart = null;
 		let minusInFloat = null;
-		controlCartQty = $(this).closest('.lsdc-qty').find('input[name="qty"]');
+
+		controlCartQty = $(this).closest('.lsdc-qty').find('input[name="qty"]'); // Control Qty
 		productQty = parseInt((controlCartQty.val()) == null ? 1 : controlCartQty.val()); // Force set 1 if empty
 		productID = $(this).closest('.item').attr('id'); // Get Product ID
-
 		// Minus in Float Qty not on Cart Manager
 		if (productID == undefined) {
 			minusInFloat = true;
@@ -264,12 +271,14 @@ Javascript Code in Single Product
 		} else {
 			minusInCart = true;
 		}
+
 		// Decrease Qty on click
 		controlCartQty.val(--productQty);
 
 		let product_cart = cart.get('product', productID); //Get Detail Product by ID
 
-		if (minusInFloat && productQty == 0) { // Hold Product if Minus in Float
+
+		if (minusInFloat && productQty == 0) { // Hold Product if Minus in Float and Cart not Show
 
 			controlCartQty.val(1); // Updating Quantity UI
 			lsdcommerce_addto_cart('hold', productID, productQty, productPrice, productTitle);
@@ -280,9 +289,11 @@ Javascript Code in Single Product
 			controlCartQty.val(productQty); // Sync and Set Qty
 			$(this).closest('.item').find('.price').text(lsdcommerce_currency_format(true, product_cart.price * productQty)); // Refersh New Price based On Qty
 			lsdcommerce_addto_cart('sub', productID, productQty, product_cart.price, productTitle); // Decrease Qty
+			
 			// Minus in Cart -> Remove Product
 			if (minusInCart && productQty == 0) {
-				cart.delete(productID);
+				productID = $(this).closest('.item').attr('id'); // Get Product ID
+				cart.delete( productID );
 				$('.cart-qty-float input').val(0);
 				$(this).closest('.item').remove();
 			}
