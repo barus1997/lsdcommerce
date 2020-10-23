@@ -99,6 +99,7 @@ Javascript Code in Single Product
 	// ------------- Add to Cart ----------------- //
 	function lsdcommerce_addto_cart(inType, inID, inQTY, inPrice, inTitle) {
 		let cartProduct = cart.get('product', productID);
+	
 		let variationElement = $('.product-variant .container .variant-item'); 
 		let variationID, variationName, variationPrice = '';
 		let variationObject = {};
@@ -116,9 +117,9 @@ Javascript Code in Single Product
 		// Barang Masuk Ke keranjang
 		if (inType == 'add') {
 			/* PRO Code -- Ignore, But Don't Delete */
-
 			if( variationElement.length ){
 				let variantSelected = {};
+				let variantQtyLimit = 0;
 				variationID = '';
 				// Iterate Variations
 				variationElement.each(function (i, obj) {
@@ -127,13 +128,15 @@ Javascript Code in Single Product
 					// Get Variant Selected in Variant List
 					let variant = $(obj).find('input[type="radio"][name="' + variantID + '"]:checked');
 					let variantName = $(obj).find('label[for="' + variant.attr('id') + '"]').text();
-					let variantQtyLimit = variant.attr('qty');
+					variantQtyLimit = variant.attr('qty');
 
 					// Create Object Variant Selected
 					variantSelected[variant.attr('id')] = {
 						'name': variantName,
 						'price': variant.attr('price')
 					}
+
+					console.log( variantQtyLimit );
 					
 					// Populate Variation
 					if( variant.attr('id') ){
@@ -154,22 +157,30 @@ Javascript Code in Single Product
 					variationID = productID;
 				}
 
+				
+
 				// Limit Add to Cart over Quantity Max
-				productQty = singleQty + 1;
+				// let cartProduct = cart.get('product', variationID);
+
+				// if (cartProduct.qty < parseInt(variantQtyLimit)) {
+					productQty = singleQty + 1;
+					inputable = true;
+				// }
 			}else{
 				// Limit Order
 				if (cartProduct.qty < parseInt(productLimit)) {
 					productQty = singleQty + 1;
+					inputable = true;
 				}
 			}
 
-			inputable = true;
+			
 		} else if (inType == 'sub') {
 			inputable = true;
 			// Sub Product Variation
 		}
 		
-
+		console.log( variationID );
 		// Check Variation ID Avaialble
 		if( inputable ){
 			if( variationID ){
@@ -222,8 +233,8 @@ Javascript Code in Single Product
 
 	//  AddtoCart via QTY Add
 	$(document).on('click', '.plus', function (e) {
-		let plusInCart = null; // Add Qty on Cart
-		let plusInFloat = null; //Add Qty on FLoting Qty
+		let inputable = false;
+		let plusInCart, plusInFloat = null; // Add Qty on Cart
 		controlCartQty = $(this).closest('.lsdc-qty').find('input[name="qty"]');
 		productQty = controlCartQty.val() == null ? 1 : parseInt(controlCartQty.val()); // Force set 1 if empty
 		productID = $(this).closest('.item').attr('id'); // Get Product ID
@@ -236,8 +247,30 @@ Javascript Code in Single Product
 			plusInCart = true;
 		}
 
+		/* PRO Code -- Ignore, But Don't Delete */
+		let variationElement = $('.product-variant .container .variant-item'); 
+		let variantQtyLimit = 0;
+		if( variationElement.length ){
+			// Iterate Variations
+			variationElement.each(function (i, obj) {
+				let variantID = $(obj).find('.variant-name').attr('data-id');
+				let variant = $(obj).find('input[type="radio"][name="' + variantID + '"]:checked');
+				variantQtyLimit = variant.attr('qty');
+			});
 
-		if (productQty < productLimit) { // Limit Order
+			if ( productQty < variantQtyLimit ) { // Limit Order
+				inputable = true;
+			}
+
+		}else{
+
+			if ( productQty < productLimit ) { // Limit Order
+				inputable = true;
+			}
+	
+		}
+
+		if( inputable ){
 			controlCartQty.val(++productQty); // Increase Quantity
 			controlQty.find('input[name="qty"]').val(productQty); // Sync and Set Qty
 
@@ -269,7 +302,7 @@ Javascript Code in Single Product
 			minusInFloat = true;
 			productID = $(this).closest('.cart-qty-float').attr('product-id'); // Get Product ID
 		} else {
-			minusInCart = true;
+			minusInCart = true; 
 		}
 
 		// Decrease Qty on click

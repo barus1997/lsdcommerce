@@ -31,15 +31,15 @@ Class LSDCommerce_Public_AJAX{
         $validation     = false;
 
         #Flooding Blocker
-        if( $timestamp > 550 ){ // Passed
-            LSDC_Logger::log( 'Checkout Flooding from ' . lsdc_get_ip(), LSDC_Logger::WARNING );
-            die( "_token_expired" );
-        }
+        // if( $timestamp > 550 ){ // Passed
+        //     LSDC_Logger::log( 'Checkout Flooding from ' . lsdc_get_ip(), LSDC_Logger::WARNING );
+        //     die( "_token_expired" );
+        // }
 
         // Have Checkout Token
-        if( $user_token ){
+        // if( $user_token ){
             $order_object  = $_REQUEST['order']; //from JS ( Shipping, Customer, Products )
-            // var_dump( $order_objecvar_dump( $order_object );t ); //DEBUG MODE
+            var_dump( $order_object );
 
             #Email Exist in Member
             $user = get_user_by( 'email', $order_object['form']['email'] );
@@ -54,17 +54,17 @@ Class LSDCommerce_Public_AJAX{
                 // Guest Checkout
                 $validation = true;
             }
-        }else{
-            die( "_token_expired" );
-        }
+        // }else{
+        //     die( "_token_expired" );
+        // }
 
-        if( $validation ){
-            $order_object['order_key'] = $token;
+        // if( $validation ){
+        //     $order_object['order_key'] = $token;
         
             $new = new LSDC_Order;
             $new->create_order( $order_object );
-            echo $new->thankyou_url( $token );
-        }
+        //     echo $new->thankyou_url( $token );
+        // }
 
         wp_die();
     }
@@ -100,7 +100,14 @@ Class LSDCommerce_Shipping_AJAX{
         if( isset($carts) ){
             foreach ($carts as $key => $product) {
                 // Variation
-                $shipping_type = get_post_meta( $product->id, '_shipping_type', true );
+                $product_id = null;
+                if( ! is_nan( $product->id ) ){
+                    $product_id = explode( '-', $product->id )[0];
+                }else{
+                    $product_id = $product->id;
+                }
+                
+                $shipping_type = get_post_meta(  $product_id, '_shipping_type', true );
                 switch ($shipping_type) {
                     case 'physical':
                         $shipping_physical = true;
@@ -153,7 +160,9 @@ Class LSDCommerce_Shipping_AJAX{
     
         <!-- Empty and Not Set Shipping Channel -->
         <?php if( empty($shipping_physical_list) && empty($shipping_digital_list) ) : ?>
-            <?php _e( 'Please contact admin to set up a shipping channel', 'lsdcommerce' ); ?>
+            <div class="lsdp-alert lsdc-info lsdp-mt-10 lsdp-mx-10">
+                <?php _e( 'Please contact admin to set up a shipping channel', 'lsdcommerce' ); ?>
+            </div>
         <?php endif; 
     }
 
