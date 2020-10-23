@@ -118,16 +118,22 @@ class LSDC_Order
         foreach ( $order_object['products'] as $key => $product ) 
         {
             $variation_id   = null;
-            $product_id     = abs( $product['id'] ); // get ID from JS
+            $product_id     = null; // get ID from JS
+            if( is_nan( abs( $product['id'] ) ) ){
+                $product_id = explode( '-', abs( $product['id'] ) )[0];
+                $variation_id = $product['id'];
+            }else{
+                $product_id = abs( $product['id'] );
+            }
 
             /* Start - Pro CODE, Ignore, Don't Delete */
-            if( isset( $product['variations'] ) ){
-                if( lsdc_isVariation($product_id, esc_attr( $product['variations'] ) ) ){
-                    $variation_id = esc_attr( $product['variations'] );
-                }
-                $order_object['products'][$key]['variations']    = $variation_id;
+            if( $variation_id ){
+                // if( lsdc_isVariation($product_id, esc_attr( $product['variation_id'] ) ) ){
+                //     $variation_id = esc_attr( $product['variations'] );
+                // }
+                $order_object['products'][$key]['variation_id'] = $variation_id;
             }
-             /* End - Pro CODE, Ignore, Don't Delete */
+            /* End - Pro CODE, Ignore, Don't Delete */
             
             //  Product Price Support Variation
             $product_price = $variation_id != null ? lsdc_product_variation_price( $product_id, $variation_id ) : lsdc_product_price( $product_id );
@@ -156,90 +162,90 @@ class LSDC_Order
         $extras['extras']['shipping'] = $order_object['shipping']; // Assign Shipping for Calculation
         $extras['extras']['shipping']['weights'] = $weights; //Assign Weights for  Calculation
         
-        // Calculate Shipping Cost via lsdcommerce_payment_extras
-        $surcharge = 0;
-        if( has_filter('lsdcommerce_payment_extras') ) {
-            // Procssing Raw Data from JS to Clean PHP
-            $extras = apply_filters('lsdcommerce_payment_extras', $extras ); // Calculation in Callback Function
-            if( $extras ){
-                foreach ($extras as $key => $item) {
-                    if( isset( $item['cost'] ) ){ //cost exist
-                        $surcharge += intval( $item['cost'] ); // calc every extra
-                    }
-                }
-            }
-        }
+        // // Calculate Shipping Cost via lsdcommerce_payment_extras
+        // $surcharge = 0;
+        // if( has_filter('lsdcommerce_payment_extras') ) {
+        //     // Procssing Raw Data from JS to Clean PHP
+        //     $extras = apply_filters('lsdcommerce_payment_extras', $extras ); // Calculation in Callback Function
+        //     if( $extras ){
+        //         foreach ($extras as $key => $item) {
+        //             if( isset( $item['cost'] ) ){ //cost exist
+        //                 $surcharge += intval( $item['cost'] ); // calc every extra
+        //             }
+        //         }
+        //     }
+        // }
 
-        // unset($extras['extras']);
-        $order_object['weights']   = $weights;
-        $order_object['surcharge'] = $surcharge;
+        // // unset($extras['extras']);
+        // $order_object['weights']   = $weights;
+        // $order_object['surcharge'] = $surcharge;
 
-        // Payment Data
-        $payment_data = array(
-            'payment_name'          => lsdc_get_payment( $order_object['payment'], 'groupname' ) . lsdc_get_payment( $order_object['payment'], 'name' ),
-            'payment_logo'          => lsdc_get_payment( $order_object['payment'], 'logo' ),
-            'payment_instruction'   => lsdc_get_payment( $order_object['payment'], 'instruction' ),
-            'code_label'            => lsdc_get_payment( $order_object['payment'], 'swiftcode' ) != null ? __( 'BIC/SWIFT : ', 'lsdcommerce' ) : null,
-            'code_value'            => lsdc_get_payment( $order_object['payment'], 'swiftcode' ),
-            'account_label'         => lsdc_get_payment( $order_object['payment'], 'account_number' ) != null ? __( 'No Rekening : ', 'lsdcommerce' ) : null,
-            'account_code'          => lsdc_get_payment( $order_object['payment'], 'account_code' ) != null ? lsdc_get_payment( $order_object['payment'], 'account_code' ) : null,
-            'account_number'        => lsdc_get_payment( $order_object['payment'], 'account_number' ),
-            'holder_label'          => lsdc_get_payment( $order_object['payment'], 'account_holder' ) != null ?__( 'Atas Nama : ', 'lsdcommerce' ) : null,
-            'holder_value'          => lsdc_get_payment( $order_object['payment'], 'account_holder' )
-        );
+        // // Payment Data
+        // $payment_data = array(
+        //     'payment_name'          => lsdc_get_payment( $order_object['payment'], 'groupname' ) . lsdc_get_payment( $order_object['payment'], 'name' ),
+        //     'payment_logo'          => lsdc_get_payment( $order_object['payment'], 'logo' ),
+        //     'payment_instruction'   => lsdc_get_payment( $order_object['payment'], 'instruction' ),
+        //     'code_label'            => lsdc_get_payment( $order_object['payment'], 'swiftcode' ) != null ? __( 'BIC/SWIFT : ', 'lsdcommerce' ) : null,
+        //     'code_value'            => lsdc_get_payment( $order_object['payment'], 'swiftcode' ),
+        //     'account_label'         => lsdc_get_payment( $order_object['payment'], 'account_number' ) != null ? __( 'No Rekening : ', 'lsdcommerce' ) : null,
+        //     'account_code'          => lsdc_get_payment( $order_object['payment'], 'account_code' ) != null ? lsdc_get_payment( $order_object['payment'], 'account_code' ) : null,
+        //     'account_number'        => lsdc_get_payment( $order_object['payment'], 'account_number' ),
+        //     'holder_label'          => lsdc_get_payment( $order_object['payment'], 'account_holder' ) != null ?__( 'Atas Nama : ', 'lsdcommerce' ) : null,
+        //     'holder_value'          => lsdc_get_payment( $order_object['payment'], 'account_holder' )
+        // );
 
-        //Calc GrandTotal
-        $total = 0;
-        $total = $subtotal + $surcharge;
+        // //Calc GrandTotal
+        // $total = 0;
+        // $total = $subtotal + $surcharge;
 
-        $ip_address                 = lsdc_get_ip();
-        $order_object['ip']         = $ip_address;
-        $order_object['currency']   = lsdc_currency_get();
-        $order_object['date']       = lsdc_date_now();
-        $order_object['reference']  = '';
-        $order_object['order_id']   = $this->get_order_ID();
+        // $ip_address                 = lsdc_get_ip();
+        // $order_object['ip']         = $ip_address;
+        // $order_object['currency']   = lsdc_currency_get();
+        // $order_object['date']       = lsdc_date_now();
+        // $order_object['reference']  = '';
+        // $order_object['order_id']   = $this->get_order_ID();
 
-        $args = array( 
-            'post_type'     => 'lsdc-order', 
-            'post_title'    => $order_object['order_id'],
-            'post_status'   => 'publish', 
-            'post_author'   => get_current_user_id()
-        );
-        $order_id = wp_insert_post( $args );
+        // $args = array( 
+        //     'post_type'     => 'lsdc-order', 
+        //     'post_title'    => $order_object['order_id'],
+        //     'post_status'   => 'publish', 
+        //     'post_author'   => get_current_user_id()
+        // );
+        // $order_id = wp_insert_post( $args );
 
-        // Saving Snapshot
-        add_post_meta( $order_id, '_snapshot', json_encode( $order_object ) );
-        add_post_meta( $order_id, 'order_id', esc_attr( $order_object['order_id'] )  );
-        add_post_meta( $order_id, 'order_key', esc_attr( $order_object['order_key'] )  );
+        // // Saving Snapshot
+        // add_post_meta( $order_id, '_snapshot', json_encode( $order_object ) );
+        // add_post_meta( $order_id, 'order_id', esc_attr( $order_object['order_id'] )  );
+        // add_post_meta( $order_id, 'order_key', esc_attr( $order_object['order_key'] )  );
 
-        add_post_meta( $order_id, 'customer_id', json_encode( $order_object['form']['id'] ) ); // was validate
-        add_post_meta( $order_id, 'customer', json_encode( $order_object['form'] ) ); // was validate
-        add_post_meta( $order_id, 'shipping', json_encode( $order_object['shipping'] ) ); // was calculate
-        add_post_meta( $order_id, 'products', json_encode( $order_object['products'] ) ); // was saved, harus di save, jadi meskipun ada perubahan adata nggak bakal berubah
-        add_post_meta( $order_id, 'extras', json_encode( $extras ) ); // was calc
-        add_post_meta( $order_id, 'payment_id', esc_attr( $order_object['payment'] ) );
-        add_post_meta( $order_id, 'payment_data', json_encode( $payment_data ) );
+        // add_post_meta( $order_id, 'customer_id', json_encode( $order_object['form']['id'] ) ); // was validate
+        // add_post_meta( $order_id, 'customer', json_encode( $order_object['form'] ) ); // was validate
+        // add_post_meta( $order_id, 'shipping', json_encode( $order_object['shipping'] ) ); // was calculate
+        // add_post_meta( $order_id, 'products', json_encode( $order_object['products'] ) ); // was saved, harus di save, jadi meskipun ada perubahan adata nggak bakal berubah
+        // add_post_meta( $order_id, 'extras', json_encode( $extras ) ); // was calc
+        // add_post_meta( $order_id, 'payment_id', esc_attr( $order_object['payment'] ) );
+        // add_post_meta( $order_id, 'payment_data', json_encode( $payment_data ) );
 
-        add_post_meta( $order_id, 'subtotal', $subtotal );
-        add_post_meta( $order_id, 'surcharge', $surcharge ); // Shipping, UniqueCode, Additional
-        add_post_meta( $order_id, 'total', $total );
-        add_post_meta( $order_id, 'ip', esc_attr( $order_object['ip'] ) );
+        // add_post_meta( $order_id, 'subtotal', $subtotal );
+        // add_post_meta( $order_id, 'surcharge', $surcharge ); // Shipping, UniqueCode, Additional
+        // add_post_meta( $order_id, 'total', $total );
+        // add_post_meta( $order_id, 'ip', esc_attr( $order_object['ip'] ) );
 
-        // Triggering Notification
-        lsdc_order_status( $order_id, 'new' );
+        // // Triggering Notification
+        // lsdc_order_status( $order_id, 'new' );
 
-        // Free Product
-        if( $total == 0 ) {
-            lsdc_order_status( $order_id, 'processed', true );
-        }
+        // // Free Product
+        // if( $total == 0 ) {
+        //     lsdc_order_status( $order_id, 'processed', true );
+        // }
 
-        // Testing Shipping and Notification Direct
-        // lsdc_shipping_schedule_action( $order_id );
-        // lsdc_notification_schedule_action( $order_id, 'order' );
+        // // Testing Shipping and Notification Direct
+        // // lsdc_shipping_schedule_action( $order_id );
+        // // lsdc_notification_schedule_action( $order_id, 'order' );
 
-        // Flag Remove Token
-        delete_transient( 'lsdc_checkout_' . $order_object['order_key']  );
-        lsdc_order_unread_counter(); // Adding Order Counter
+        // // Flag Remove Token
+        // delete_transient( 'lsdc_checkout_' . $order_object['order_key']  );
+        // lsdc_order_unread_counter(); // Adding Order Counter
 
         $end_time = microtime(true); 
         $execution_time = ($end_time - $start_time); 
