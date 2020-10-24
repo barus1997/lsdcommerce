@@ -27,10 +27,15 @@ function validateEmail(email) {
 		
 		// currency_validate
 		$(this).val(function(index, value) {
-			return value
-			.replace(/\D/g, "")
-			.replace(/^0+/, '') // Removing Leading by Zero
-			.replace(/\B(?=(\d{3})+(?!\d))/g, separator);
+			if( value == 0 ){
+				return 0;
+			}else{
+				return value
+				.replace(/\D/g, "")
+				.replace(/^0+/, '') // Removing Leading by Zero
+				.replace(/\B(?=(\d{3})+(?!\d))/g, separator);
+			}
+
 		});
 	});
 

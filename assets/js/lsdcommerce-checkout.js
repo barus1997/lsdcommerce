@@ -290,7 +290,7 @@ Public Javascript and JQuery Function
 		if (carts.length != 0) {
 			// Set Up Product Object
 			var products = [];
-			console.log( carts );
+
 			Object.values(carts).forEach(function (item, index, arr) {
 				if (item.variations) {
 					let key = Object.keys(item.variations);
@@ -308,7 +308,7 @@ Public Javascript and JQuery Function
 
 			});
 		} else {
-			// location.reload();
+			location.reload();
 		}
 
 		// Customer -- Shipping -- Products = Exist
@@ -332,9 +332,9 @@ Public Javascript and JQuery Function
 					// Response Failed :: ( Token Expired ) 
 					if (response == '_token_expired') {
 						lsdcommerce_checkout_notify('Token Kadaluarsa, Halaman akan di perbaharui');
-						// setTimeout(() => {
-						// 	location.reload();
-						// }, 1500);
+						setTimeout(() => {
+							location.reload();
+						}, 1600);
 					}
 
 					if ($.trim(response) == '_email_registered') {
@@ -346,14 +346,14 @@ Public Javascript and JQuery Function
 					// Response Success :: Redirect
 					response = JSON.parse(response);
 					if ( response.code == '_order_created') {
-						// cart.reset();
-						// location.href = response.redirect; // Default Thankyou Page
+						cart.reset();
+						location.href = response.redirect; // Default Thankyou Page
 					}
 
 				}).fail(function () {
 				// Auto Reload when Error
-				// alert('Failed, please check your internet');
-				// location.reload();
+				alert('Failed, please check your internet');
+				location.reload();
 			});
 		} else { //Validation False = Back to First Slide
 			lsdc_checkout_nextslide(0);
@@ -361,13 +361,5 @@ Public Javascript and JQuery Function
 		}
 
 	});
-
-	// // Pro Code
-	// $(document).on("click", ".lsd-toggle", function (e) {
-	// 	$(this).hide();
-	// 	let target = $(this).attr('toggle');
-	// 	$( '.' + target ).toggleClass( 'hidden' );
-	// 	$( '.checkout-form' ).toggleClass( 'hidden' );
-	// });
 
 })(jQuery);
