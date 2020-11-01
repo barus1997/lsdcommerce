@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <div class="card-body lsdcommerce-bg-color">
                 <section class="product-detail">
                     <figure id="featured-image">
-                        <?php the_post_thumbnail( 'full' ); ?>
+                        <?php the_post_thumbnail( 'thumbnail' ); ?>
                     </figure>
                 </section>
 

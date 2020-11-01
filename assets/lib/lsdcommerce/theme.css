@@ -1085,14 +1085,14 @@ body {
     position: relative
 }
 
-.lsdcommerce .section-tabs .swiper-tabs-content .swiper-slide .bottom .lsdc-btn .icon {
+.lsdcommerce .lsdc-btn .icon {
     position: absolute;
     left: 15px;
     top: 60%;
     transform: translateY(-50%)
 }
 
-.lsdcommerce .section-tabs .swiper-tabs-content .swiper-slide .bottom .lsdc-btn .icon img {
+.lsdcommerce .lsdc-btn .icon img {
     height: 20px;
     width: auto;
     filter: invert(1)
