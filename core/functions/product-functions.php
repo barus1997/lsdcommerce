@@ -148,6 +148,11 @@ function lsdc_product_check_type($order_id)
     return $types;
 }
 
+function lsdc_product_type( $product_id ){
+    $type = strtolower(get_post_meta($product_id, '_shipping_type', true));
+    return esc_attr( $type );
+}
+
 function lsdc_product_extract_ID($product_id)
 {
     $productID = explode('-', $product_id);

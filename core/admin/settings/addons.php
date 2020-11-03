@@ -24,6 +24,28 @@
                     </div>
                 </div>
 
+                
+                <div class="column col-xs-12 filter-item" data-tag="tag-4">
+                    <div class="card">
+                    <span class="label label-secondary">Coming Soon</span>
+                        <div class="card-header">
+                        <div class="card-title h5">Affiliate</div>
+                        <label for="">Buat Sistem Afiliasi</label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="column col-xs-12 filter-item" data-tag="tag-3">
+                    <div class="card">
+                    <span class="label label-secondary">Coming Soon</span>
+                    <div class="card-header">
+                        <div class="card-title h5">BCA Confirmation</div>
+                        <label for="">Payment Confirmation</label>
+                    </div>
+                    </div>
+                </div>
+
                 <div class="column col-xs-12 filter-item" data-tag="tag-2">
                     <div class="card">
                     <span class="label label-secondary">Coming Soon</span>
@@ -79,26 +101,6 @@
                 </div>
 
 
-                <div class="column col-xs-12 filter-item" data-tag="tag-4">
-                    <div class="card">
-                    <span class="label label-secondary">Coming Soon</span>
-                        <div class="card-header">
-                        <div class="card-title h5">Affiliate</div>
-                        <label for="">Buat Sistem Afiliasi</label>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="column col-xs-12 filter-item" data-tag="tag-3">
-                    <div class="card">
-                    <span class="label label-secondary">Coming Soon</span>
-                    <div class="card-header">
-                        <div class="card-title h5">BCA Confirmation</div>
-                        <label for="">Payment Confirmation</label>
-                    </div>
-                    </div>
-                </div>
 
             </div>
         </div>

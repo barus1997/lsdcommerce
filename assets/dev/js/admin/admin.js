@@ -414,6 +414,34 @@ function validateEmail(email) {
 
 	});
 
+	// ------------------- Settings -  License ----------------------//	
+	$(document).on("click",".lsdc-license-register",function( e ) {
+		var that = this;
+
+		if( $(this).closest('.card-header').find('input.lsdc-license-key').val() != '' ){
+			$(this).addClass('loading');
+			$.post( lsdc_adm.ajax_url, { 
+				action 		: 'lsdc_license_register',
+				key			: $(this).closest('.card-header').find('input.lsdc-license-key').val(),
+				type 		: $(this).attr('data-type'),
+				id	 		: $(this).attr('data-id'),
+				security 	: lsdc_adm.ajax_nonce,
+				}, function( response ){
+					response = JSON.parse( response );
+					$(that).closest('.card-header').find('#msg').text( response.messsage);
+					$(that).removeClass('loading');
+
+					if( response.status != 'failed' || response.code == 500 ||  response.code == 501 ||  response.code == 502 ){
+						location.reload();
+					}
+					
+				}).fail(function(){
+					alert('Failed, please check your internet');
+				}
+			);
+		}
+	});
+
 	
 
 })( jQuery );

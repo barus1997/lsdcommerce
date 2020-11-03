@@ -57,12 +57,12 @@ namespace LSDCommerce\Pluggable;
 
 	public static function tabs(){
 		$tablist = array(
-			'store'         => array( __( 'Store', 'lsdcommerce' ), 'store.php' ),
-			'appearance'    => array( __( 'Appearance', 'lsdcommerce' ), 'appearance.php' ),
-			'notifications' => array( __( 'Notifications', 'lsdcommerce' ), 'notifications.php' ),
-			'shippings'     => array( __( 'Shipping', 'lsdcommerce' ), 'shippings.php' ),
-			'payments'      => array( __( 'Payments', 'lsdcommerce' ), 'payments.php' ),
-			'settings'      => array( __( 'Settings', 'lsdcommerce'), 'settings.php' )
+			'store'         => array( __( 'Toko', 'lsdcommerce' ), 'store.php' ),
+			'appearance'    => array( __( 'Tampilan', 'lsdcommerce' ), 'appearance.php' ),
+			'notifications' => array( __( 'Notifikasi', 'lsdcommerce' ), 'notifications.php' ),
+			'shippings'     => array( __( 'Pengiriman', 'lsdcommerce' ), 'shippings.php' ),
+			'payments'      => array( __( 'Pembayaran', 'lsdcommerce' ), 'payments.php' ),
+			'settings'      => array( __( 'Pengaturan', 'lsdcommerce'), 'settings.php' )
 		);
 			
 		$tablist = array_reverse( $tablist );

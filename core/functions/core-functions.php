@@ -73,7 +73,7 @@ function lsdc_cart_manager()
                                 <div class="col-auto pr-0">
                                     <a href="javascript:void(0);" class="cart-manager">
                                         <span class="counter">0</span>
-                                        <img src="<?php echo LSDC_URL; ?>assets/img/icons/cart-outline.svg" alt="" class="icon-20">
+                                        <img src="<?php echo LSDC_URL; ?>assets/images/svg/cart.svg" alt="" class="icon-20">
                                     </a>
                                 </div>
                                 <div class="col-auto">
@@ -621,7 +621,7 @@ function lsdc_shipping_schedule_action($order_id)
     $shipping = (array)json_decode(get_post_meta($order_id, 'shipping', true));
     if ($total == 0 && isset($shipping['digital']) && !isset($shipping['physical']))
     {
-        lsdc_order_status($order_id, 'completed', true);
+        lsdc_order_status($order_id, 'completed');
     }
 }
 add_action('lsdc_shipping_schedule', 'lsdc_shipping_schedule_action', 10, 1);

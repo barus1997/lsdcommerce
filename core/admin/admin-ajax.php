@@ -373,4 +373,53 @@ function lsdc_admin_order_resi(){
 }
 
 
+/**
+ * @package LSDDonation
+ * @subpackage Settings
+ * Register and Unregister
+ * Support Addon and Parent Plugin
+ *
+ * @since    3.0.0
+ */
+add_action( 'wp_ajax_nopriv_lsdc_license_register', 'lsdc_license_register' );
+add_action( 'wp_ajax_lsdc_license_register', 'lsdc_license_register' );
+function lsdc_license_register(){
+    if ( ! check_ajax_referer( 'lsdc_nonce', 'security' ) )  wp_send_json_error( 'Invalid security token sent.' );
+
+    $type   = sanitize_text_field( $_POST['type'] );
+    $key    = sanitize_text_field( $_POST['key'] );
+    $id     = sanitize_text_field( $_POST['id'] ); // used for save the license in local
+    $domain = parse_url(get_site_url())['host'];
+    if( $key != null && $type == 'register' ){ //register
+        $remote = lsdc_remote_activate( $key );
+
+        if( $remote['code'] == 200 ){
+            // Auto Setup Plugin
+            do_action( 'lsdc_hook_autosetup');
+
+            $licenses = empty( get_option( 'lsdcommerce_licenses' ) ) ? array() : get_option( 'lsdcommerce_licenses' );
+            $licenses[$id] = array(  // $id for save the
+                'expired'       => $remote['expired'],
+                'status'        => $remote['status'],
+                'registered'    => $domain,
+                'key'           => $key,
+            );
+            update_option( 'lsdcommerce_licenses', $licenses );
+            
+        }
+        echo json_encode( $remote );
+    }else{ // unregister
+
+        $remote = lsdc_remote_deactivate( lsdc_license_get( 'key', $id ) );
+        if( $remote['code'] == 200 || $remote['code'] == 501 || $remote['code'] == 500 || $remote['code'] == 502 ){
+            $licenses = get_option( 'lsdcommerce_licenses' );
+            unset( $licenses[$id] );
+            update_option( 'lsdcommerce_licenses', $licenses );
+        }
+        echo json_encode(  $remote );
+    }
+
+    wp_die();
+}
+
 ?>

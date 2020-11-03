@@ -128,7 +128,6 @@ class LSDC_Order
         $start_time = microtime(true);
         //>-------------> Order Start ---------------<//
 
-
         // Validation Customer
         $order_object = $this->validate_form($order_object);
 
@@ -250,7 +249,7 @@ class LSDC_Order
         lsdc_order_status( $order_id, 'new' );
         // Free Product
         if( $total == 0 ) {
-            lsdc_order_status( $order_id, 'processed', true );
+            lsdc_order_status( $order_id, 'processed' );
         }
 
         // Testing Shipping and Notification Direct
