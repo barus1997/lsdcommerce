@@ -32,5 +32,9 @@ Class LSDC_Product{
     public function reduce_stock(){
 
     }
+
+    public function type(){
+        
+    }
 }
 ?>

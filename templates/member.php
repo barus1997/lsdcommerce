@@ -91,28 +91,15 @@ get_header(); ?>
           <!-- Dashboard -->
           <div id="tab-body-1" class="tab-body">
             <?php $current_user = wp_get_current_user(); ?>
-            <?php _e( 'Welcome', 'lsdcommerce' ); ?>, <span class="text-primary"><?php echo lsdc_get_user_name( $current_user->ID ); ?></span><br><br>
+            <?php _e( 'Selamat Datang', 'lsdcommerce' ); ?>, <span class="text-primary"><?php echo lsdc_get_user_name( $current_user->ID ); ?></span><br><br>
 
-            <table>
-              <tr>
-                <th><?php _e( 'Order', 'lsdcommerce' ); ?></th>
-                <th><?php _e( 'Download', 'lsdcommerce' ); ?></th>
-                <th><?php _e( 'Pengiriman Digital', 'lsdcommerce' ); ?></th>
-                <th><?php _e( 'Pengiirman Fisik', 'lsdcommerce' ); ?></th>
-              </tr>
-              <tr>
-                <td><?php echo count_user_posts( $current_user->ID, 'lsdc-order' ); ?> <?php _e( 'Order', 'lsdcommerce' ); ?></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-            </table>
-
+            <p>Untuk melihat detail pembelian anda bisa mengakses menu pembelian, untuk melihat pengiriman yang sedang berlansung anda bisa cek pengiriman</p>
             <a class="lsdp-btn lsdc-btn btn-primary" href="<?php echo wp_logout_url( get_permalink() ); ?>"><?php _e( 'Logout', 'lsdcommerce' ); ?></a>
           </div>
           
           <!-- Purchase -->
           <div id="tab-body-2" class="tab-body">
+            <p>Noted : Detail Invoice ( Detail Pesnaan, Log Jam, Kode Resi )</p>
             <table>
                 <tr>
                   <th><?php _e( "Pesanan", 'lsdcommerce' ); ?></th>

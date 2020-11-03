@@ -57,7 +57,7 @@ class LSDC_Shipping {
         <div class="lsdc-shipping-status">
             <h5>
                 <?php echo $this->name; ?>
-                <a style="margin-left:10px; border-radius: 20px;padding: 5px 25px;" href="<?php echo $this->doc_url; ?>" target="_blank" class="btn btn-primary"><?php _e( 'Guide', 'lsdcommerce' ); ?></a>
+                <a style="margin-left:10px; border-radius: 20px;padding: 5px 25px;" href="<?php echo $this->doc_url; ?>" target="_blank" class="btn btn-primary"><?php _e( 'Panduan', 'lsdcommerce' ); ?></a>
             </h5>
             <div class="form-group">
                 <label class="form-switch">

@@ -40,7 +40,7 @@ class LSDCommerce_Admin {
 
 		$this->plugin_name = $plugin_name;
         $this->version = $version;
-		$this->admin_dependency();
+		// $this->load_admin_dependency();
 	}
 
 	/**
@@ -50,14 +50,16 @@ class LSDCommerce_Admin {
 	 */
 	public function enqueue_styles() 
 	{
+		wp_enqueue_style( 'wp-color-picker' );
+
 		// Enquene Spectre CSS in LSDCommerce Admin Only
 		if( isset($_REQUEST['page']) && $_REQUEST['page'] == 'lsdcommerce' || strpos( $_REQUEST['page'], 'lsdc' ) !== false ){
-			wp_enqueue_style( 'SpectreEXP', LSDC_URL . 'assets/lib/spectre/spectre-exp.min.css', array(), '0.5.8', 'all' );
-			wp_enqueue_style( 'SpectreIcons', LSDC_URL . 'assets/lib/spectre/spectre-icons.min.css', array(), '0.5.8', 'all' );
-			wp_enqueue_style( 'Spectre', LSDC_URL . 'assets/lib/spectre/spectre.min.css', array(), '0.5.8', 'all' );
+			// wp_enqueue_style( 'spectre-exp', LSDC_URL . 'assets/lib/spectre.css/spectre-exp.min.css', array(), '0.5.8', 'all' );
+			// wp_enqueue_style( 'SpectreIcons', LSDC_URL . 'assets/lib/spectre/spectre-icons.min.css', array(), '0.5.8', 'all' );
+			wp_enqueue_style( 'spectre-css', LSDC_URL . 'assets/lib/spectre.css/spectre.min.css', array(), '0.5.8', 'all' );
 		}
-		wp_enqueue_style( 'wp-color-picker' );
-		wp_enqueue_style( $this->plugin_name . '-admin', LSDC_URL . 'assets/css/lsdcommerce-admin.css', array(), $this->version, 'all' );
+
+		wp_enqueue_style( $this->plugin_name . '-admin', LSDC_URL . 'assets/dev/css/admin/admin.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -68,11 +70,12 @@ class LSDCommerce_Admin {
 	public function enqueue_scripts() 
 	{
 		// Enquene Admin and Admin AJAX
-		wp_enqueue_script( $this->plugin_name, LSDC_URL . 'assets/js/lsdcommerce-admin.js', array( 'jquery', 'wp-color-picker' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, LSDC_URL . 'assets/dev/js/admin/admin.js', array( 'jquery', 'wp-color-picker' ), $this->version, false );
+
 		wp_localize_script( $this->plugin_name , 'lsdc_adm', array(
-			'ajax_url' => admin_url( 'admin-ajax.php' ),
-			'ajax_nonce' => wp_create_nonce('lsdc_nonce'),
-			'plugin_url' => LSDC_URL,
+			'ajax_url' 		=> admin_url( 'admin-ajax.php' ),
+			'ajax_nonce'	=> wp_create_nonce('lsdc_nonce'),
+			'plugin_url' 	=> LSDC_URL,
 		));
 
 		// Enquene Media For Administrator Only
@@ -82,13 +85,12 @@ class LSDCommerce_Admin {
 	}
 
 	/**
-	 * Register Action in Admin Area
+	 * Load Admin Dependency
 	 *
 	 * @since    1.0.0
 	 */
-	public function admin_dependency()
+	public function load_admin_dependency()
 	{
-		// Register Admin Ajax
 		require_once LSDC_PATH . 'core/admin/admin-ajax.php';
 	}
 	
@@ -108,9 +110,20 @@ class LSDCommerce_Admin {
 			'manage_options', 
 			'lsdcommerce', 
 			array( $this, 'lsdc_admin_menu_settings' ), 
-			LSDC_URL . 'assets/img/lsdcommerce.png', 
+			LSDC_URL . 'assets/images/lsdcommerce.png', 
 			2
 		);
+
+		if( has_action( 'lsdcommerce_licenses_hook' ) ) : 
+			add_submenu_page(
+				'lsdcommerce',
+				__( 'Lisensi', 'lsdcommerce'), //page title
+				__( 'Lisensi', 'lsdcommerce'), //menu title
+				'manage_options', //capability,
+				'lsdcommerce_licenses',//menu slug
+				array( $this, 'lsdc_admin_menu_licenses' ) //callback function
+			);
+		endif;
 		
 		// Add Order Menu
 		add_menu_page( 
@@ -118,7 +131,7 @@ class LSDCommerce_Admin {
 			$order_counter ? sprintf( __( 'Order <span class="awaiting-mod">%d</span>', 'lsdcommerce') , $order_counter ) : __( 'Order', 'lsdcommerce' ),
 			'manage_options', 
 			'edit.php?post_type=lsdc-order', '', 
-			LSDC_URL . 'assets/img/order.svg', 
+			LSDC_URL . 'assets/images/svg/order.svg', 
 			3
 		);
 
@@ -128,18 +141,19 @@ class LSDCommerce_Admin {
 			 __( 'Products', 'lsdcommerce' ), 
 			'manage_options', 
 			'edit.php?post_type=lsdc-product', '', 
-			LSDC_URL . 'assets/img/product.svg', 
+			LSDC_URL . 'assets/images/svg/product.svg', 
 			3
 		);
 
-		add_submenu_page(
-			'edit.php?post_type=lsdc-product',
-			__( 'Categories', 'lsdcommerce'), //page title
-			__( 'Categories', 'lsdcommerce'), //menu title
-			'manage_options', //capability,
-			'edit-tags.php?taxonomy=lsdc-product-category&post_type=lsdc-product',//menu slug
-			'' //callback function
-		);
+			// Submenu Product -> Categories
+			add_submenu_page(
+				'edit.php?post_type=lsdc-product',
+				__( 'Categories', 'lsdcommerce'), //page title
+				__( 'Categories', 'lsdcommerce'), //menu title
+				'manage_options', //capability,
+				'edit-tags.php?taxonomy=lsdc-product-category&post_type=lsdc-product',//menu slug
+				'' //callback function
+			);
 	}
 
 	/**
@@ -150,6 +164,11 @@ class LSDCommerce_Admin {
 	public function lsdc_admin_menu_settings() 
 	{ 
 		include_once( LSDC_PATH . ( 'core/admin/settings/common.php' ));
+	}
+
+	public function lsdc_admin_menu_licenses()
+	{
+		include_once( LSDC_PATH . ( 'core/admin/settings/licenses.php' ));
 	}
 
 	public static function lsdc_appearance_switch_option(){

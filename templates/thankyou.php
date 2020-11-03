@@ -44,7 +44,7 @@ if( ! wp_doing_ajax() ){
 
                 <div class="section-payment-instruction">
                     <div class="icon">
-                        <img src="<?php echo LSDC_URL; ?>/assets/img/happy.png" alt="">
+                        <img src="<?php echo LSDC_URL; ?>/assets/img/illustration.png" alt="Payment Illustration">
                     </div>
                     <?php if( $total != 0 ) : ?>
                         <p><?php _e( 'Tolong selesaikan pembayaran anda dan ikuti instruksi berikut ini' , 'lsdcommerce' ); ?></p>

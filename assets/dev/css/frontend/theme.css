@@ -240,11 +240,11 @@ body {
 }
 
 .lsdcommerce .lsdc-btn[aria-expanded="false"]:after {
-    background-image: url("../../img/icons/chevron-down-white.svg")
+    background-image: url("../../images/svg/chevron-down-white.svg")
 }
 
 .lsdcommerce .lsdc-btn[aria-expanded="true"]:after {
-    background-image: url("../../img/icons/chevron-up-white.svg")
+    background-image: url("../../images/svg/chevron-up-white.svg")
 }
 
 .lsdcommerce .lsdc-btn.btn-link {
@@ -277,11 +277,11 @@ body {
 }
 
 .lsdcommerce .lsdc-toggle-collapse[aria-expanded="false"]:after {
-    background-image: url("../../img/icons/chevron-down.png")
+    background-image: url("../../images/svg/chevron-down.png")
 }
 
 .lsdcommerce .lsdc-toggle-collapse[aria-expanded="true"]:after {
-    background-image: url("../../img/icons/chevron-up.png")
+    background-image: url("../../images/svg/chevron-up.png")
 }
 
 .lsdcommerce h1 {
@@ -593,7 +593,7 @@ body {
 
 .lsdcommerce .form-control.custom-select {
     height: auto;
-    background: #fff url("../../img/icons/chevron-down.svg") no-repeat right 15px center/20px 18px
+    background: #fff url("../../images/svg/chevron-down.svg") no-repeat right 15px center/20px 18px
 }
 
 .lsdcommerce .form-group {
@@ -1085,14 +1085,14 @@ body {
     position: relative
 }
 
-.lsdcommerce .section-tabs .swiper-tabs-content .swiper-slide .bottom .lsdc-btn .icon {
+.lsdcommerce .lsdc-btn .icon {
     position: absolute;
     left: 15px;
     top: 60%;
     transform: translateY(-50%)
 }
 
-.lsdcommerce .section-tabs .swiper-tabs-content .swiper-slide .bottom .lsdc-btn .icon img {
+.lsdcommerce .lsdc-btn .icon img {
     height: 20px;
     width: auto;
     filter: invert(1)

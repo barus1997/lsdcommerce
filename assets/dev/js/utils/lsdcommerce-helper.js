@@ -476,13 +476,19 @@ function lsdcommerce_update_extras(extras_data) {
  * @block Checkout
  * Notification for Checkout
  */
-function lsdcommerce_checkout_notify( text ){
+function lsdcommerce_checkout_notify( text, elm = false ){
     if( ! lsdcommerce_empty( text ) ){
 
-        jQuery('#lsdcommerce-checkout').find('#checkout-alert').removeClass('lsdp-hidden');
-        jQuery('#lsdcommerce-checkout').find('#checkout-alert p').text( text );
+        if( elm ){
+            elm = elm;
+        }else{
+            elm = '#lsdcommerce-checkout';
+        }
+        
+        jQuery( elm ).find('#checkout-alert').removeClass('lsdp-hidden');
+        jQuery( elm ).find('#checkout-alert p').text( text );
     
-        setTimeout(function(){ jQuery( '#lsdcommerce-checkout' ).find('#checkout-alert').addClass('lsdp-hidden'); }, 3000);
+        setTimeout(function(){ jQuery(  elm  ).find('#checkout-alert').addClass('lsdp-hidden'); }, 3000);
     }
 }
 

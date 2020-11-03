@@ -293,6 +293,7 @@ function lsdc_metabox_save( $post_id ) {
     update_post_meta( $post_id, '_limit_order', sanitize_text_field( $_POST['limit_order']));
 
     update_post_meta( $post_id, '_shipping_type', sanitize_text_field( $_POST['shipping_tabs']) );
+    update_post_meta( $post_id, '_product_type', sanitize_text_field( $_POST['shipping_tabs']) );
 
         // Digital
         update_post_meta( $post_id, '_digital_url', sanitize_text_field( $_POST['digital_url']) );
