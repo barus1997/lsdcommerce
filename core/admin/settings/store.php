@@ -28,7 +28,7 @@ $countries = array(
 
 <section class="form-horizontal" id="store-settings">
     <?php 
-        $store_settings         = get_option( 'lsdc_store_settings' ); 
+        $store_settings         = get_option( 'lsdcommerce_store_settings' ); 
         $country_selected       = isset( $store_settings['country'] ) ? esc_attr( $store_settings['country'] ) : 'ID';
         $state_selected         = isset( $store_settings['state'] ) ? esc_attr( $store_settings['state'] ) : 3;
         $city_selected          = isset( $store_settings['city'] ) ? esc_attr( $store_settings['city'] ) : 455;
@@ -38,11 +38,11 @@ $countries = array(
         $currency_selected      = isset( $store_settings['currency'] ) ? esc_attr( $store_settings['currency'] ) : 'IDR';
 
         if( $country_selected ){
-            $states = json_decode( file_get_contents( LSDC_PATH . 'core/cache/' . $country_selected . '-states.json') );
-            $cities = json_decode( file_get_contents( LSDC_PATH . 'core/cache/' . $country_selected . '-cities.json') );
+            $states = json_decode( file_get_contents( LSDC_PATH . 'assets/cache/' . $country_selected . '-states.json') );
+            $cities = json_decode( file_get_contents( LSDC_PATH . 'assets/cache/' . $country_selected . '-cities.json') );
         }else{ // Default ID 
-            $states = json_decode( file_get_contents( LSDC_PATH . 'core/cache/ID-states.json') );
-            $cities = json_decode( file_get_contents( LSDC_PATH . 'core/cache/ID-cities.json') );
+            $states = json_decode( file_get_contents( LSDC_PATH . 'assets/cache/ID-states.json') );
+            $cities = json_decode( file_get_contents( LSDC_PATH . 'assets/cache/ID-cities.json') );
         }
     ?>
 
@@ -50,7 +50,7 @@ $countries = array(
     <div class="form-group">
         <div class="col-3 col-sm-12">
             <label class="form-label" for="country">
-                <?php _e( 'Country', 'lsdcommerce' ); ?>
+                <?php _e( 'Negara', 'lsdcommerce' ); ?>
             </label>
         </div>
 
@@ -67,7 +67,7 @@ $countries = array(
     <div class="form-group">
         <div class="col-3 col-sm-12">
             <label class="form-label" for="states">
-                <?php _e( 'State', 'lsdcommerce' ); ?>
+                <?php _e( 'Provinsi', 'lsdcommerce' ); ?>
             </label>
         </div>
         <div class="col-9 col-sm-12">
@@ -83,7 +83,7 @@ $countries = array(
     <div class="form-group">
         <div class="col-3 col-sm-12">
             <label class="form-label" for="cities">
-                <?php _e( 'City / District', 'lsdcommerce' ); ?>
+                <?php _e( 'Kota / Kabupaten', 'lsdcommerce' ); ?>
             </label>
         </div>
         <div class="col-9 col-sm-12">
@@ -101,11 +101,11 @@ $countries = array(
     <div class="form-group">
         <div class="col-3 col-sm-12">
             <label class="form-label" for="address">
-                <?php _e( 'Address', 'lsdcommerce' ); ?>
+                <?php _e( 'Alamat', 'lsdcommerce' ); ?>
             </label>
         </div>
         <div class="col-9 col-sm-12">
-            <textarea class="form-input" id="address" placeholder="Jl Maya, RT 010 RW 001, Desa Virtual, Kecamatan Digital" rows="3" style="width:59%;"><?php echo $address_selected;  ?></textarea>
+            <textarea class="form-input" id="address" placeholder="Jl Dunia Maya, RT 010 RW 001, Desa Virtual, Kecamatan Digital" rows="3" style="width:59%;"><?php echo $address_selected;  ?></textarea>
         </div>
     </div>
 
@@ -113,7 +113,7 @@ $countries = array(
     <div class="form-group">
         <div class="col-3 col-sm-12">
             <label class="form-label" for="postalcode">
-                <?php _e( 'Postal Code', 'lsdcommerce' ); ?>
+                <?php _e( 'Kode Pos', 'lsdcommerce' ); ?>
             </label>
         </div>
         <div class="col-9 col-sm-12">
@@ -127,7 +127,7 @@ $countries = array(
     <div class="form-group">
         <div class="col-3 col-sm-12">
             <label class="form-label" for="currency">
-                <?php _e( 'Currency', 'lsdcommerce' ); ?>
+                <?php _e( 'Mata Uang', 'lsdcommerce' ); ?>
             </label>
         </div>
         <div class="col-9 col-sm-12">
@@ -140,6 +140,6 @@ $countries = array(
     </div>
     <br>
 
-    <button class="btn btn-primary" id="lsdc_admin_store_save" style="width:120px"><?php _e( 'Save', 'lsdcommerce' ); ?></button> <!-- lsdcommerce-admin.js on Click Saving -->
+    <button class="btn btn-primary" id="lsdc_admin_store_save" style="width:120px"><?php _e( 'Simpan', 'lsdcommerce' ); ?></button> <!-- lsdcommerce-admin.js on Click Saving -->
 
 </section>

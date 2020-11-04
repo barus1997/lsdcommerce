@@ -64,7 +64,7 @@ class LSDCommerce_Activator {
 
 
 		// Sending Usage Data
-		lsdc_track_init();
+		// lsdc_track_init();
 	}
 	
 } 

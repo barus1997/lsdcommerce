@@ -1,17 +1,12 @@
 <?php 
+require_once LSDC_PATH . 'core/functions/pluggable.php';
 use LSDCommerce\Pluggable\LSDC_Admin_Settings;
-/**
- * Common Settings, for display All Settings LSDCommerce
- *
- * @since    1.0.0
- */
 ?>
+
 <div class="wrap lsdcommerce shadow">
     <?php
         /**
          * Set Default to Store Tab
-         *
-         * @since    1.0.0
          */
         $active_tab = "store";
         if(isset($_GET["tab"])){
@@ -33,10 +28,10 @@ use LSDCommerce\Pluggable\LSDC_Admin_Settings;
          * 
          * Example Add:
          * $args = array( 'lisensi' => array( __('Lisensi', 'lsdc'), 'lisensi.php' ) );
-         * lsdc_admin_settings_addtab( $args );
+         * LSDC_Admin_Settings::add_tab( $args );
          * 
          * Example Remove:
-         * lsdc_admin_settings_removetab( 'shippings' );
+         * LSDC_Admin_Settings::remove_tab( 'shippings' );
          * 
          * You can using this function inside plugins_loaded action
          * @since    1.0.0
@@ -56,14 +51,9 @@ use LSDCommerce\Pluggable\LSDC_Admin_Settings;
             </li>
         </ul>
     </div>
+
     <article class="lsdc-tab-content"> 
     <?php 
-        /**
-         * Require Tab by Active Tab
-         *
-         * @since    1.0.0
-         */
-
         if( isset($_GET["tab"]) ) {
             foreach ($tablist as $key => $item) {
                 if( $_GET["tab"] ==  $key || $active_tab == $key ){

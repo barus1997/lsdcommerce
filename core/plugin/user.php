@@ -18,7 +18,7 @@ add_role( 'customer', __('Customer' ),
  * Create Phone Input
  */
 add_action( 'user_new_form', 'lsdc_user_phone_field' );
-  add_action( 'show_user_profile', 'lsdc_user_phone_field' );
+add_action( 'show_user_profile', 'lsdc_user_phone_field' );
 add_action( 'edit_user_profile', 'lsdc_user_phone_field' );
 function lsdc_user_phone_field( $user ) 
 {
@@ -59,28 +59,16 @@ function lsdc_user_phone_save( $user_id ) {
 // }
 // add_filter('user_contactmethods', 'mb_add_phone_field');
 
-function custom_user_profile_fields($user){
+// function custom_user_profile_fields($user){
 
 
-	if( $user == 'add-new-user' ){
-		$company = null;
-	}else{
-		$company = null !== get_the_author_meta( 'company', $user->ID ) ? get_the_author_meta( 'company', $user->ID ) : null;
-	}
+// 	if( $user == 'add-new-user' ){
+// 		$company = null;
+// 	}else{
+// 		$company = null !== get_the_author_meta( 'company', $user->ID ) ? get_the_author_meta( 'company', $user->ID ) : null;
+// 	}
 
-	?>
-	  <h3>Extra profile information</h3>
-	  <table class="form-table">
-		  <tr>
-			  <th><label for="company">Company Name</label></th>
-			  <td>
-				  <input type="text" class="regular-text" name="company" value="<?php echo esc_attr( $company ); ?>" id="company" /><br />
-				  <span class="description">Where are you?</span>
-			  </td>
-		  </tr>
-	  </table>
-	<?php
-}
+// }
 //   add_action( 'show_user_profile', 'custom_user_profile_fields' );
 //   add_action( 'edit_user_profile', 'custom_user_profile_fields' );
 //   add_action( "user_new_form", "custom_user_profile_fields" );

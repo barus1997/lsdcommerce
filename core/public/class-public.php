@@ -50,24 +50,18 @@ class LSDCommerce_Public {
 	public function enqueue_styles() 
 	{
 		// Global Style LSDPlugins like Grid, Responseve etc
-		wp_enqueue_style( 'lsdplugins', LSDC_URL . 'assets/css/lsdplugins.css', array(), '1.0.0', 'all' );
+		wp_enqueue_style( 'lsdplugins', LSDC_URL . 'assets/dev/css/utils/lsdplugins.css', array(), '1.0.0', 'all' );
 
 		// Loading Theme Style Plugin
-		wp_enqueue_style( 'animate', LSDC_URL . 'assets/css/animate.css', array(), '3.5.2', 'all' );
-		wp_enqueue_style( 'swiperJS', LSDC_URL . 'assets/lib/swiper/swiper.css', array(), '5.3.6', 'all' );
-		wp_register_style( 'lsdcommerce-theme', LSDC_URL . 'assets/lib/lsdcommerce/theme.css', array(), $this->version, 'all' );
-		wp_register_style( 'lsdcommerce-theme-single', LSDC_URL . 'assets/lib/lsdcommerce/theme-single.css', array(), $this->version, 'all' );
-		wp_register_style( 'lsdcommerce-responsive', LSDC_URL . 'assets/lib/lsdcommerce/responsive.css', array(), $this->version, 'all' );
+		// wp_enqueue_style( 'animate', LSDC_URL . 'assets/css/animate.css', array(), '3.5.2', 'all' );
+		wp_enqueue_style( 'swiper', LSDC_URL . 'assets/lib/swiper/swiper.css', array(), '5.3.6', 'all' );
+		wp_enqueue_style( 'theme', LSDC_URL . 'assets/dev/css/frontend/theme.css', array(), $this->version, 'all' );
+		wp_enqueue_style( 'theme-single', LSDC_URL . 'assets/dev/css/frontend/single.css', array(), $this->version, 'all' );
+		wp_enqueue_style( 'responsive', LSDC_URL . 'assets/dev/css/frontend/responsive.css', array(), $this->version, 'all' );
 
-		// Reset THeme in Member 
-		wp_enqueue_style('lsdcommerce-theme');
-		wp_enqueue_style('lsdcommerce-theme-single'); 
-		wp_enqueue_style('lsdcommerce-responsive');
-
-		// Enquene Font Based on LSDCommerce > Appearance > Font
-		$settings = get_option('lsdd_appearance_settings' );
-		wp_enqueue_style( $this->plugin_name, LSDC_URL . 'assets/css/lsdcommerce-public.css', array(), $this->version, 'all' );
-		wp_enqueue_style( 'lsdc-google-fonts', '//fonts.googleapis.com/css?family='. esc_attr( ( empty($settings['lsdd_fontlist']) ) ? 'Poppins' : $settings['lsdd_fontlist'] ) , array(), $this->version );
+		// Enquene Font Based on LSDCommerce > Appearance > Font		
+		wp_enqueue_style( $this->plugin_name, LSDC_URL . 'assets/dev/css/frontend/public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( 'lsdcommerce-google-fonts', '//fonts.googleapis.com/css?family='. esc_attr( ( empty(  lsdc_get('appearance_settings', 'font_family' ) ) ) ? 'Poppins' :  lsdc_get('appearance_settings', 'font_family' ) ) , array(), $this->version );
 	}
 
 	/**
@@ -84,7 +78,8 @@ class LSDCommerce_Public {
 	{
 		global $lsdcommerce;
 		
-		wp_enqueue_script( 'mustache', 'https://ajax.cdnjs.com/ajax/libs/mustache.js/0.3.0/mustache.min.js', null, null, false );
+		// wp_enqueue_script( 'mustache', 'https://ajax.cdnjs.com/ajax/libs/mustache.js/0.3.0/mustache.min.js', null, null, false );
+		wp_enqueue_script( 'swiperJS', LSDC_URL . 'assets/lib/mustache/mustache.min.js', array(), '0.3.0', false );
 		wp_enqueue_script( 'swiperJS', LSDC_URL . 'assets/lib/swiper/swiper.js', array( 'jquery' ), '5.3.6', false );
 
 		wp_enqueue_script( 'lsdcommerce-helper' , LSDC_URL . 'assets/js/lsdcommerce-helper.js', array(), $this->version, false );

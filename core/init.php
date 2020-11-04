@@ -1,8 +1,10 @@
 <?php 
+require_once LSDC_PATH . 'core/functions/pluggable.php'; // Pluggable Functions
 use LSDCommerce\Pluggable\LSDC_Pluggable;
 use LSDCommerce\Form\LSDC_Form;
 use LSDCommerce\Shipping\LSDC_Shipping;
 use LSDCommerce\Payments\LSDC_Payment;
+
 
 add_image_size( 'lsdcommerce-thumbnail-mini', 90, 90, true );
 add_image_size( 'lsdcommerce-thumbnail-single', 500, 9999, false );
@@ -37,50 +39,33 @@ function lsdcommerce_checkout_init(){
 }
 add_action('lsdcommerce_checkout', 'lsdcommerce_checkout_init');
 
-function lsdcommerce_checkout_token(){
-    // Buat Checkout Token Selamat 10 Menit
-    // Kalo Nggak dipake diabakalan Expired
-    if( ! isset( $_COOKIE['_lsdcommerce_token'] ) && is_page( lsdc_get( 'general_settings', 'checkout_page' ) )  ){
-        $token = wp_hash( lsdc_date_now() );
-        $expired = lsdc_date_now();
-        setcookie( "_lsdcommerce_token", $token . '-' . strtotime( $expired ), time() + 600, "/"  );
-        if( ! get_transient( 'lsdc_checkout_' . $token ) ){
-            set_transient( 'lsdc_checkout_' . $token , lsdc_date_now(), 600 );
-        }        
-    }else{
-        if( isset( $_COOKIE['_lsdcommerce_token'] )  &&  ! is_page( lsdc_get( 'general_settings', 'checkout_page' ) ) ){
-            setcookie( "_lsdcommerce_token" , null, time() - 3600 , "/"  );
-        }
-    }
-}
-add_action( 'template_redirect', 'lsdcommerce_checkout_token' );
+
 
 // Apply style Based on Settings
 function lsdc_apperance(){
-    $settings       = get_option('lsdc_appearance_settings', true );
-    $fontselected   = $settings['lsdc_fontlist'] == null ? 'Poppins' : $settings['lsdc_fontlist'];
-    $bg_theme       = empty( $settings['lsdc_bgtheme_color'] ) ? 'transparent' : $settings['lsdc_bgtheme_color'];
-    $theme          = $settings['lsdc_theme_color'];
-    $lighter        = lsdc_adjust_brightness( $theme, 50 );
-    $darker         = lsdc_adjust_brightness( $theme, -40 );
+    $fontFamily         = lsdc_get('appearance_settings', 'font_family' ) == null ? 'Poppins' : lsdc_get('appearance_settings', 'font_family' );
+    $backgroundTheme    = empty( lsdc_get('appearance_settings', 'background_theme_color' )) ? 'transparent' : lsdc_get('appearance_settings', 'background_theme_color' );
+    $colorTheme         = lsdc_get('appearance_settings', 'theme_color' );
+    $lighter            = lsdc_adjust_brightness( $colorTheme, 50 );
+    $darker             = lsdc_adjust_brightness( $colorTheme, -40 );
     echo '<style>
             :root {
-                --lsdc-color: '. $theme .';
+                --lsdc-color: '. $colorTheme .';
                 --lsdc-lighter-color: '. $lighter .';
                 --lsdc-darker-color: '. $darker .';
-                --lsdc-background-color: '. $bg_theme .';
+                --lsdc-background-color: '. $backgroundTheme .';
             }
             
             .lsdc-bg-color{
-                background: '. $bg_theme .';
+                background: '. $backgroundTheme .';
             }
 
             .lsdc-theme-color{
-                color: '. $theme .';
+                color: '. $colorTheme .';
             }
 
             .lsdc-content{
-                font-family: -apple-system, BlinkMacSystemFont, "'. $fontselected . '", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+                font-family: -apple-system, BlinkMacSystemFont, "'. $fontFamily . '", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
             }
         </style>';
 }
@@ -109,40 +94,31 @@ add_filter('body_class', function($classes) {
     return $classes;
 });
 
-/**
- * @package LSDCommerce
- * @subpackage Checkout ? Order-received
- * 
- * Create Order Received Url Handler
- */
-function lsdc_add_queryvars( $vars ){
-    $vars[] = 'thankyou';
-    $vars[] = 'payment';
-    return $vars;
+// Load Unique Code by Seesion id in Browser, if Change the Uniqe Code will be change to
+function lsdc_shipping_starter_calculation( $extras ){
+	if( isset($extras['extras']['shipping']['physical']) ){
+		$physical 	= $extras['extras']['shipping']['physical'];
+		$city 		= $physical['city'];
+		$service 	= $physical['service'];
+		$state 		= $physical['state'];
+
+		// Automatic Get Weight in LSDCommerce Order Proccessing
+		if( isset($extras['extras']['shipping']['weights']) ){
+			$weights = $extras['extras']['shipping']['weights'];
+		}
+		$extras['extras']['shipping']['weights'] = $weights;
+		
+		$detail = array( // Digital Courrier ID
+			'destination'  	=> $city,
+			'weight'     	=> $weights,
+			'service'   	=> $service // 
+		);
+
+		$clean = lsdc_shipping_rajaongkir_starter_calc( $detail );
+		$extras = array_merge( $extras, $clean );
+	}
+	return $extras;
 }
-add_filter( 'query_vars', 'lsdc_add_queryvars' );
+add_filter( 'lsdcommerce_payment_extras', 'lsdc_shipping_starter_calculation' );
 
-// Set Order Received to File
-function lsdc_checkout_finish_url( $vars ){
-    $hash   = get_query_var( 'thankyou' );
-    $pay    = get_query_var( 'payment' );
-
-    // Exist Order in Finish Url
-    if( $hash && $pay == 'true'){
-        add_filter( 'template_include', function() use( $hash ){
-            // global $lsdd_templates;
-            // require $lsdd_templates['thankyou']; // Using Default Template, It can Override via Global Variable
-            require LSDC_PATH . '/templates/thankyou.php';
-        });
-    }
-
-    // Empty Order in Finish Url
-    if( empty( $hash ) && $pay == 'true' ){
-        global $wp_query;
-        $wp_query->set_404();
-        status_header( 404 );
-        get_template_part( 404 ); 
-    }
-}
-add_action( 'template_redirect', 'lsdc_checkout_finish_url' );
 ?>
