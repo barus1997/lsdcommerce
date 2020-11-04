@@ -182,11 +182,11 @@ if( ! wp_doing_ajax() ){
                                         $currency_selected      = isset( $store_settings['lsdc_store_currency'] ) ? esc_attr( $store_settings['lsdc_store_currency'] ) : 'IDR';
                                 
                                         if( $country_selected ){
-                                            $states = json_decode( file_get_contents( LSDC_PATH . 'core/cache/' . $country_selected . '-states.json') );
-                                            $cities = json_decode( file_get_contents( LSDC_PATH . 'core/cache/' . $country_selected . '-cities.json') );
+                                            $states = json_decode( file_get_contents( LSDC_PATH . 'assets/cache/' . $country_selected . '-states.json') );
+                                            $cities = json_decode( file_get_contents( LSDC_PATH . 'assets/cache/' . $country_selected . '-cities.json') );
                                         }else{
-                                            $states = json_decode( file_get_contents( LSDC_PATH . 'core/cache/ID-states.json') );
-                                            $cities = json_decode( file_get_contents( LSDC_PATH . 'core/cache/ID-cities.json') );
+                                            $states = json_decode( file_get_contents( LSDC_PATH . 'assets/cache/ID-states.json') );
+                                            $cities = json_decode( file_get_contents( LSDC_PATH . 'assets/cache/ID-cities.json') );
                                         }
                                     ?>
                         

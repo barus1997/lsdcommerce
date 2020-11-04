@@ -54,8 +54,8 @@ class LSDCommerce {
 	 */
 	public function __construct() {
 		// Set The Version
-		if ( defined( 'LSDCOMMERCE_VERSION' ) ) {
-			$this->version = LSDCOMMERCE_VERSION;
+		if ( defined( 'LSDC_VERSION' ) ) {
+			$this->version = LSDC_VERSION;
 		} else {
 			$this->version = '1.0.0';
 		}
@@ -68,6 +68,8 @@ class LSDCommerce {
 		$this->define_public_hooks();
 
 		$this->templates = array();
+
+		// Create Template Page
 		if ( version_compare( floatval( get_bloginfo( 'version' ) ), '4.7', '<' ) ) {
 			add_filter('page_attributes_dropdown_pages_args',array( $this, 'register_project_templates' ));
 		} else {
@@ -84,11 +86,13 @@ class LSDCommerce {
 		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ));
 	}
 
+	// Add Template < 4.7
 	public function add_new_template( $posts_templates ) {
 		$posts_templates = array_merge( $posts_templates, $this->templates );
 		return $posts_templates;
 	}
 
+	// Add Template > 4.7
 	public function register_project_templates( $atts ) {
 		$cache_key = 'page_templates-' . md5( get_theme_root() . '/' . get_stylesheet() );
 
@@ -104,20 +108,18 @@ class LSDCommerce {
 		return $atts;
 	}
 
+	// Page Template Load
 	public function view_project_template( $template ) {
 		if ( is_search() ) {
 			return $template;
 		}
-
 
 		global $post;
 		if ( ! $post ) {
 			return $template;
 		}
 
-		if ( ! isset( $this->templates[get_post_meta(
-			$post->ID, '_wp_page_template', true
-		)] ) ) {
+		if ( ! isset( $this->templates[get_post_meta($post->ID, '_wp_page_template', true)] ) ) {
 			return $template;
 		}
 
@@ -141,8 +143,6 @@ class LSDCommerce {
 				break;
 		}
 
-	
-
 		// Just to be safe, we check if the file exist first
 		if ( file_exists( $file ) ) {
 			return $file;
@@ -152,11 +152,11 @@ class LSDCommerce {
 
 		return $template;
 	}
+
 	/**
 	 * Load the required dependencies for this plugin.
 	 *
 	 * Include the following files that make up the plugin:
-	 *
 	 * - LSDCommerce_Loader. Orchestrates the hooks of the plugin.
 	 * - LSDCommerce_Admin. Defines all hooks for the admin area.
 	 * - LSDCommerce_Public. Defines all hooks for the public side of the site.
@@ -167,6 +167,9 @@ class LSDCommerce {
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
+	 * 
+	 * Noted :: Make Cache for SpeedUp
+	 * Change for Optimize
 	 *
 	 * @since    1.0.0
 	 * @access   private
@@ -193,18 +196,18 @@ class LSDCommerce {
 		 * Calling Core Functions and Pluggable Functions
 		 */
 		require_once LSDC_PATH . 'core/functions/core-functions.php';
-		require_once LSDC_PATH . 'core/functions/helper-functions.php';
-		require_once LSDC_PATH . 'core/functions/get-functions.php';
-		require_once LSDC_PATH . 'core/functions/order-functions.php';
-		require_once LSDC_PATH . 'core/functions/product-functions.php';
-		require_once LSDC_PATH . 'core/functions/set-functions.php';
-		require_once LSDC_PATH . 'core/functions/pluggable.php';
-		require_once LSDC_PATH . 'core/functions/updater.php';
+		require_once LSDC_PATH . 'core/functions/helper-functions.php'; // Helper Functions
+		require_once LSDC_PATH . 'core/functions/get-functions.php'; // Functions to Set
+		require_once LSDC_PATH . 'core/functions/set-functions.php'; // Function to Get
+		require_once LSDC_PATH . 'core/functions/count-functions.php'; // Function for Counter
+
+		require_once LSDC_PATH . 'core/functions/order-functions.php'; // Functions for Order
+		require_once LSDC_PATH . 'core/functions/product-functions.php'; // Function for Product
 
 		// Register Custom PostType, Metabox and Shortcodes
 		require_once LSDC_PATH . 'core/plugin/posttypes.php';
 		require_once LSDC_PATH . 'core/plugin/metaboxes.php';
-		// require_once LSDC_PATH . 'core/plugin/dashboard.php';
+		// require_once LSDC_PATH . 'core/plugin/dashboard.php'; // Add Statistic in Dashborad
 		require_once LSDC_PATH . 'core/plugin/columns.php';
 		require_once LSDC_PATH . 'core/plugin/shortcodes.php';
 		require_once LSDC_PATH . 'core/plugin/user.php';
@@ -216,20 +219,18 @@ class LSDCommerce {
 		require_once LSDC_PATH . 'core/class/class-notification-manager.php';
 		require_once LSDC_PATH . 'core/class/class-shipping-manager.php';
 		require_once LSDC_PATH . 'core/class/class-member.php';
-	
 
-		// Defdult Payment
-		require_once LSDC_PATH . 'core/payments/class-transfer-bank.php';
-
-		// Default Notification
-		require_once LSDC_PATH . 'core/notifications/class-notification-email.php';
-
-		// Default Shipping
-		require_once LSDC_PATH . 'core/shipping/class-digital-email.php';
-		require_once LSDC_PATH . 'core/shipping/class-rajaongkir.php';
-		require_once LSDC_PATH . 'core/shipping/class-physical-rajaongkir.php';
-
+		// Module Class
+		require_once LSDC_PATH . 'core/modules/payments/class-transfer-bank.php'; // TransferBank
+		require_once LSDC_PATH . 'core/modules/notifications/class-notification-email.php'; // Notification Email
+		require_once LSDC_PATH . 'core/modules/shipping/class-digital-email.php';
+		require_once LSDC_PATH . 'core/modules/shipping/class-rajaongkir.php'; // Parent CLass for RajaOngkir
+		require_once LSDC_PATH . 'core/modules/shipping/class-physical-rajaongkir.php';
 		// require_once LSDC_PATH . 'core/shipping/class-physical-cod.php';
+
+		// Upgrader
+		require_once LSDC_PATH . 'core/modules/upgrader/updater.php';
+
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
@@ -261,13 +262,11 @@ class LSDCommerce {
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
-
 		$plugin_admin = new LSDCommerce_Admin( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-		$this->loader->add_action( 'admin_menu', $plugin_admin, 'register_admin_menu' );
-		$this->loader->add_filter( 'admin_init', $plugin_admin, 'load_admin_dependency' );
-
+		$this->loader->add_filter( 'admin_init', $plugin_admin, 'enqueue_dependency' );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu' );
 	}
 
 	/**
@@ -278,7 +277,6 @@ class LSDCommerce {
 	 * @access   private
 	 */
 	private function define_public_hooks() {
-
 		$plugin_public = new LSDCommerce_Public( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
         $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );

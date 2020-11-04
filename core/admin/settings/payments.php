@@ -34,7 +34,7 @@
           if( class_exists( $payment ) ) :
             $payment = new $payment;
     ?>
-            <li class="draggable" draggable="true">
+            <li class="draggable" draggable="false"> <!-- set true -->
               <div class="columns col-gapless">
 
                 <!-- Display Payment Logo -->
@@ -83,7 +83,7 @@
 </div>
 
 <!-- Draggable Function -->
-<script>
+<!-- <script>
   const draggables = document.querySelectorAll('.draggable')
   const containers = document.querySelectorAll('.methods')
 
@@ -127,4 +127,4 @@
       }
     }, { offset: Number.NEGATIVE_INFINITY }).element
   }
-</script>
+</script> -->

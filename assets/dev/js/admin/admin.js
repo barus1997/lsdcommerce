@@ -233,7 +233,7 @@ function validateEmail(email) {
 		var method		= $(this).attr('method');
 		
 		$.post( lsdc_adm.ajax_url, { 
-			action 		: 'lsdcommerce_payment_option',
+			action 		: 'lsdc_admin_payment_option',
 			method		: method,
 			id	 		: id,
 			serialize 	: serialize,

@@ -17,7 +17,7 @@ Class LSDC_BankBCA Extends LSDC_Payment {
     public $group           = 'transferbank';
     public $group_name      = 'Transfer Bank';
 
-    public $logo            =  LSDC_URL . 'assets/img/banks/bca.png';
+    public $logo            =  LSDC_URL . 'assets/images/banks/bca.png';
     public $country         = 'ID';
 
     protected $bank_code    = '014';
@@ -107,7 +107,7 @@ Class LSDC_BankCustomOne Extends LSDC_Payment {
     public $group           = 'banktransfer';
     public $group_name      = '';
 
-    public $logo            =  LSDC_URL . 'assets/img/banks/custom.png';
+    public $logo            =  LSDC_URL . 'assets/images/banks/custom.png';
     public $country         = 'GLOBAL';
 
     protected $bank_code    = '';
