@@ -1,7 +1,7 @@
 <?php 
 /**
  * Store Settings
- * Storing : lsdc_store_settings
+ * Storing : lsdcommerce_store_settings
  *
  * @package LSDCommerce
  * @subpackage Store

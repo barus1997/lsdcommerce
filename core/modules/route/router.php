@@ -55,13 +55,13 @@ function lsdcommerce_checkout_token(){
         $token = wp_hash( lsdc_date_now() );
         $expired = lsdc_date_now();
         setcookie( "_lsdcommerce_token", $token . '-' . strtotime( $expired ), time() + 600, "/"  );
-        if( ! get_transient( 'lsdc_checkout_' . $token ) ){
-            set_transient( 'lsdc_checkout_' . $token , lsdc_date_now(), 600 );
+        if( ! get_transient( 'lsdcommerce_checkout_' . $token ) ){
+            set_transient( 'lsdcommerce_checkout_' . $token , lsdc_date_now(), 600 );
         }        
     }else{
-        if( isset( $_COOKIE['_lsdcommerce_token'] )  &&  ! is_page( lsdc_get( 'general_settings', 'checkout_page' ) ) ){
-            setcookie( "_lsdcommerce_token" , null, time() - 3600 , "/"  );
-        }
+        // if( isset( $_COOKIE['_lsdcommerce_token'] )  &&  ! is_page( lsdc_get( 'general_settings', 'checkout_page' ) ) ){
+        //     setcookie( "_lsdcommerce_token" , null, time() - 3600 , "/"  );
+        // }
     }
 }
 add_action( 'template_redirect', 'lsdcommerce_checkout_token' );

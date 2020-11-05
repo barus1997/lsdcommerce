@@ -417,7 +417,7 @@ function lsdc_set($option, $item, $value)
  * @param string $string
  * return lower case and striped IN: Lasida Azis, OUT : lasida-azis
  */
-function lsdc_createID($string)
+function lsdc_sanitize_ID($string)
 {
     return sanitize_title(strtolower(preg_replace("/[^a-z0-9]+/i", "-", $string)));
 }

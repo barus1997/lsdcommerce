@@ -114,7 +114,7 @@ function lsdc_get_store( $key ){
  * Get : Store Settings
  */
 function lsdc_get_payment( $id, $type){
-    $payment_method = get_option( 'lsdcommerce_payment_option' );
+    $payment_method = get_option( 'lsdcommerce_payment_settings' );
     $pointer = isset( $payment_method[$id]['alias'] ) ? $payment_method[$id]['alias'] : $id; // Check if Alias Custom Exist or Not Using ID Default
     $method = $payment_method[$pointer]; // select data by alias if avaialbale
 

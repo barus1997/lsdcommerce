@@ -13,7 +13,7 @@ class LSDCommerce_Activator {
 
 	public static function activate() {
 
-		// Create Donation Page
+		// Create Page Etalase
 		$title = __( 'Etalase', 'lsdcommerce' );
 		$check = get_page_by_title($title);
 		$page = array(
@@ -28,6 +28,7 @@ class LSDCommerce_Activator {
 			$id = wp_insert_post($page);
 		}
 
+		// Create Page Checkout + Setup
 		$title = __( 'Checkout', 'lsdcommerce' );
 		$check = get_page_by_title($title);
 		$page = array(
@@ -60,7 +61,7 @@ class LSDCommerce_Activator {
 		}
 
 		// Set Report Read
-		update_option('lsdd_report_unread', 0);
+		update_option('lsdcommerce_order_unread', 0);
 
 
 		// Sending Usage Data

@@ -3,7 +3,7 @@
  * Manage Payment Method
  * 
  * Display Payment based on registered payment, status, and confirmation
- * Payment Settings : lsdcommerce_payment_option
+ * Payment Settings : lsdcommerce_payment_settings
  * 
  * @package LSDCommerce
  * @subpackage Payment
@@ -17,16 +17,16 @@
 <section id="payments">
 
   <div class="container columns col-gapless header">
-    <div class="column col-5"><?php _e('Method', 'lsdcommerce' ); ?></div>
-    <div class="column col-3"><?php _e('Enabled', 'lsdcommerce' ); ?></div>
-    <div class="column col-2"><?php _e('Confirmation', 'lsdcommerce' ); ?></div>
-    <div class="column col-2 text-right"><?php _e('Actions', 'lsdcommerce' ); ?></div>
+    <div class="column col-5"><?php _e('Metode', 'lsdcommerce' ); ?></div>
+    <div class="column col-3"><?php _e('Aktif', 'lsdcommerce' ); ?></div>
+    <div class="column col-2"><?php _e('Konfirmasi', 'lsdcommerce' ); ?></div>
+    <div class="column col-2 text-right"><?php _e('Aksi', 'lsdcommerce' ); ?></div>
   </div>
 
   <ul class="methods" id="draggable">
     <?php 
       global $lsdcommerce_payments;
-      $payment_option = get_option( 'lsdcommerce_payment_option' );
+      $payment_option = get_option( 'lsdcommerce_payment_settings' );
     
       if( $lsdcommerce_payments ) {
         foreach( $lsdcommerce_payments as $key => $payment )
@@ -55,13 +55,13 @@
                   <?php if( $payment->confirmation() == 'manual' ) :  ?>
                     <span class="label label-secondary"><?php _e( 'Manual', 'lsdcommerce' ); ?></span>
                   <?php else: ?>
-                    <span class="label label-success"><?php _e( 'Automatic', 'lsdcommerce' ); ?></span>
+                    <span class="label label-success"><?php _e( 'Otomatis', 'lsdcommerce' ); ?></span>
                   <?php endif; ?>
                 </div>
 
                 <!-- Display Payment Manage Button -->
                 <div class="column col-2 text-right">
-                  <button class="btn lsdc-payment-manage" id="<?php echo $payment->id; ?>"><?php _e( 'Manage', 'lsdcommerce' ); ?></button>
+                  <button class="btn lsdc-payment-manage" id="<?php echo $payment->id; ?>"><?php _e( 'Kelola', 'lsdcommerce' ); ?></button>
                 </div>
 
               </div>

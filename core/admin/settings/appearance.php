@@ -11,7 +11,7 @@ $settings = get_option('lsdc_appearance_settings');
 ?>
 
 <div class="entry columns col-gapless">
-  <div class="column col-9">
+  <div class="column col-8">
 
     <section id="appearance" class="form-horizontal" style="padding: .4rem 10px;">
       <form>
@@ -82,9 +82,13 @@ $settings = get_option('lsdc_appearance_settings');
 
   </div>
 
-  <div class="column col-3">
-    <h6>Shortcode <a class="btn btn-primary btn-sm float-right" target="_blank" href="https://docs.lsdplugins.com/" ><?php _e( 'Pelajari Shortcode', 'lsdcommerce' ); ?></a></h6>
-    <?php do_action('lsdc_shortcode_hook'); ?>
+  <div class="column col-4">
+    <h6>Shortcode <a class="btn btn-primary btn-sm float-right" target="_blank" href="https://docs.lsdplugins.com/lsdcommerce/" ><?php _e( 'Pelajari Shortcode', 'lsdcommerce' ); ?></a></h6>
+    <p style="margin:0;"><?php _e( 'Menampilkan Halaman Checkout', 'lsdd' ); ?></p><code>[lsdcommerce_checkout]</code>
+  <?php if( has_action('lsdcommerce_shortcode_hook' )) : ?>
+
+    <?php do_action('lsdcommerce_shortcode_hook'); ?>
+  <?php endif; ?>
   </div>
 
 </div>

@@ -36,7 +36,7 @@ function lsdc_admin_store_save() {
     $temp['postalcode'] = sanitize_text_field($store['postalcode']);
     $temp['currency'] = sanitize_text_field($store['currency']);
 
-    update_option('lsdc_store_settings', $temp);
+    update_option('lsdcommerce_store_settings', $temp);
     echo 'action_success'; // Force Save
     wp_die();
 }
@@ -101,7 +101,7 @@ function lsdc_admin_payment_option() {
     if (!check_ajax_referer('lsdc_nonce', 'security')) wp_send_json_error('Invalid security token sent.');
 
     $origin_id = sanitize_title(strtolower(preg_replace("/[^a-z]+/i", "", $_REQUEST['id']))); // Sanitize Title
-    $method = 'lsdcommerce_payment_option'; // Set Method Name to Varibale
+    $method = 'lsdcommerce_payment_settings'; // Set Method Name to Varibale
     $data = $_REQUEST['serialize']; // string form
     $output = array();
     parse_str($data, $output); // string form  to array
@@ -119,8 +119,7 @@ function lsdc_admin_payment_option() {
         }
 
         if ($key == 'alias') {
-            $alias = lsdc_sanitize_id($item); // Sanitize ID
-            
+            $alias = lsdc_sanitize_ID($item); // Sanitize ID
         }
     }
 

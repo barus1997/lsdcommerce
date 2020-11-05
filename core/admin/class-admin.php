@@ -64,10 +64,13 @@ class LSDCommerce_Admin {
         wp_enqueue_style('wp-color-picker');
 
         // Enquene Spectre CSS in LSDCommerce Admin Only
-        if (isset($_REQUEST['page']) && $_REQUEST['page'] == 'lsdcommerce' || strpos($_REQUEST['page'], 'lsdc') !== false) {
-            // wp_enqueue_style( 'SpectreIcons', LSDC_URL . 'assets/lib/spectre/spectre-icons.min.css', array(), '0.5.8', 'all' );
-            wp_enqueue_style('spectre-css', LSDC_URL . 'assets/lib/spectre.css/spectre.min.css', array() , '0.5.8', 'all');
+        if( isset($_REQUEST['page']) ){
+            if ( $_REQUEST['page'] == 'lsdcommerce' || strpos($_REQUEST['page'], 'lsdc') !== false) {
+                // wp_enqueue_style( 'SpectreIcons', LSDC_URL . 'assets/lib/spectre/spectre-icons.min.css', array(), '0.5.8', 'all' );
+                wp_enqueue_style('spectre-css', LSDC_URL . 'assets/lib/spectre.css/spectre.min.css', array() , '0.5.8', 'all');
+            }
         }
+
 
         if( isset($_REQUEST['page']) && isset($_REQUEST['tab']) && $_REQUEST['tab'] == 'addons' ){
             wp_enqueue_style( 'spectre-exp', LSDC_URL . 'assets/lib/spectre.css/spectre-exp.min.css', array(), '0.5.8', 'all' );
@@ -108,7 +111,11 @@ class LSDCommerce_Admin {
      */
     public function enqueue_dependency() {
 		require_once LSDC_PATH . 'core/admin/admin-ajax.php';
-		require_once LSDC_PATH . 'core/admin/order-ajax.php';
+        require_once LSDC_PATH . 'core/admin/order-ajax.php';
+        require_once LSDC_PATH . 'core/modules/product/product-data.php';
+        require_once LSDC_PATH . 'core/modules/order/order-columns.php';
+        // Upgrader
+		require_once LSDC_PATH . 'core/modules/upgrader/updater.php';
     }
 
     /**
@@ -117,7 +124,7 @@ class LSDCommerce_Admin {
      * @since    1.0.0
      */
     public function admin_menu() {
-        $order_counter = (get_option('lsdc_order_unread_counter') > 0) ? abs(get_option('lsdc_order_unread_counter')) : '';
+        $order_counter = (get_option('lsdcommerce_order_unread') > 0) ? abs(get_option('lsdcommerce_order_unread')) : '';
 
         // Add LSDCommerce Menu
         add_menu_page('LSDCommerce', 'LSDCommerce', 'manage_options', 'lsdcommerce', array(
@@ -134,13 +141,13 @@ class LSDCommerce_Admin {
         endif;
 
         // Add Order Menu
-        add_menu_page(__('Order', 'lsdcommerce') , $order_counter ? sprintf(__('Order <span class="awaiting-mod">%d</span>', 'lsdcommerce') , $order_counter) : __('Order', 'lsdcommerce') , 'manage_options', 'edit.php?post_type=lsdc-order', '', LSDC_URL . 'assets/images/svg/order.svg', 3);
+        add_menu_page(__('Pesanan', 'lsdcommerce') , $order_counter ? sprintf(__('Pesanan <span class="awaiting-mod">%d</span>', 'lsdcommerce') , $order_counter) : __('Pesanan', 'lsdcommerce') , 'manage_options', 'edit.php?post_type=lsdc-order', '', LSDC_URL . 'assets/images/svg/order.svg', 3);
 
         // Add Products Menu
-        add_menu_page(__('Products', 'lsdcommerce') , __('Products', 'lsdcommerce') , 'manage_options', 'edit.php?post_type=lsdc-product', '', LSDC_URL . 'assets/images/svg/product.svg', 3);
+        add_menu_page(__('Produk', 'lsdcommerce') , __('Produk', 'lsdcommerce') , 'manage_options', 'edit.php?post_type=lsdc-product', '', LSDC_URL . 'assets/images/svg/product.svg', 3);
 
         // Submenu Product -> Categories
-        add_submenu_page('edit.php?post_type=lsdc-product', __('Categories', 'lsdcommerce') , __('Categories', 'lsdcommerce') , 'manage_options', 'edit-tags.php?taxonomy=lsdc-product-category&post_type=lsdc-product', '');
+        add_submenu_page('edit.php?post_type=lsdc-product', __('Kategori', 'lsdcommerce') , __('Kategori', 'lsdcommerce') , 'manage_options', 'edit-tags.php?taxonomy=lsdc-product-category&post_type=lsdc-product', '');
     }
 
     /**

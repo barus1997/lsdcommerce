@@ -169,7 +169,7 @@ Class LSDC_Notification_Email Extends LSDC_Notification {
             <?php do_action( 'lsdcommerce_notification_email_tab'); ?>
             
             <input type="radio" name="email" id="lsdc_notification_email_settings" checked="checked"/>
-            <label class="tab" for="lsdc_notification_email_settings"><?php _e( 'Settings', 'lsdcommerce'  ); ?></label>
+            <label class="tab" for="lsdc_notification_email_settings"><?php _e( 'Pengaturan', 'lsdcommerce'  ); ?></label>
 
             <div class="tab-body-wrapper">
                  <!------------ Tab : Log ------------>
@@ -207,7 +207,7 @@ Class LSDC_Notification_Email Extends LSDC_Notification {
                         <!-- Sender -->
                         <div class="form-group">
                             <div class="col-3 col-sm-12">
-                                <label class="form-label" for="country"><?php _e( 'Sender', 'lsdcommerce' ); ?></label>
+                                <label class="form-label" for="country"><?php _e( 'Pengirim', 'lsdcommerce' ); ?></label>
                             </div>
                             <div class="col-9 col-sm-12">
                                 <input class="form-input" type="text" name="sender" placeholder="LSDPlugins" style="width:320px" value="<?php echo $this->mail->get_sender(); ?>">
@@ -217,14 +217,14 @@ Class LSDC_Notification_Email Extends LSDC_Notification {
                         <!-- Sender Email -->
                         <div class="form-group">
                             <div class="col-3 col-sm-12">
-                                <label class="form-label" for="country"><?php _e( 'Sender Email', 'lsdcommerce' ); ?></label>
+                                <label class="form-label" for="country"><?php _e( 'Alamat Email Pengirim', 'lsdcommerce' ); ?></label>
                             </div>
                             <div class="col-9 col-sm-12">
                                 <input class="form-input" type="email" name="sender_email" placeholder="info@lsdplugins.com" style="width:320px" value="<?php echo $this->mail->get_sender_email(); ?>">
                             </div>
                         </div>
 
-                        <button class="btn btn-primary lsdc_admin_option_save" option="lsdcommerce_notification_email" style="width:120px"><?php _e( 'Save', 'lsdcommerce' ); ?></button> 
+                        <button class="btn btn-primary lsdc_admin_option_save" option="lsdcommerce_notification_email" style="width:120px"><?php _e( 'Simpan', 'lsdcommerce' ); ?></button> 
                     </form>
       
                     <!-- <div class="divider" data-content="Test Email"></div> -->
