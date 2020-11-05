@@ -75,7 +75,7 @@ Class LSDC_Shipping_Email Extends LSDC_Shipping {
 
             $data       = $this->processing( $obj );
 
-            $this->mail->send( $email, $subject, $event, $path, $data );
+            $this->mail->send( $email, $subject, $type, $path, $data );
         }
     }
 
@@ -128,7 +128,7 @@ Class LSDC_Shipping_Email Extends LSDC_Shipping {
             <label class="tab" for="lsdc_shipping_email_log"><?php //_e( 'Log', 'lsdcommerce' ); ?></label> -->
 
             <input type="radio" name="<?php echo $this->id; ?>" id="lsdc_shipping_email_settings" checked="checked"/>
-            <label class="tab" for="lsdc_shipping_email_settings"><?php _e( 'Settings', 'lsdcommerce' ); ?></label>
+            <label class="tab" for="lsdc_shipping_email_settings"><?php _e( 'Pengaturan', 'lsdcommerce' ); ?></label>
 
             <div class="tab-body-wrapper">
                  <!------------ Tab : Log ------------>
@@ -162,7 +162,7 @@ Class LSDC_Shipping_Email Extends LSDC_Shipping {
                         <!-- Sender -->
                         <div class="form-group">
                             <div class="col-3 col-sm-12">
-                                <label class="form-label" for="country"><?php _e( 'Sender', "lsdcommerce" ); ?></label>
+                                <label class="form-label" for="country"><?php _e( 'Nama Pengirim', "lsdcommerce" ); ?></label>
                             </div>
                             <div class="col-9 col-sm-12">
                                 <input class="form-input" type="text" name="sender" placeholder="LSDPlugins" style="width:320px" value="<?php echo $this->mail->get_sender(); ?>">
@@ -172,14 +172,14 @@ Class LSDC_Shipping_Email Extends LSDC_Shipping {
                         <!-- Sender Email -->
                         <div class="form-group">
                             <div class="col-3 col-sm-12">
-                                <label class="form-label" for="country"><?php _e( 'Sender Email', "lsdcommerce" ); ?></label>
+                                <label class="form-label" for="country"><?php _e( 'Alamat Email Pengirim', "lsdcommerce" ); ?></label>
                             </div>
                             <div class="col-9 col-sm-12">
                                 <input class="form-input" type="email" name="sender_email" placeholder="shipping@lsdplugins.com" style="width:320px" value="<?php echo $this->mail->get_sender_email(); ?>">
                             </div>
                         </div>
 
-                        <button class="btn btn-primary lsdc_admin_option_save" option="<?php echo $this->id; ?>" style="width:120px"><?php _e( 'Save', "lsdcommerce" ); ?></button> 
+                        <button class="btn btn-primary lsdc_admin_option_save" option="<?php echo $this->id; ?>" style="width:120px"><?php _e( 'Simpan', "lsdcommerce" ); ?></button> 
                     </form>
       
                     <!-- <div class="divider" data-content="Test Email"></div>

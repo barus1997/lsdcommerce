@@ -40,7 +40,7 @@ class LSDC_Notification{
             <div class="form-group">
                 <label class="form-switch">
                 <input type="checkbox" id="<?php echo $this->id . '_status'; ?>" <?php echo ( $status == 'on' ) ? 'checked' : ''; ?>>
-                    <i class="form-icon"></i> <?php _e( 'Enable ', 'lsdcommerce' ); ?><?php echo $this->name; ?>
+                    <i class="form-icon"></i> <?php _e( 'Aktifkan ', 'lsdcommerce' ); ?><?php echo $this->name; ?>
                 </label>
             </div>
         </div>

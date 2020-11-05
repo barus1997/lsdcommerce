@@ -192,6 +192,13 @@ class LSDCommerce {
 		 */
 		require_once LSDC_PATH . 'core/public/class-public.php';
 
+		/**
+		 * Register Custom Post Types
+		 * lsdc-product
+		 * lsdc-order
+		 */
+		require_once LSDC_PATH . 'core/plugin/posttypes.php';
+
         /**
 		 * Calling Core Functions and Pluggable Functions
 		 */
@@ -204,21 +211,18 @@ class LSDCommerce {
 		require_once LSDC_PATH . 'core/functions/order-functions.php'; // Functions for Order
 		require_once LSDC_PATH . 'core/functions/product-functions.php'; // Function for Product
 
-		// Register Custom PostType, Metabox and Shortcodes
-		require_once LSDC_PATH . 'core/plugin/posttypes.php';
-		require_once LSDC_PATH . 'core/plugin/metaboxes.php';
+
 		// require_once LSDC_PATH . 'core/plugin/dashboard.php'; // Add Statistic in Dashborad
-		require_once LSDC_PATH . 'core/plugin/columns.php';
 		require_once LSDC_PATH . 'core/plugin/shortcodes.php';
 		require_once LSDC_PATH . 'core/plugin/user.php';
 
 		// Core Manager
 		require_once LSDC_PATH . 'core/class/class-mail.php';
-		require_once LSDC_PATH . 'core/class/class-form.php';
+
 		require_once LSDC_PATH . 'core/class/class-payment-manager.php';
 		require_once LSDC_PATH . 'core/class/class-notification-manager.php';
 		require_once LSDC_PATH . 'core/class/class-shipping-manager.php';
-		require_once LSDC_PATH . 'core/class/class-member.php';
+		// require_once LSDC_PATH . 'core/class/class-member.php';
 
 		// Module Class
 		require_once LSDC_PATH . 'core/modules/payments/class-transfer-bank.php'; // TransferBank
@@ -228,13 +232,11 @@ class LSDCommerce {
 		require_once LSDC_PATH . 'core/modules/shipping/class-physical-rajaongkir.php';
 		// require_once LSDC_PATH . 'core/shipping/class-physical-cod.php';
 
-		// Upgrader
-		require_once LSDC_PATH . 'core/modules/upgrader/updater.php';
-
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
+		require_once LSDC_PATH . 'core/modules/route/router.php'; // Caling Function to Initiate
 		require_once LSDC_PATH . 'core/init.php'; // Caling Function to Initiate
 
 		$this->loader = new LSDCommerce_Loader();
@@ -279,9 +281,10 @@ class LSDCommerce {
 	private function define_public_hooks() {
 		$plugin_public = new LSDCommerce_Public( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-        $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_filter( 'init', $plugin_public, 'enquene_dependency' );
 		$this->loader->add_filter( 'single_template', $plugin_public, 'single_template' );
-		$this->loader->add_filter( 'init', $plugin_public, 'public_dependency' );
+
 	}
 
 	/**

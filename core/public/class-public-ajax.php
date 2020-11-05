@@ -1,7 +1,10 @@
 <?php
+require_once LSDC_PATH . 'core/class/class-log.php';
+require_once LSDC_PATH . 'core/class/class-order.php';
+
 use LSDCommerce\Logger\LSDC_Logger;
 use LSDCommerce\Order\LSDC_Order;
-require_once LSDC_PATH . 'core/class/class-order.php';
+
 /**
  * Class To Handle Public AJAX
  */
@@ -10,48 +13,41 @@ class LSDCommerce_Public_AJAX
 
     public function __construct()
     {
-        add_action('wp_ajax_lsdcommerce_create_order', array(
-            $this,
-            'create_order'
-        ));
-        add_action('wp_ajax_nopriv_lsdcommerce_create_order', array(
-            $this,
-            'create_order'
-        ));
+        add_action('wp_ajax_lsdcommerce_create_order', [ $this, 'create_order' ]);
+        add_action('wp_ajax_nopriv_lsdcommerce_create_order', [ $this, 'create_order' ]);
     }
 
     public function create_order()
     {
-        $_REQUEST = array_map('stripslashes_deep', $_REQUEST);
-
+        $_REQUEST = array_map('stripslashes_deep', $_REQUEST); // Stripslash
         // Checking Token and Nonce
         if (!check_ajax_referer('lsdc_nonce', 'security')) wp_send_json_error('Invalid security token sent.'); //Token
         if (!wp_verify_nonce($_REQUEST['nonce'], 'checkout-nonce')) wp_send_json_error('Busted.'); //Nonce
-
         // Checking Token
-        $user_token = esc_attr($_REQUEST['token']);
-        $token = explode('-', $user_token)[0];
-        $server_token = get_transient('lsdc_checkout_' . $token); // Get Transient from Server based on Client Token
-        // var_dump( $user_token );
+        $user_token = sanitize_text_field($_REQUEST['token']);
+        $token = sanitize_text_field(explode('-', $user_token) [0]);
+        $server_token = get_transient('lsdcommerce_checkout_' . $token); // Get Transient from Server based on Client Token
         $timestamp = strtotime(lsdc_date_now()) - strtotime($server_token);
-
         $validation = false;
 
         #Flooding Blocker
         if ($timestamp > 550)
-        { // Passed
+        {
             LSDC_Logger::log('Checkout Flooding from ' . lsdc_get_ip() , LSDC_Logger::WARNING);
+            setcookie( "_lsdcommerce_token" , null, time() - 3600 , "/"  );
             die("_token_expired");
         }
+
         // Have Checkout Token
         if ($user_token)
         {
             $order_object = $_REQUEST['order']; //from JS ( Shipping, Customer, Products )
-            #Email Exist in Member
-            $user = get_user_by('email', $order_object['form']['email']);
-            if ($user->ID)
+            $user = get_user_by('email', sanitize_email($order_object['form']['email']));
+            if ($user->ID) // Email already exist
+            
             {
-                if (is_user_logged_in())
+                if (is_user_logged_in()) // already log-in
+                
                 {
                     // Member Checkout
                     $validation = true;
@@ -67,10 +63,14 @@ class LSDCommerce_Public_AJAX
                 $validation = true;
             }
         }
-        else
+        else 
+        // Empty user token
+        
         {
             die("_token_expired");
         }
+
+        // Validation True and Create Order, Generate Thankyou URL
         if ($validation)
         {
             $order_object['order_key'] = $token;
@@ -78,10 +78,11 @@ class LSDCommerce_Public_AJAX
             $new->create_order($order_object);
             echo $new->thankyou_url($token);
         }
+
         wp_die();
     }
 }
-new LSDCommerce_Public_AJAX;
+new LSDCommerce_Public_AJAX; // Auto Initiate
 
 /**
  * Grouping Shipping AJAX
@@ -90,10 +91,12 @@ class LSDCommerce_Shipping_AJAX
 {
     public function __construct()
     {
+        // Set Frontend Shipping
         add_action('lsdcommerce_checkout_shipping', [$this, 'shipping_method']);
 
-        add_action('wp_ajax_nopriv_lsdc_shipping_physical_package', [$this, 'shipping_package']);
-        add_action('wp_ajax_lsdc_shipping_physical_package', [$this, 'shipping_package']);
+        // Ajax Shipping Package
+        add_action('wp_ajax_nopriv_lsdcommerce_shipping_package', [$this, 'shipping_package']);
+        add_action('wp_ajax_lsdcommerce_shipping_package', [$this, 'shipping_package']);
     }
 
     /**
@@ -114,17 +117,7 @@ class LSDCommerce_Shipping_AJAX
         {
             foreach ($carts as $key => $product)
             {
-                // Variation
-                $product_id = null;
-                if (!is_nan($product->id))
-                {
-                    $product_id = explode('-', $product->id) [0];
-                }
-                else
-                {
-                    $product_id = $product->id;
-                }
-
+                $product_id = lsdc_product_extract_ID($product->id);
                 $shipping_type = get_post_meta($product_id, '_shipping_type', true);
                 switch ($shipping_type)
                 {
@@ -163,12 +156,12 @@ class LSDCommerce_Shipping_AJAX
                 }
             }
         }
-
-?>
+        ?>
+        
         <?php if (!empty($shipping_digital_list)): ?>
             <h6 class="text-primary font-weight-medium lsdp-mb-10"><?php _e("Pengiriman Digital", 'lsdcommerce'); ?></h6>
                 <div id="digital-shipping" class="lsdp-row no-gutters radio-courier">
-                    <?php do_action('lsdcommerce_shipping_digital'); ?>
+                    <?php do_action('lsdcommerce_shipping_digital_services'); ?>
                 </div>
             <hr>
         <?php
@@ -187,7 +180,7 @@ class LSDCommerce_Shipping_AJAX
         <!-- Empty and Not Set Shipping Channel -->
         <?php if (empty($shipping_physical_list) && empty($shipping_digital_list)): ?>
             <div class="lsdp-alert lsdc-info lsdp-mt-10 lsdp-mx-10">
-                <?php _e('Please contact admin to set up a shipping channel', 'lsdcommerce'); ?>
+                <?php _e('Metode pengiriman tidak tersedia, Hubungi Administrator', 'lsdcommerce'); ?>
             </div>
         <?php
         endif;
@@ -196,11 +189,9 @@ class LSDCommerce_Shipping_AJAX
     public function shipping_package()
     {
         global $lsdcommerce_shippings;
+
         if (!check_ajax_referer('lsdc_nonce', 'security')) wp_send_json_error('Invalid security token sent.');
-        if (!wp_verify_nonce($_REQUEST['nonce'], 'checkout-nonce'))
-        {
-            die('Busted');
-        }
+        if (!wp_verify_nonce($_REQUEST['nonce'], 'checkout-nonce')) die('Busted'); 
 
         $_REQUEST = array_map('stripslashes_deep', $_REQUEST);
         $shipping_data = $_REQUEST['shipping']; // Token, Destination, Products
@@ -210,7 +201,6 @@ class LSDCommerce_Shipping_AJAX
         {
             foreach ($lsdcommerce_shippings as $key => $class)
             {
-
                 $object = new $class;
                 if ($object->type == 'physical')
                 {
@@ -225,27 +215,29 @@ class LSDCommerce_Shipping_AJAX
         wp_die();
     }
 }
-new LSDCommerce_Shipping_AJAX;
+new LSDCommerce_Shipping_AJAX; // Auto Initiate
 
+
+/**
+ * Grouping Checkout AJAX
+ */
 class LSDCommerce_Checkout_AJAX
 {
     public function __construct()
     {
-        add_action('wp_ajax_nopriv_lsdc_checkout_extra_processing', [$this, 'checkout_pre_processing']);
-        add_action('wp_ajax_lsdc_checkout_extra_processing', [$this, 'checkout_pre_processing']);
+        add_action('wp_ajax_nopriv_lsdcommerce_checkout_extra_pre', [$this, 'checkout_pre_processing']);
+        add_action('wp_ajax_lsdcommerce_checkout_extra_pre', [$this, 'checkout_pre_processing']);
     }
 
     public function checkout_pre_processing()
     {
         $extras = array();
         if (!check_ajax_referer('lsdc_nonce', 'security')) wp_send_json_error('Invalid security token sent.');
-        if (!wp_verify_nonce($_REQUEST['nonce'], 'checkout-nonce'))
-        {
-            die('Busted');
-        }
+        if (!wp_verify_nonce($_REQUEST['nonce'], 'checkout-nonce')) die('Busted');
 
         $_REQUEST = array_map('stripslashes_deep', $_REQUEST);
         empty($_REQUEST['extras']) ? $extras = array() : $extras = $_REQUEST['extras']; // Extras Data from Javascript
+
         // Calculating Product -> Shipping Package
         $shipping_type = array();
         $weights = 0;
@@ -254,44 +246,57 @@ class LSDCommerce_Checkout_AJAX
         $products = $extras['products'];
         foreach ($products as $key => $product)
         {
-            $product_id = abs($product['id']);
+            $variation_id = null;
+            $product_id = lsdc_product_extract_ID($product['id']);
+            $product_price = lsdc_product_price($product_id);
+            $product_title = get_the_title($product_id);
 
-            /* PRO Code - Start, Just Ignore, don't Delete */
-            if (isset($product['variation_id']))
-            {
-                $variation_id = esc_attr($product['variation_id'], true);
-            }
-            else
-            {
-                $variation_id = null;
-            }
-            /* PRO Code - Start, Just Ignore, don't Delete */
+            $limit_order = get_post_meta($product_id, '_limit_order', true);
+            $product_qty = $limit_order > abs($product['qty']) ? abs($product['qty']) : abs($limit_order);
 
-            $product_price = $variation_id != null ? lsdc_product_variation_price($product_id, lsdc_variation_ID($variation_id, true)) : lsdc_product_price($product_id);
-            // Assign to Object
+            /* Start - Pro CODE, Ignore, Don't Delete */
+            // Checking Variation Exist in Product
+            if (lsdc_product_variation_exist($product_id, sanitize_text_field($product['id'])))
+            {
+                // Assign Variation ID
+                $variation_id = sanitize_text_field($product['id']);
+                $extras['products'][$key]['variation_id'] = $variation_id;
+                $extras['products'][$key]['variations'][] = array( $variation_id, lsdc_product_variation_price($product_id, $variation_id) - $product_price );
+
+                // Product Price based on Variation
+                $product_price = lsdc_product_variation_price($product_id, $variation_id);
+                $product_title = $product_title . ' - ' . lsdc_product_variation_label($product_id, $variation_id);
+                // Limit Order by Variation - Soon
+                // Limit Stock by Variation - Soon
+            }
+            /* End - Pro CODE, Ignore, Don't Delete */
+
+            // ReAssign to Order Object
             $extras['products'][$key]['id'] = $product_id;
-            $extras['products'][$key]['variation_id'] = $variation_id;
-            $extras['products'][$key]['qty'] = abs($product['qty']);
+            $extras['products'][$key]['qty'] = $product_qty;
             $extras['products'][$key]['price_unit'] = $product_price;
-            $extras['products'][$key]['title'] = get_the_title($product_id);
-            $extras['products'][$key]['thumbnail'] = get_the_post_thumbnail_url($product_id, 'lsdc-thumbnail-mini');
-            $extras['products'][$key]['total'] = lsdc_currency_format(true, $product_price * abs($product['qty']));
+            $extras['products'][$key]['price_unit_text'] = $product_price != 0 ? lsdc_currency_format(false, $product_price) : __('Gratis', 'lsdcommerce');
             $extras['products'][$key]['weight_unit'] = abs(get_post_meta($product_id, '_physical_weight', true));
+            $extras['products'][$key]['title'] = $product_title;
+            $extras['products'][$key]['thumbnail'] = get_the_post_thumbnail_url($product_id, 'lsdc-thumbnail-mini');
+            $extras['products'][$key]['total'] = lsdc_currency_format(true, $product_price * $product_qty);
 
-            $grandtotal += $product_price * abs($product['qty']);
-            $weights += abs(get_post_meta($product_id, '_physical_weight', true)) * abs($product['qty']);
+            $grandtotal += $product_price * $product_qty;
+            $weights += abs(get_post_meta($product_id, '_physical_weight', true)) * $product_qty;
+
             array_push($shipping_type, get_post_meta($product_id, '_shipping_type', true));
         }
         $extras['extras']['shipping']['weights'] = $weights; //Assign Weights for Shipping Calculation
         $extras['extras']['shipping']['types'] = $shipping_type;
         $extras['products']['grandtotal'] = $grandtotal;
+
         // Calculating Extras Cost
         $extra_cost = 0;
         $messages = array();
+
         if (has_filter('lsdcommerce_payment_extras'))
         {
             // Procssing Raw Data from JS to Clean PHP
-            // apply_filters('lsdcommerce_payment_extras', $extras );
             $extras = apply_filters('lsdcommerce_payment_extras', $extras);
 
             if ($extras)
@@ -363,5 +368,5 @@ class LSDCommerce_Checkout_AJAX
         wp_die();
     }
 }
-new LSDCommerce_Checkout_AJAX;
+new LSDCommerce_Checkout_AJAX;  // Auto Initiate
 ?>

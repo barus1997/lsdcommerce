@@ -1,18 +1,19 @@
 <?php 
 require_once LSDC_PATH . 'core/functions/pluggable.php'; // Pluggable Functions
+require_once LSDC_PATH . 'core/class/class-form.php';
+
 use LSDCommerce\Pluggable\LSDC_Pluggable;
 use LSDCommerce\Form\LSDC_Form;
+
 use LSDCommerce\Shipping\LSDC_Shipping;
 use LSDCommerce\Payments\LSDC_Payment;
 
-
 add_image_size( 'lsdcommerce-thumbnail-mini', 90, 90, true );
 add_image_size( 'lsdcommerce-thumbnail-single', 500, 9999, false );
-add_image_size( 'lsdcommerce-thumbnail-listing', 380, 190, true );
+add_image_size( 'lsdcommerce-thumbnail-listing', 450, 450, true );
 
-// Registering Form to Checkout
-LSDC_Pluggable::form_register( array( "id" => "name", "type" => "text", "placeholder" => __( "Name" ,'lsdcommerce' ), "req" => "true" ) );
-LSDC_Pluggable::form_register( array( "id" => "phone", "type" => "text", "placeholder" => __( "Phone" ,'lsdcommerce' ), "req" => "true" ) );
+LSDC_Pluggable::form_register( array( "id" => "name", "type" => "text", "placeholder" => __( "Nama" ,'lsdcommerce' ), "req" => "true" ) );
+LSDC_Pluggable::form_register( array( "id" => "phone", "type" => "text", "placeholder" => __( "Telepon" ,'lsdcommerce' ), "req" => "true" ) );
 LSDC_Pluggable::form_register( array( "id" => "email", "type" => "email", "placeholder" => __( "Email" ,'lsdcommerce' ), "req" => "true" ) );
 
 // Initial Core in Public Init
@@ -24,22 +25,19 @@ function lsdcommerce_init(){
         add_filter('show_admin_bar', '__return_false'); 
     }
 
-    // Rendering Form
-    LSDC_Form::public_render();
-    LSDC_Payment::public_render();
-
     // Create Order Received URL
     add_rewrite_rule( 'payment/thankyou/([^/]+)', 'index.php?payment=true&thankyou=$matches[1]', 'top' );
     add_rewrite_rule( 'payment/thankyou', 'index.php?payment=true', 'top' );
+    do_action( 'lsdcommerce_init' );
 }
 add_action('init', 'lsdcommerce_init');
 
 function lsdcommerce_checkout_init(){
+    LSDC_Form::public_render();
     LSDC_Shipping::public_render();
+    LSDC_Payment::public_render();
 }
 add_action('lsdcommerce_checkout', 'lsdcommerce_checkout_init');
-
-
 
 // Apply style Based on Settings
 function lsdc_apperance(){

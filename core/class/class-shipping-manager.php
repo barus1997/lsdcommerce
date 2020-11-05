@@ -62,7 +62,7 @@ class LSDC_Shipping {
             <div class="form-group">
                 <label class="form-switch">
                 <input type="checkbox" id="<?php echo $this->id . '_status'; ?>" <?php echo ( $status == 'on' ) ? 'checked' : ''; ?>>
-                    <i class="form-icon"></i> <?php _e( 'Enable ', 'lsdcommerce' ); ?><?php echo $this->name; ?>
+                    <i class="form-icon"></i> <?php _e( 'Aktifkan ', 'lsdcommerce' ); ?><?php echo $this->name; ?>
                 </label>
             </div>
         </div>
@@ -95,7 +95,7 @@ class LSDC_Shipping {
 
                     if( $type == 'digital' ) :
                         // Attach to Shipping Digital List
-                        add_action( 'lsdcommerce_shipping_digital', function() use ( $id, $name, $type, $status, $flag ){ 
+                        add_action( 'lsdcommerce_shipping_digital_services', function() use ( $id, $name, $type, $status, $flag ){ 
 
                             ?>
                             <?php if( $status == 'on' ) :  ?>

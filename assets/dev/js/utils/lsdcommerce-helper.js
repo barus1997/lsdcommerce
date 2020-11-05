@@ -372,7 +372,7 @@ function lsdcommerce_shipping_package() {
 
     // Shipping Package POST
     jQuery.post(lsdc_pub.ajax_url, {
-        action: 'lsdc_shipping_physical_package',
+        action: 'lsdcommerce_shipping_package',
         shipping: {
             'order_key': token,
             'target': target,
@@ -444,7 +444,7 @@ function lsdcommerce_update_extras(extras_data) {
 
     // Ajax Can't Callback Causing Async
     callback = jQuery.post(lsdc_pub.ajax_url, {
-        action: 'lsdc_checkout_extra_processing',
+        action: 'lsdcommerce_checkout_extra_pre',
         extras: {
             'order_key' : token,
             'extras'    : extras_data,

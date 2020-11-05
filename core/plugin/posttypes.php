@@ -37,7 +37,7 @@ function lsdc_register_posttypes(){
         'show_in_menu' 		=> false,
         'show_in_admin_bar' => true,
         'query_var' 		=> true,
-        'rewrite' 			=> array ('slug' => __( 'product', 'lsdcommerce' ) ),
+        'rewrite' 			=> array( 'slug' => 'product' ),
         'has_archive' 		=> true,
         'hierarchical' 		=> false,
         'taxonomies'    	=> array( 'lsdc-product-category' ),
@@ -74,16 +74,16 @@ function lsdc_register_posttypes(){
     // PostType : Order
 
     $labels = array(
-        'name'          => _x('Orders', 'plural', 'lsdcommerce'),
-        'singular_name' => _x('Order', 'singular', 'lsdcommerce'),
-        'add_new'       => _x('New Order', 'addorder', 'lsdcommerce'),
-        'add_new_item'  => __('Add Order', 'lsdcommerce'),
-        'new_item'      => __('New Order', 'lsdcommerce'),
-        'edit_item'     => __('Edit Order', 'lsdcommerce'),
-        'view_item'     => __('View Order', 'lsdcommerce'),
-        'all_items'     => __('All Order', 'lsdcommerce'),
-        'search_items'  => __('Find Order', 'lsdcommerce'),
-        'not_found'     => __('Order Not Found.', 'lsdcommerce'),
+        'name'          => _x('Pesanan', 'plural', 'lsdcommerce'),
+        'singular_name' => _x('Pesanan', 'singular', 'lsdcommerce'),
+        'add_new'       => _x('Pesanan Baru', 'addorder', 'lsdcommerce'),
+        'add_new_item'  => __('Tambah Pesanan', 'lsdcommerce'),
+        'new_item'      => __('Pesanan Baru', 'lsdcommerce'),
+        'edit_item'     => __('Edit Pesanan', 'lsdcommerce'),
+        'view_item'     => __('View Pesanan', 'lsdcommerce'),
+        'all_items'     => __('All Pesanan', 'lsdcommerce'),
+        'search_items'  => __('Find Pesanan', 'lsdcommerce'),
+        'not_found'     => __('Pesanan Kosong.', 'lsdcommerce'),
     );
 
     $args = array(
@@ -110,43 +110,4 @@ function lsdc_register_posttypes(){
     register_post_type('lsdc-order', $args);
 }
 add_action( 'init', 'lsdc_register_posttypes' );
-
-function lsdc_post_status_register(){
-    register_post_status( 'completed', array(
-        'label'         => _x( 'Completed', 'post' ),
-        'label_count'   => _n_noop( 'Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>'),
-        'public'                    => true,
-        'exclude_from_search'       => false,
-        'show_in_admin_all_list'    => true,
-        'show_in_admin_status_list' => true
-    ));
-}
-add_action( 'init', 'lsdc_post_status_register' );
-
-function lsdc_post_status_dropdown() {
-    global $post;
-    if($post->post_type != 'lsdc-order') return false;
-
-    $status = ( $post->post_status == 'completed' ) ? "jQuery( '#post-status-display' ).text( 'Completed' ); jQuery( 'select[name=\"post_status\"]' ).val('completed');" : '';
-    
-    echo "<script>  jQuery(document).ready( function() {
-                        jQuery( 'select[name=\"post_status\"]' ).append( '<option value=\"completed\">Completed</option>' ); ".$status."
-                    });
-        </script>";
-    }
-add_action( 'post_submitbox_misc_actions', 'lsdc_post_status_dropdown');
-
-function lsdc_post_status_quick_edit() {
-    global $post;
-    if($post->post_type != 'lsdc-order') return false;
-
-    echo "<script>
-    jQuery(document).ready( function() {
-    jQuery( 'select[name=\"_status\"]' ).append( '<option value=\"completed\">Completed</option>' );
-    });
-    </script>";
-
-}
-add_action('admin_footer-edit.php','lsdc_post_status_quick_edit');
-
 ?>

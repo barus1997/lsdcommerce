@@ -7,12 +7,12 @@
  */
 function lsdc_order_unread_counter()
 {
-    $lsdc_order_unread_counter = get_option('lsdc_order_unread_counter');
-
-    if( is_numeric( $lsdc_order_unread_counter ) ) {
-		update_option('lsdc_order_unread_counter', $lsdc_order_unread_counter++ );
+    $unread = abs( get_option('lsdcommerce_order_unread' ));
+    if( is_numeric( $unread ) ) {
+        $unread++;
+	    update_option('lsdcommerce_order_unread', $unread);
 	}else{
-		update_option('lsdc_order_unread_counter', 0);
+		update_option('lsdcommerce_order_unread', 0);
 	}
 }
 
@@ -51,11 +51,17 @@ function lsdc_order_status( $order_id, $status )
         // Processed Order
         case 'processed':
             do_action( 'lsdcommerce_order_status_processed', $order_id );
+            if( in_array( 'digital', lsdc_product_check_type(  $order_id ) ) ){
+                lsdc_order_status( $order_id, 'shipped' );
+            }
         break;
 
         // Shipped Order
         case 'shipped':
             do_action( 'lsdcommerce_order_status_shipped', $order_id );
+            if( in_array( 'digital', lsdc_product_check_type( $order_id ) ) ){
+                lsdc_order_status( $order_id, 'completed' );
+            }
         break;
 
         // Complete Order
@@ -94,18 +100,18 @@ add_action( 'lsdcommerce_order_status_canceled', 'lsdc_order_on_canceled' );
 function lsdc_order_on_processed( $order_id ){
     if( in_array( 'digital', lsdc_product_check_type(  $order_id ) ) ){
         wp_schedule_single_event( time() + 15, 'lsdc_shipping_schedule' , array( $order_id ) );  // Shipping Cron
-        lsdc_order_status( $order_id, 'shipped' );
     }
 }
 add_action( 'lsdcommerce_order_status_processed', 'lsdc_order_on_processed' );
 
 function lsdc_order_on_shipped( $order_id ){
-    if( in_array( 'digital', lsdc_product_check_type(  $order_id ) ) ){
+    if( in_array( 'digital', lsdc_product_check_type( $order_id ) ) ){
         lsdc_order_status( $order_id, 'completed' );
     }else{
         // wp_schedule_single_event( time() + 9, 'lsdc_notification_schedule', array( $order_id, 'shipped' ) );   // Notification Cron
     }
 }
+add_action( 'lsdcommerce_order_status_shipped', 'lsdc_order_on_processed' );
 
 function lsdc_order_on_completed( $order_id ){
     wp_schedule_single_event( time() + 15, 'lsdc_notification_schedule', array( $order_id, 'completed' ) );   // Notification Cron

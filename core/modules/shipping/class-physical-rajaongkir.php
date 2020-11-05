@@ -151,7 +151,7 @@ Class LSDC_Shipping_RajaOngkir Extends LSDC_Shipping {
           <div class="tabs-wrapper">
 
             <input type="radio" name="<?php echo $this->id; ?>" id="rajaongkir-settings" checked="checked"/>
-            <label class="tab" for="tab4"><?php _e( 'Settings', 'lsdd' ); ?></label>
+            <label class="tab" for="tab4"><?php _e( 'Pengaturan', 'lsdd' ); ?></label>
 
             <div class="tab-body-wrapper">
                 <!------------ Tab : Settings ------------>
@@ -187,7 +187,7 @@ Class LSDC_Shipping_RajaOngkir Extends LSDC_Shipping {
                         </div>
 
                         <br>
-                        <button class="btn btn-primary lsdc-admin-save" id="<?php echo $this->id; ?>" style="width:120px"><?php _e( 'Save', 'lsdcommerce' ); ?></button> 
+                        <button class="btn btn-primary lsdc-admin-save" id="<?php echo $this->id; ?>" style="width:120px"><?php _e( 'Simpan', 'lsdcommerce' ); ?></button> 
                     </form>
                 </div>
             </div>

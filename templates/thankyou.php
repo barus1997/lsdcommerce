@@ -27,8 +27,8 @@ if( ! wp_doing_ajax() ){
 }
 ?>
 
-<?php if( $order_id ) : ?>
 <main id="lsdcommerce-thankyou" class="page-content max480 lsdcommerce">
+<?php if( $order_id ) : ?>
      <div class="card">
         <div class="card-body">
             <div class="page-thankyou">
@@ -44,7 +44,7 @@ if( ! wp_doing_ajax() ){
 
                 <div class="section-payment-instruction">
                     <div class="icon">
-                        <img src="<?php echo LSDC_URL; ?>/assets/img/illustration.png" alt="Payment Illustration">
+                        <img src="<?php echo LSDC_URL; ?>/assets/images/illustration.png" alt="Payment Illustration">
                     </div>
                     <?php if( $total != 0 ) : ?>
                         <p><?php _e( 'Tolong selesaikan pembayaran anda dan ikuti instruksi berikut ini' , 'lsdcommerce' ); ?></p>
@@ -114,6 +114,7 @@ if( ! wp_doing_ajax() ){
                         <table class="table table-transaction table-borderless">
                             <tbody>
                                 <?php $total = 0; $subtotal = 0; foreach ( $products as $key => $item) : ?>
+                 
                                     <tr id="<?php echo $item->id; ?>">
                                         <td class="product-thumbnail">
                                             <div class="img-product">
@@ -123,7 +124,9 @@ if( ! wp_doing_ajax() ){
                                         <td class="product-title">
                                             <p><a href="<?php echo get_permalink( $item->id ); ?>" alt="<?php echo esc_attr( $item->title ); ?>">
                                             <?php echo esc_attr( $item->title ); ?>
-                                            <?php echo $item->variation != null ? ' - ' . lsdc_variation_label( $item->id, $item->variation ) : null; ?>
+                                            <?php if( isset( $item->variation ) ) : ?>
+                                                <?php echo $item->variation != null ? ' - ' . lsdc_variation_label( $item->id, $item->variation ) : null; ?>
+                                            <?php endif; ?>
                                             </a>
                                                 <small class="d-block"> <?php echo abs( $item->qty ); ?> x <?php echo lsdc_currency_format( true, $item->price_unit ); ?></small>
                                                 <?php do_action( 'lsdc_variation_display'); ?>
@@ -142,7 +145,7 @@ if( ! wp_doing_ajax() ){
 
                                 <!-- Display Extra :: Shipping, Unique Code -->
                                 <?php $extra = 0; if( $extras ) : foreach ( $extras as $key => $item) : ?>
-                                <?php if( $item->label ) : ?>
+                                <?php if( isset($item->label) &&  $item->label ) : ?>
                                     <tr>
                                         <td colspan="2">
                                             <?php echo esc_attr( $item->label ); ?>
@@ -157,7 +160,10 @@ if( ! wp_doing_ajax() ){
                                         </td>
                                     </tr>
                                 <?php endif; ?>
-                                <?php $extra += intval( $item->cost ); endforeach; endif; ?>
+                                <?php if( isset($item->cost) ) : ?>
+                                    <?php $extra += intval( $item->cost ); ?>
+                                <?php endif; ?>
+                                <?php endforeach; endif; ?>
     
                                 <!-- Total -->
                                 <tr>
@@ -237,14 +243,16 @@ if( ! wp_doing_ajax() ){
         </div>
 
         <?php do_action( 'lsdcommerce_powered_hook' ); ?>
+
+        <?php else: ?>
+        <div class="lsdp-alert lsdc-info">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <p><?php _e( 'Pesanan tidak terdaftar', 'lsdcommerce' ); ?></p>
+        </div>
+        <?php endif; ?>
         
     </main> <!-- main -->
-<?php else: ?>
-<div class="lsdp-alert danger">
-    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-    <p><?php _e( 'Order does not exist', 'lsdcommerce' ); ?></p>
-</div>
-<?php endif; ?>
+
 <br><br>          
      
 <?php 

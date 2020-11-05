@@ -47,7 +47,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                             <!-- Product Price -->
                             <h6 class="product-item-price">
-                                <?php do_action('lsdcommerce_single_price'); ?>
+                                <?php do_action( 'lsdcommerce_single_price'); ?>
                             </h6>
                             
                             <!-- Product Category -->

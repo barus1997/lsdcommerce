@@ -243,6 +243,7 @@ function validateEmail(email) {
 					$(that).removeClass('loading');
 					$('#payment-editor').closest('div.column').hide();
 					$('#payment-editor').closest('div.column').css('z-index','1');
+					location.reload();
 				}
 			}).fail(function(){
 				alert('Failed, please check your internet');
@@ -275,7 +276,8 @@ function validateEmail(email) {
 
 			let imagepreview = $(that).prev();
 			$(imagepreview).attr('data-id', attachment.id);
-			$(imagepreview).attr('src', attachment.url);
+			$(imagepreview).attr('value', attachment.url);
+			$(imagepreview).prev().attr('src', attachment.url);
 		});
 
 		frame.open();

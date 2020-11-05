@@ -31,7 +31,7 @@ class LSDC_Payment {
             <div class="form-group">
                 <label class="form-switch">
                     <input type="checkbox" id="<?php echo $this->id . '_status'; ?>" <?php echo ( $status == 'on' ) ? 'checked' : ''; ?>>
-                    <i class="form-icon"></i> <?php _e( 'Enable', 'lsdcommerce' ); ?>
+                    <i class="form-icon"></i> <?php _e( 'Aktifkan', 'lsdcommerce' ); ?>
                 </label>
             </div>
         <?php
@@ -42,13 +42,13 @@ class LSDC_Payment {
     }
 
     public function get_instruction(){ 
-        $payment_option = get_option('lsdcommerce_payment_option'); // site-centris
+        $payment_option = get_option('lsdcommerce_payment_settings'); // site-centris
         return esc_attr( $payment_option[$this->id]['instruction'] );
     }
 
     
     public function get_name(){ 
-        $payment_option = get_option('lsdcommerce_payment_option'); // site-centris
+        $payment_option = get_option('lsdcommerce_payment_settings'); // site-centris
         return esc_attr( $payment_option[$this->id]['name'] );
     }
 
@@ -70,7 +70,7 @@ class LSDC_Payment {
                     // add_action( 'plugins_loaded', function() { new $payment; } ); //Iniate Class
 
                     $instance = new $payment;
-                    $payment_method = get_option( 'lsdcommerce_payment_option' );
+                    $payment_method = get_option( 'lsdcommerce_payment_settings' );
         
                     $confirmation   = esc_attr( $instance->confirmation() );
                     $status         = esc_attr( $instance->get_status() );

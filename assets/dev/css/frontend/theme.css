@@ -266,8 +266,8 @@ body {
 }
 
 .lsdcommerce .lsdc-toggle-collapse[lsdc-toggle="collapse"]:after {
-    width: 13px;
-    height: 7px;
+    width: 15px;
+    height: 17px;
     right: 0;
     position: absolute;
     content: "";
@@ -277,11 +277,11 @@ body {
 }
 
 .lsdcommerce .lsdc-toggle-collapse[aria-expanded="false"]:after {
-    background-image: url("../../images/svg/chevron-down.png")
+    background-image: url("../../../images/svg/chevron-down.svg")
 }
 
 .lsdcommerce .lsdc-toggle-collapse[aria-expanded="true"]:after {
-    background-image: url("../../images/svg/chevron-up.png")
+    background-image: url("../../../images/svg/chevron-up.svg")
 }
 
 .lsdcommerce h1 {

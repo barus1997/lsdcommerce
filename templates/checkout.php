@@ -117,12 +117,12 @@ $token  = isset( $_COOKIE['_lsdcommerce_token'] ) ? $_COOKIE['_lsdcommerce_token
                                         <!-- Summary Section -->
                                         <?php do_action( 'lsdcommerce_checkout_summary_before' ); ?>
 
-                                            <h6 class="text-primary font-weight-medium lsdp-mb-0 lsdc-toggle-collapse swiper-no-swiping" lsdc-toggle="collapse" data-target="#summary" aria-expanded="false">
+                                            <h6 class="text-primary font-weight-medium lsdp-mb-0 lsdc-toggle-collapse swiper-no-swiping noselect" lsdc-toggle="collapse" data-target="#summary" aria-expanded="false">
                                                 <?php _e( "Rangkuman Pesanan", 'lsdcommerce' ); ?>
                                             </h6>
                                             
                                             <div id="summary" class="lsdc-collapse">
-                                                <div id="checkout-products"></div>
+                                                <div id="checkout-products" class="noselect"></div>
                                             </div>
 
                                             <table class="table table-borderless lsdp-mb-10 lsdp-mt-0">
