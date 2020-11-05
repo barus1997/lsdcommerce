@@ -41,9 +41,9 @@ add_action('lsdcommerce_checkout', 'lsdcommerce_checkout_init');
 
 // Apply style Based on Settings
 function lsdc_apperance(){
-    $fontFamily         = lsdc_get('appearance_settings', 'font_family' ) == null ? 'Poppins' : lsdc_get('appearance_settings', 'font_family' );
-    $backgroundTheme    = empty( lsdc_get('appearance_settings', 'background_theme_color' )) ? 'transparent' : lsdc_get('appearance_settings', 'background_theme_color' );
-    $colorTheme         = lsdc_get('appearance_settings', 'theme_color' );
+    $fontFamily         = lsdc_admin_get('appearance_settings', 'font_family' ) == null ? 'Poppins' : lsdc_admin_get('appearance_settings', 'font_family' );
+    $backgroundTheme    = empty( lsdc_admin_get('appearance_settings', 'background_theme_color' )) ? 'transparent' : lsdc_admin_get('appearance_settings', 'background_theme_color' );
+    $colorTheme         = lsdc_admin_get('appearance_settings', 'theme_color' );
     $lighter            = lsdc_adjust_brightness( $colorTheme, 50 );
     $darker             = lsdc_adjust_brightness( $colorTheme, -40 );
     echo '<style>
@@ -92,31 +92,117 @@ add_filter('body_class', function($classes) {
     return $classes;
 });
 
-// Load Unique Code by Seesion id in Browser, if Change the Uniqe Code will be change to
-function lsdc_shipping_starter_calculation( $extras ){
-	if( isset($extras['extras']['shipping']['physical']) ){
-		$physical 	= $extras['extras']['shipping']['physical'];
-		$city 		= $physical['city'];
-		$service 	= $physical['service'];
-		$state 		= $physical['state'];
+/**
+ * Notification Handler
+ * Trigger via CRON
+ * Hard to Debug
+ */
+function lsdc_notification_schedule_action($order_id, $event)
+{
+    $notify = array(
+        'order' => array(
+            'subject' => __("Menunggu Pembayaran", 'lsdcommerce') ,
+            'receiver' => array(
+                'buyer',
+                'admin'
+            )
+        ) ,
+        'canceled' => array(
+            'subject' => __("Pesanan Dibatalkan", 'lsdcommerce') ,
+            'receiver' => array(
+                'buyer'
+            )
+        ) ,
+        'paid' => array(
+            'subject' => __("Pembayaran Diterima", 'lsdcommerce') ,
+            // 'receiver'  => array( 'buyer' )
+            
+        ) ,
+        'shipped' => array(
+            'subject' => __("Sedang Dikirim", 'lsdcommerce') ,
+            'receiver' => array(
+                'buyer'
+            )
+        ) ,
+        'completed' => array(
+            'subject' => __("Pesanan Selesai", 'lsdcommerce') ,
+            'receiver' => array(
+                'buyer'
+            )
+        )
+    );
 
-		// Automatic Get Weight in LSDCommerce Order Proccessing
-		if( isset($extras['extras']['shipping']['weights']) ){
-			$weights = $extras['extras']['shipping']['weights'];
-		}
-		$extras['extras']['shipping']['weights'] = $weights;
-		
-		$detail = array( // Digital Courrier ID
-			'destination'  	=> $city,
-			'weight'     	=> $weights,
-			'service'   	=> $service // 
-		);
+    $order_number = null;
+    if (!empty(get_post_meta($order_id, 'order_id', true)))
+    {
+        $order_number = abs(get_post_meta($order_id, 'order_id', true));
+    }
 
-		$clean = lsdc_shipping_rajaongkir_starter_calc( $detail );
-		$extras = array_merge( $extras, $clean );
-	}
-	return $extras;
+    // Getting Customer based on ID or Direct
+    $customer_email = null;
+    if (get_post_meta($order_id, 'customer_id', true))
+    {
+        $customer_id = abs(get_post_meta($order_id, 'customer_id', true));
+        $customer_email = lsdc_get_user_email($customer_id);
+    }
+    else
+    {
+        $customer = json_decode(get_post_meta($order_id, 'customer', true));
+        $customer_email = $customer->email;
+    }
+
+    // Buyer
+    if (isset($notify[$event]['receiver'][0]))
+    {
+        $payload = array();
+        $payload['email'] = $customer_email;
+        $payload['subject'] = $notify[$event]['subject'] . ' #' . $order_number;
+        $payload['order_id'] = $order_id;
+        $payload['order_number'] = $order_number;
+        $payload['notification_event'] = $event;
+        LSDC_Logger::log('Buyer Notification : ' . json_encode($payload));
+        LSDC_Notification::sender($payload);
+    }
+
+    // Admin
+    if (isset($notify[$event]['receiver'][1]))
+    {
+        $payload = array();
+        $payload['email'] = 'lasidaziz@gmail.com';
+        $payload['subject'] = 'Pesanan Baru #' . $order_number;
+        $payload['order_id'] = $order_id;
+        $payload['order_number'] = $order_number;
+        $payload['role'] = 'admin';
+        $payload['notification_event'] = $event;
+        LSDC_Logger::log('Admin Notification : ' . json_encode($payload));
+        LSDC_Notification::sender($payload);
+    }
+
 }
-add_filter( 'lsdcommerce_payment_extras', 'lsdc_shipping_starter_calculation' );
+add_action('lsdc_notification_schedule', 'lsdc_notification_schedule_action', 10, 2);
 
+
+/**
+ * Shipping Handler
+ * Just for Digital Product
+ */
+function lsdc_shipping_schedule_action($order_id)
+{
+    $payload = array();
+    $payload['subject'] = __("Pengiriman Produk ", 'lsdcommerce');
+    $payload['order_id'] = $order_id;
+    $payload['type'] = 'digital';
+    $payload['email'] = lsdc_order_get_email($order_id);
+    LSDC_Logger::log('Shipping for Order: #' . $order_id);
+    LSDC_Shipping::sender($payload);
+
+    // Auto Completed Order for Empty and Digital Purchase
+    $total = abs(get_post_meta($order_id, 'total', true));
+    $shipping = (array)json_decode(get_post_meta($order_id, 'shipping', true));
+    if ($total == 0 && isset($shipping['digital']) && !isset($shipping['physical']))
+    {
+        lsdc_order_status($order_id, 'completed');
+    }
+}
+add_action('lsdc_shipping_schedule', 'lsdc_shipping_schedule_action', 10, 1);
 ?>

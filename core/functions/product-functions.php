@@ -1,9 +1,22 @@
 <?php
 /**
+* Class and Function List:
+* Function list:
+* - lsdc_product_price()
+* - lsdc_product_weight()
+* - lsdc_product_stock()
+* - lsdc_product_download_version()
+* - lsdc_product_download_link()
+* - lsdc_product_check_type()
+* - lsdc_product_type()
+* - lsdc_product_extract_ID()
+* Classes list:
+*/
+/**
  * Get Product Price by Product ID ( Promo Prioritize )
  *
  * @subpackage Product
- * @since 0.4.0
+ * @since 1.0.0
  */
 function lsdc_product_price($product_id = false)
 {
@@ -32,19 +45,19 @@ function lsdc_product_price($product_id = false)
  * Get Weight Product based on Product ID
  *
  * @subpackage Product
- * @since 0.4.0
+ * @since 1.0.0
  */
 function lsdc_product_weight($product_id = false)
 {
     if ($product_id == null) $product_id = get_the_ID(); //Fallback Product ID
-    return abs(lsdc_currency_clear(get_post_meta($product_id, '_physical_weight', true)));
+    return abs(lsdc_currency_clean(get_post_meta($product_id, '_physical_weight', true)));
 }
 
 /**
  * Get Stock Product based on Product ID
  *
  * @subpackage Product
- * @since 0.4.0
+ * @since 1.0.0
  */
 function lsdc_product_stock($product_id = false)
 {
@@ -64,7 +77,7 @@ function lsdc_product_stock($product_id = false)
  * Get Digital Product Version
  *
  * @subpackage Product
- * @since 0.4.0
+ * @since 1.0.0
  */
 function lsdc_product_download_version($product_id)
 {
@@ -95,7 +108,7 @@ function lsdc_product_download_version($product_id)
  * Get Digital Product File
  *
  * @subpackage Product
- * @since 0.4.0
+ * @since 1.0.0
  */
 function lsdc_product_download_link($product_id)
 {
@@ -122,13 +135,11 @@ function lsdc_product_download_link($product_id)
     }
 }
 
-// var_dump( lsdc_product_download_link( 3397 ) );
-
 /**
  * Check Product Type : Digital or Physical
  *
  * @subpackage Product
- * @since 0.4.0
+ * @since 1.0.0
  */
 function lsdc_product_check_type($order_id)
 {
@@ -148,11 +159,19 @@ function lsdc_product_check_type($order_id)
     return $types;
 }
 
-function lsdc_product_type( $product_id ){
+/**
+ * Check Product Type
+ * @return string type product : digital | physical
+ */
+function lsdc_product_type($product_id)
+{
     $type = strtolower(get_post_meta($product_id, '_shipping_type', true));
-    return esc_attr( $type );
+    return esc_attr($type);
 }
 
+/**
+ * Extracting ID from Possibilty Variation
+ */
 function lsdc_product_extract_ID($product_id)
 {
     $productID = explode('-', $product_id);
@@ -166,4 +185,140 @@ function lsdc_product_extract_ID($product_id)
     }
 }
 
+function lsdc_variation_ID($id, $variation = false)
+{
+    $ids = explode("-", $id);
+    if ($variation == true)
+    {
+        // Prood : 3451-pedes, what about 3451-xl-biru ?
+        return esc_attr($ids[1]);
+    }
+    else
+    {
+        if (isset($ids[0]))
+        {
+            return $ids[0];
+        }
+        else
+        {
+            return $id;
+        }
+    }
+
+}
+
+/**
+ * Checking Variation Exist
+ * @param int $id : 8
+ * @param string $variation : 8-hitam-xl
+ */
+function lsdc_product_variation_exist($id, $variation)
+{
+    $variations = json_decode(get_post_meta($id, '_variations', true));
+    $multi_variations = explode('-', $variation); // [ 8, hitam, xl ]
+    unset($multi_variations[0]); // remove id product [ hitam, xl ]
+    $multi_variations = array_map('strtolower', $multi_variations);
+
+    $temp = array();
+    if (!empty($variations))
+    { // Check Variation
+        foreach ($variations as $key => $variant)
+        { // Multi Variations
+            foreach ($variant->items as $key => $item)
+            { // Inside Variation
+                if (in_array(strtolower($item->name) , $multi_variations))
+                { // name exist
+                    $temp[] = strtolower($item->name);
+                }
+            }
+        }
+
+    }
+
+    if (!empty($temp))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+/**
+ * Get Product Variation Price
+ * by Product ID and Variation ID ( Promo Prioritize )
+ *
+ * @subpackage LSDCommerce Pro
+ * @since 0.4.0
+ * @param int $id : 8
+ * @param string $variation : 8-hitam-xl
+ */
+function lsdc_product_variation_price($id, $variation)
+{
+    $variations = (array)json_decode(get_post_meta($id, '_variations', true)); // Get Variations Data from Product
+    $multi_variations = explode('-', $variation); // [ 8, hitam, xl ]
+    unset($multi_variations[0]); // remove id product [ hitam, xl ]
+    $multi_variations = array_map('strtolower', $multi_variations);
+
+    $variation_price = null;
+
+    if (!empty($variations))
+    { // Check Variation
+        foreach ($variations as $key => $variant)
+        { // Multi Variations
+            foreach ($variant->items as $key => $item)
+            { // Inside Variation
+                if (in_array(strtolower($item->name) , $multi_variations))
+                {
+                    $variation_price = lsdc_currency_clean($item->price);
+                }
+            }
+        }
+    }
+
+    $normal = lsdc_price_normal($id);
+    $discount = lsdc_price_discount($id);
+
+    // Add Variation Price to Base Price
+    if ($discount)
+    {
+        return abs($discount) + abs($variation_price);
+    }
+    else
+    {
+        if ($normal)
+        {
+            return abs($normal) + abs($variation_price);
+        }
+        else
+        {
+            return 0;
+        }
+    }
+}
+
+function lsdc_product_variation_label($id, $variation)
+{
+    $variations = (array)json_decode(get_post_meta($id, '_variations', true)); // Get Variations Data from Product
+    $multi_variations = explode('-', $variation); // [ 8, hitam, xl ]
+    unset($multi_variations[0]); // remove id product [ hitam, xl ]
+    $multi_variations = array_map('strtolower', $multi_variations);
+
+    $variation_price = null;
+
+    if (!empty($variations))
+    { // Check Variation
+        foreach ($variations as $key => $variant)
+        { // Multi Variations
+            foreach ($variant->items as $key => $item)
+            { // Inside Variation
+                if (in_array(strtolower($item->name) , $multi_variations))
+                {
+                    return esc_attr($item->name);
+                }
+            }
+        }
+    }
+}
 ?>

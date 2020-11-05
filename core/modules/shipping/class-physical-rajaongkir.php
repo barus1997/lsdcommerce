@@ -50,7 +50,7 @@ Class LSDC_Shipping_RajaOngkir Extends LSDC_Shipping {
         $apikey = isset( get_option('lsdc_shipping_rajaongkir_starter')['apikey'] ) ? strtolower( get_option('lsdc_shipping_rajaongkir_starter')['apikey'] ) : '80aa49704fc30a939124a831882dea72';
         $rajaongkir = new LSDCommerce_RajaOngkir( 'starter', $apikey );
 
-        $store_settings = get_option( 'lsdc_store_settings' ); 
+        $store_settings = get_option( 'lsdcommerce_store_settings' ); 
         $city_selected  = isset( $store_settings['lsdc_store_city'] ) ? esc_attr( $store_settings['lsdc_store_city'] ) : 455;
 
         $products = $shipping['products'];
@@ -108,7 +108,7 @@ Class LSDC_Shipping_RajaOngkir Extends LSDC_Shipping {
     public static function calc( $shipping ){
         $apikey = isset( get_option('lsdc_shipping_rajaongkir_starter')['apikey'] ) ? strtolower( get_option('lsdc_shipping_rajaongkir_starter')['apikey'] ) : '80aa49704fc30a939124a831882dea72';
         $rajaongkir = new LSDCommerce_RajaOngkir( 'starter', $apikey );
-        $store_settings = get_option( 'lsdc_store_settings' ); 
+        $store_settings = get_option( 'lsdcommerce_store_settings' ); 
         $city_selected  = isset( $store_settings['lsdc_store_city'] ) ? esc_attr( $store_settings['lsdc_store_city'] ) : 455;
     
         $shipping['origin']  = $city_selected;

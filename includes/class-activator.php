@@ -41,7 +41,7 @@ class LSDCommerce_Activator {
 
 		if( ! isset( $check->ID ) ){
 			$id = wp_insert_post($page);
-			lsdc_set( 'general_settings', 'checkout_page', $id );
+			lsdc_admin_set( 'general_settings', 'checkout_page', $id );
 		}
 	
 		// Create Payment Page
@@ -57,7 +57,7 @@ class LSDCommerce_Activator {
 
 		if( ! isset( $check->ID ) ){
 			$id = wp_insert_post($page);
-			lsdc_set( 'general_settings', 'member_area', $id );
+			lsdc_admin_set( 'general_settings', 'member_area', $id );
 		}
 
 		// Set Report Read

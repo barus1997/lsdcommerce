@@ -263,8 +263,8 @@ function lsdc_metabox_save($post_id)
 
     $version = isset($_POST['digital_version']) ? sanitize_text_field($_POST['digital_version']) : '1.0.0';
 
-    update_post_meta($post_id, '_price_normal', abs(sanitize_text_field(lsdc_currency_clear($_POST['price_normal']))));
-    update_post_meta($post_id, '_price_discount', abs(sanitize_text_field(lsdc_currency_clear($_POST['price_discount']))));
+    update_post_meta($post_id, '_price_normal', abs(sanitize_text_field(lsdc_currency_clean($_POST['price_normal']))));
+    update_post_meta($post_id, '_price_discount', abs(sanitize_text_field(lsdc_currency_clean($_POST['price_discount']))));
 
     update_post_meta($post_id, '_stock', empty($_POST['stock']) ? 1 : abs(sanitize_text_field($_POST['stock'])));
     update_post_meta($post_id, '_stock_unit', sanitize_text_field($_POST['stock_unit']));
@@ -277,8 +277,8 @@ function lsdc_metabox_save($post_id)
     update_post_meta($post_id, '_digital_url', sanitize_text_field($_POST['digital_url']));
     update_post_meta($post_id, '_digital_version', $version);
     // Physical
-    update_post_meta($post_id, '_physical_weight', lsdc_number_clear($_POST['physical_weight']));
-    update_post_meta($post_id, '_physical_volume', lsdc_number_clear($_POST['physical_volume']));
+    update_post_meta($post_id, '_physical_weight', lsdc_clean_number($_POST['physical_weight']));
+    update_post_meta($post_id, '_physical_volume', lsdc_clean_number($_POST['physical_volume']));
 }
 add_action('save_post', 'lsdc_metabox_save');
 add_action('new_to_publish', 'lsdc_metabox_save');

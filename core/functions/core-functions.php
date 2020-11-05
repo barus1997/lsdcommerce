@@ -1,122 +1,44 @@
 <?php
-use LSDCommerce\Notification\LSDC_Notification;
-use LSDCommerce\Shipping\LSDC_Shipping;
-use LSDCommerce\Logger\LSDC_Logger;
-
-function lsdc_cart_manager()
-{
-?>
-    <!-- Quantity Button -->
-    <div class="cart-qty-float fixed" product-id="<?php the_ID(); ?>">
-        <div class="lsdc-qty" id="single-qty">
-            <button type="button" class="minus button-qty" data-qty-action="minus">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-            </button>
-            <input min="0" type="number" value="0" name="qty" disabled>
-            <button type="button" class="plus button-qty" data-qty-action="plus">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-            </button>
-        </div>
-    </div>
-
-    <!-- Cart Management Template : Passed 1.0.0 -->
-    <script id="item-template" type="x-template">
-        <div class="cart-basket">
-            {{#items}}
-            <div class="item" id="{{id}}">
-                <div class="lsdp-row no-gutters">
-                    <div class="col-auto item-name">
-                        <div class="img">
-                            <img src="{{thumbnail}}" alt="{{title}}"></div>
-                        <h6>
-                            <span class="name">{{title}}</span>
-                            <span class="price">{{price}}</span>
-                        </h6>
-                    </div>
-                    <div class="col-auto item-qty qty ml-auto">
-                        <div class="lsdc-qty" >
-                            <button type="button" class="minus button-qty" data-qty-action="minus">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                            </button>
-                            <input min="0" type="number" value="{{qty}}" name="qty" disabled>
-                            <button type="button" class="plus button-qty" data-qty-action="plus">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{/items}}
-        </div>
-    </script>
-
-    <div id="cart-popup" class="cart-popup">
-        <div class="overlay"></div>
-        <div class="cart-container">
-            <div class="cart-body hidden">
-                <div class="lsdp-row no-gutters mb-3">
-                    <div class="col-auto text-left">
-                        <p><strong><?php _e('Item', 'lsdcommerce'); ?></strong></p>
-                    </div>
-                    <div class="col-4 text-right ml-auto">
-                        <p><strong><?php _e('Quantity', 'lsdcommerce'); ?></strong></p>
-                    </div>
-                </div>
-                <div class="cart-items p-0" id="cart-items">
-                </div>
-            </div>
-            <div class="cart-footer">
-                <div class="container">
-                    <div class="lsdp-row no-gutters">
-                        <div class="col-auto">
-                            <div class="lsdp-row no-gutters align-items-center">
-                                <div class="col-auto pr-0">
-                                    <a href="javascript:void(0);" class="cart-manager">
-                                        <span class="counter">0</span>
-                                        <img src="<?php echo LSDC_URL; ?>assets/images/svg/cart.svg" alt="" class="icon-20">
-                                    </a>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="cart-footer-info">
-                                        <h6><?php _e("Cart", 'lsdcommerce'); ?></h6>
-                                        <h4><?php _e("Empty", 'lsdcommerce'); ?></h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-auto ml-auto inline-flex">
-                            <button class="lsdp-btn lsdc-btn btn-primary px-5 lsdc-addto-cart"><?php _e('Add', 'lsdcommerce'); ?></button>
-                            <a class="lsdp-btn lsdc-btn btn-primary btn-dark px-4" href="<?php echo get_the_permalink(lsdc_get('general_settings', 'checkout_page')); ?>"><?php _e("Checkout", 'lsdcommerce'); ?></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <?php
-}
-add_action('lsdcommerce_single_after', 'lsdc_cart_manager');
 /**
- * This Core Function Provide any Functionality of LSDCommerce
- * - Currency
- * - Date
- * - Price
- */
+* Class and Function List:
+* Function list:
+* - lsdc_currency_format()
+* - lsdc_currency_clean()
+* - lsdc_currency_view()
+* - lsdc_currency_get()
+* - lsdc_date_now()
+* - lsdc_date_format()
+* - lsdc_date_diff()
+* - lsdc_price_normal()
+* - lsdc_price_discount()
+* - lsdc_price_frontend()
+* - lsdc_admin_get()
+* - lsdc_admin_set()
+* - lsdc_clean_id()
+* - lsdc_clean_number()
+* - lsdc_create_schedule()
+* - set_lsdcommerce()
+* - is_lsdcommerce()
+* - lsdc_pro()
+* Classes list:
+*/
 
 /**
- * @package LSDCommerce
- * @subpackage Currency
+ * Currency Formatting
  *
+ * @package Core
+ * @subpackage Currency
  * @since 1.0.0
+ *
+ * Plain to Format || 10000 -> Rp 10.000
  */
-// Plain to Format || 10000 -> Rp 10.000
 function lsdc_currency_format($symbol = true, $float, $curr = "IDR")
 {
     $c['IDR'] = array(
         0, // Extra Digit 100,00
         ',', // Separator Extra
         '.', // Separator 3 Digit
-        'Rp ' // Currrency Symbol
+        'Rp '// Currrency Symbol
     );
     $c['USD'] = array(
         0,
@@ -143,8 +65,16 @@ function lsdc_currency_format($symbol = true, $float, $curr = "IDR")
     }
 }
 
-// Formatted to Plain || Rp 10.000 -> 100000
-function lsdc_currency_clear($formatted_number)
+/**
+ * Clean Currency Formatting
+ *
+ * @package Core
+ * @subpackage Currency
+ * @since 1.0.0
+ *
+ * Format to Plain || Rp 10.000 --> 100000
+ */
+function lsdc_currency_clean($formatted_number)
 {
     $formatted_number = preg_replace('/[^0-9]/', '', $formatted_number);
     $formatted_number = preg_replace('/\,/', '', $formatted_number);
@@ -152,7 +82,13 @@ function lsdc_currency_clear($formatted_number)
     
 }
 
-// Display Currency Symbol based Store Settings
+/**
+ * Currency Placeholder
+ *
+ * @package Core
+ * @subpackage Currency
+ * @since 1.0.0
+ */
 function lsdc_currency_view($type = 'symbol')
 {
     $currency = array(
@@ -168,30 +104,50 @@ function lsdc_currency_view($type = 'symbol')
     echo $currency[lsdc_currency_get() ][$type];
 }
 
-// Get Currency based on Store Settings
+/**
+ * get currency based on store settings
+ *
+ * @package Core
+ * @subpackage Currency
+ * @since 1.0.0
+ */
 function lsdc_currency_get()
 {
-    $settings = get_option('lsdc_store_settings', true);
+    $settings = get_option('lsdcommerce_store_settings', true);
     return isset($settings['lsdc_store_currency']) ? esc_attr($settings['lsdc_store_currency']) : 'IDR';
 }
 
 /**
- * @package LSDCommerce
- * @subpackage Date
+ * get date now
  *
+ * @package Core
+ * @subpackage Date
  * @since 1.0.0
  */
-// Generate Date Now
 function lsdc_date_now()
 {
     return date('Y-m-d H:i:s', current_time('timestamp', 0));
 }
-// Format Date
+
+/**
+ * get date with formatting
+ *
+ * @package Core
+ * @subpackage Date
+ * @since 1.0.0
+ */
 function lsdc_date_format($str, $format = 'j M Y')
 {
     return date($format, strtotime($str));
 }
-// Getting Date Diff
+
+/**
+ * get date diff
+ *
+ * @package Core
+ * @subpackage Date
+ * @since 1.0.0
+ */
 function lsdc_date_diff($date1, $date2)
 {
     $diff = strtotime($date2) - strtotime($date1);
@@ -199,9 +155,10 @@ function lsdc_date_diff($date1, $date2)
 }
 
 /**
- * @package LSDCommerce
- * @subpackage Price
+ * get price normal
  *
+ * @package Core
+ * @subpackage Price
  * @since 1.0.0
  */
 function lsdc_price_normal($product_id = false)
@@ -209,11 +166,25 @@ function lsdc_price_normal($product_id = false)
     return abs(get_post_meta($product_id, '_price_normal', true));
 }
 
+/**
+ * get price discount
+ *
+ * @package Core
+ * @subpackage Price
+ * @since 1.0.0
+ */
 function lsdc_price_discount($product_id = false)
 {
     return abs(get_post_meta($product_id, '_price_discount', true));
 }
-// Display Price with HTML
+
+/**
+ * get price frontend based on prioritize price discount
+ *
+ * @package Core
+ * @subpackage Price
+ * @since 1.0.0
+ */
 function lsdc_price_frontend($product_id = false)
 {
     if ($product_id == null) $product_id = get_the_ID(); //Fallback Product ID
@@ -244,168 +215,31 @@ function lsdc_price_frontend($product_id = false)
     endif;
 }
 
-function lsdc_variation_ID($id, $variation = false)
-{
-    $ids = explode("-", $id);
-    if ($variation == true)
-    {
-        // Prood : 3451-pedes, what about 3451-xl-biru ?
-        return esc_attr($ids[1]);
-    }
-    else
-    {
-        if (isset($ids[0]))
-        {
-            return $ids[0];
-        }
-        else
-        {
-            return $id;
-        }
-    }
-
-}
-
-/**
- * Checking Variation Exist
- * @param int $id : 8
- * @param string $variation : 8-hitam-xl
- */
-function lsdc_product_variation_exist($id, $variation)
-{
-    $variations = json_decode(get_post_meta($id, '_variations', true));
-    $multi_variations = explode('-', $variation); // [ 8, hitam, xl ]
-    unset($multi_variations[0]); // remove id product [ hitam, xl ]
-    $multi_variations = array_map('strtolower', $multi_variations);
-
-    $temp = array();
-    if (!empty($variations))
-    { // Check Variation
-        foreach ($variations as $key => $variant)
-        { // Multi Variations
-            foreach ($variant->items as $key => $item)
-            { // Inside Variation
-                if (in_array(strtolower($item->name) , $multi_variations))
-                { // name exist
-                    $temp[] = strtolower($item->name);
-                }
-            }
-        }
-
-    }
-
-    if (!empty($temp))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-/**
- * Get Product Variation Price
- * by Product ID and Variation ID ( Promo Prioritize )
- *
- * @subpackage LSDCommerce Pro
- * @since 0.4.0
- * @param int $id : 8
- * @param string $variation : 8-hitam-xl
- */
-function lsdc_product_variation_price($id, $variation)
-{
-    $variations = (array)json_decode(get_post_meta($id, '_variations', true)); // Get Variations Data from Product
-    $multi_variations = explode('-', $variation); // [ 8, hitam, xl ]
-    unset($multi_variations[0]); // remove id product [ hitam, xl ]
-    $multi_variations = array_map('strtolower', $multi_variations);
-
-    $variation_price = null;
-
-    if (!empty($variations))
-    { // Check Variation
-        foreach ($variations as $key => $variant)
-        { // Multi Variations
-            foreach ($variant->items as $key => $item)
-            { // Inside Variation
-                if (in_array(strtolower($item->name) , $multi_variations))
-                {
-                    $variation_price = lsdc_currency_clear($item->price);
-                }
-            }
-        }
-    }
-
-    $normal = lsdc_price_normal($id);
-    $discount = lsdc_price_discount($id);
-
-    // Add Variation Price to Base Price
-    if ($discount)
-    {
-        return abs($discount) + abs($variation_price);
-    }
-    else
-    {
-        if ($normal)
-        {
-            return abs($normal) + abs($variation_price);
-        }
-        else
-        {
-            return 0;
-        }
-    }
-}
-
-function lsdc_product_variation_label($id, $variation)
-{
-    $variations = (array)json_decode(get_post_meta($id, '_variations', true)); // Get Variations Data from Product
-    $multi_variations = explode('-', $variation); // [ 8, hitam, xl ]
-    unset($multi_variations[0]); // remove id product [ hitam, xl ]
-    $multi_variations = array_map('strtolower', $multi_variations);
-
-    $variation_price = null;
-
-    if (!empty($variations))
-    { // Check Variation
-        foreach ($variations as $key => $variant)
-        { // Multi Variations
-            foreach ($variant->items as $key => $item)
-            { // Inside Variation
-                if (in_array(strtolower($item->name) , $multi_variations))
-                {
-                    return esc_attr( $item->name );
-                }
-            }
-        }
-    }
-}
-
 /**
  * Getting Admin Setting by Option and Item
  *
- * @package LSDCommerce
- * @subpackage General
+ * @package Core
+ * @subpackage Admin
  * @since 1.0.0
  *
- * Usage ::  get_the_permalink( lsdc_get( 'general_settings', 'checkout_page' ) );
+ * Usage ::  get_the_permalink( lsdc_admin_get( 'general_settings', 'checkout_page' ) );
  */
-function lsdc_get($option, $item)
+function lsdc_admin_get($option, $item)
 {
     $settings = get_option('lsdc_' . $option);
     return empty($settings[$item]) ? null : esc_attr($settings[$item]);
 }
 
 /**
- * Getting Admin Setting by Option and Item
+ * Setting Admin Setting by Option and Item
  *
- * @package LSDCommerce
- * @subpackage General
+ * @package Core
+ * @subpackage Admin
  * @since 1.0.0
  *
- * Usage ::  get_the_permalink( lsdc_get( 'general_settings', 'checkout_page' ) );
+ * Usage ::  get_the_permalink( lsdc_admin_get( 'general_settings', 'checkout_page' ) );
  */
-function lsdc_set($option, $item, $value)
+function lsdc_admin_set($option, $item, $value)
 {
     $settings = empty(get_option('lsdc_' . $option)) ? array() : get_option('lsdc_' . $option);
     $settings[$item] = sanitize_text_field($value);
@@ -413,22 +247,25 @@ function lsdc_set($option, $item, $value)
 }
 
 /**
- * Create ID
- * @param string $string
- * return lower case and striped IN: Lasida Azis, OUT : lasida-azis
+ * Clean ID
+ *
+ * @package Core
+ * @subpackage Clean
+ * @since 1.0.0
  */
-function lsdc_sanitize_ID($string)
+function lsdc_clean_id($string)
 {
     return sanitize_title(strtolower(preg_replace("/[^a-z0-9]+/i", "-", $string)));
 }
 
 /**
- * General Purpose Function
+ * Clean Number
  *
- * Number
- * - Clear Format
+ * @package Core
+ * @subpackage Clean
+ * @since 1.0.0
  */
-function lsdc_number_clear($formatted_number)
+function lsdc_clean_number($formatted_number)
 {
     $formatted_number = preg_replace('/[^0-9]/', '', $formatted_number);
     $formatted_number = preg_replace('/\,/', '', $formatted_number);
@@ -436,38 +273,34 @@ function lsdc_number_clear($formatted_number)
     
 }
 
-function lsd_create_schedule($name, $time)
-{
-    $timestamp = wp_next_scheduled($name);
-    if ($timestamp == false)
-    {
-        wp_schedule_event(time() , 'daily', $name);
-    }
-}
-
 /**
- * Load Template in LSDCommerce
- * You can override this templates
+ * Set LSDCommerce Page with Class lsdcommerce
+ *
+ * @package Core
+ * @subpackage General
+ * @since 1.0.0
+ * Note : Not Working on Shortcode
  */
-function lsdcommerce_template()
+function set_lsdcommerce($page = false)
 {
-    $templates = array(
-        'store' => LSDC_PATH . 'templates/store.php',
-        'single' => LSDC_PATH . 'templates/single.php',
-        'checkout' => LSDC_PATH . 'templates/checkout.php',
-        'member' => LSDC_PATH . 'templates/member.php',
-        'category' => LSDC_PATH . 'templates/category.php',
-    );
-
-    if (has_filter('lsdcommerce_template'))
+    global $lsdcommerce;
+    if ($page != false)
     {
-        $templates = apply_filters('lsdcommerce_template', $templates);
+        $lsdcommerce['page'] = $page;
     }
-    return $templates;
+    else
+    {
+        $lsdcommerce['page'] = 'lsdcommerce';
+    }
+
 }
 
 /**
- * Conditionals Tags
+ * Conditionals Tags LSDCommerce Page
+ *
+ * @package Core
+ * @subpackage General
+ * @since 1.0.0
  */
 function is_lsdcommerce($page = false)
 {
@@ -484,149 +317,14 @@ function is_lsdcommerce($page = false)
     return false;
 }
 
-// Set Lsdcommerce Class on Body for Page
-// Shortcode Not Working
-function set_lsdcommerce($page = false)
-{
-    global $lsdcommerce;
-    if ($page != false)
-    {
-        $lsdcommerce['page'] = $page;
-    }
-    else
-    {
-        $lsdcommerce['page'] = 'lsdcommerce';
-    }
-
-}
-
 /**
- * Notification Handler
- * Trigger via CRON
- * Hard to Debug
+ * Checking LSDCommerce Pro Exist
+ *
+ * @package Core
+ * @subpackage General
+ * @since 1.0.0
  */
-function lsdc_notification_schedule_action($order_id, $event)
-{
-    $notify = array(
-        'order' => array(
-            'subject' => __("Menunggu Pembayaran", 'lsdcommerce') ,
-            'receiver' => array(
-                'buyer',
-                'admin'
-            )
-        ) ,
-        'canceled' => array(
-            'subject' => __("Pesanan Dibatalkan", 'lsdcommerce') ,
-            'receiver' => array(
-                'buyer'
-            )
-        ) ,
-        'paid' => array(
-            'subject' => __("Pembayaran Diterima", 'lsdcommerce') ,
-            // 'receiver'  => array( 'buyer' )
-            
-        ) ,
-        'shipped' => array(
-            'subject' => __("Sedang Dikirim", 'lsdcommerce') ,
-            'receiver' => array(
-                'buyer'
-            )
-        ) ,
-        'completed' => array(
-            'subject' => __("Pesanan Selesai", 'lsdcommerce') ,
-            'receiver' => array(
-                'buyer'
-            )
-        )
-    );
-
-    $order_number = null;
-    if (!empty(get_post_meta($order_id, 'order_id', true)))
-    {
-        $order_number = abs(get_post_meta($order_id, 'order_id', true));
-    }
-
-    // Getting Customer based on ID or Direct
-    $customer_email = null;
-    if (get_post_meta($order_id, 'customer_id', true))
-    {
-        $customer_id = abs(get_post_meta($order_id, 'customer_id', true));
-        $customer_email = lsdc_get_user_email($customer_id);
-    }
-    else
-    {
-        $customer = json_decode(get_post_meta($order_id, 'customer', true));
-        $customer_email = $customer->email;
-    }
-
-    // Buyer
-    if (isset($notify[$event]['receiver'][0]))
-    {
-        $payload = array();
-        $payload['email'] = $customer_email;
-        $payload['subject'] = $notify[$event]['subject'] . ' #' . $order_number;
-        $payload['order_id'] = $order_id;
-        $payload['order_number'] = $order_number;
-        $payload['notification_event'] = $event;
-        LSDC_Logger::log('Buyer Notification : ' . json_encode($payload));
-        LSDC_Notification::sender($payload);
-    }
-
-    // Admin
-    if (isset($notify[$event]['receiver'][1]))
-    {
-        $payload = array();
-        $payload['email'] = 'lasidaziz@gmail.com';
-        $payload['subject'] = 'Pesanan Baru #' . $order_number;
-        $payload['order_id'] = $order_id;
-        $payload['order_number'] = $order_number;
-        $payload['role'] = 'admin';
-        $payload['notification_event'] = $event;
-        LSDC_Logger::log('Admin Notification : ' . json_encode($payload));
-        LSDC_Notification::sender($payload);
-    }
-
-}
-add_action('lsdc_notification_schedule', 'lsdc_notification_schedule_action', 10, 2);
-
-function lsdc_order_get_email($order_id)
-{
-    if (get_post_meta($order_id, 'customer_id', true))
-    {
-        $customer_id = abs(get_post_meta($order_id, 'customer_id', true));
-        return lsdc_get_user_email($customer_id);
-    }
-    else
-    {
-        $customer = json_decode(get_post_meta($order_id, 'customer', true));
-        return $customer->email;
-    }
-}
-/**
- * Shipping Handler
- * Just for Digital Product
- */
-function lsdc_shipping_schedule_action($order_id)
-{
-    $payload = array();
-    $payload['subject'] = __("Pengiriman Produk ", 'lsdcommerce');
-    $payload['order_id'] = $order_id;
-    $payload['type'] = 'digital';
-    $payload['email'] = lsdc_order_get_email($order_id);
-    LSDC_Logger::log('Shipping for Order: #' . $order_id);
-    LSDC_Shipping::sender($payload);
-
-    // Auto Completed Order for Empty and Digital Purchase
-    $total = abs(get_post_meta($order_id, 'total', true));
-    $shipping = (array)json_decode(get_post_meta($order_id, 'shipping', true));
-    if ($total == 0 && isset($shipping['digital']) && !isset($shipping['physical']))
-    {
-        lsdc_order_status($order_id, 'completed');
-    }
-}
-add_action('lsdc_shipping_schedule', 'lsdc_shipping_schedule_action', 10, 1);
-
-function lsdc_check_pro()
+function lsdc_pro()
 {
     if (is_plugin_active('lsdcommerce-pro/lsdcommerce-pro.php'))
     {
@@ -634,4 +332,4 @@ function lsdc_check_pro()
     }
     return false;
 }
-
+?>

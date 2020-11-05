@@ -110,7 +110,7 @@ Class LSDC_Shipping_Email Extends LSDC_Shipping {
             'order_number'          => $order_number,
             // 'site_logo'             => 'https://lasida-demo.now.sh/assets/img/logo.png',
             'member_label'          => __('Member Area : ', 'lsdcommerce'),
-            'member_link'           => get_permalink( lsdc_get( 'general_settings', 'member_area') ),
+            'member_link'           => get_permalink( lsdc_admin_get( 'general_settings', 'member_area') ),
             'member_text'           => __('Masuk', 'lsdcommerce'),
             'member_username_label' => __( 'Username : ', "lsdcommerce" ),
             'member_username'       => $user_info->user_login . '/' . lsdc_get_user_email( $customer_id ),

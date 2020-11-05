@@ -2,13 +2,29 @@
 use LSDCommerce\Notification\LSDC_Notification;
 use LSDCommerce\Order\LSDC_Order;
 
-// Counting item in Posttype with Translation
-// usage :: lsdc_count_products( 'lsdc-product', 'Product', 'Products' )
-function lsdc_count_products( $posttype, $singular, $plural )
+/**
+ * Create Schedule
+ *
+ * @package Core
+ * @subpackage Create
+ * @since 1.0.0
+ */
+function lsdc_create_schedule($name, $time)
 {
-    $total = wp_count_posts( $posttype )->publish; 
-    $text =  _n( $singular, $plural, wp_count_posts( $posttype )->publish, 'lsdcommerce' );
-    return $total . ' ' . $text;
+    $timestamp = wp_next_scheduled($name);
+    if ($timestamp == false)
+    {
+        wp_schedule_event(time() , 'daily', $name);
+    }
+}
+
+/**
+ * Generating Password for New User
+ * Block : Generate
+ * @param int $length
+ */
+function lsdc_create_password($length = 10) {
+    return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
 }
 
 /**
@@ -18,13 +34,13 @@ function lsdc_count_products( $posttype, $singular, $plural )
  * Tip : Add TimeStamp for Automatic Confirmation
  * Bug : Collosion Uniqued ID
  */
-function lsdc_generate_uniquecode(){
+function lsdc_create_uniquecode(){
     $reserved = get_option( 'lsdc_uniquecode_reserved' );
     $uncode = rand(4,499);
     $code = array();
     if( $reserved ){
         if (in_array($uncode, $reserved)){ // Exist
-            lsdc_generate_uniquecode();
+            lsdc_create_uniquecode();
         }else{
             array_push( $reserved, $uncode );
             update_option( 'lsdc_uniquecode_reserved', $reserved );
@@ -65,85 +81,6 @@ function lsdc_adjust_brightness($hex, $steps) {
     }
 
     return $return;
-}
-
-/**
- * Get : IP Address
- */
-function lsdc_get_ip() {
-    $ipaddress = '';
-    if (getenv('HTTP_CLIENT_IP'))
-        $ipaddress = getenv('HTTP_CLIENT_IP');
-    else if(getenv('HTTP_X_FORWARDED_FOR'))
-        $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-    else if(getenv('HTTP_X_FORWARDED'))
-        $ipaddress = getenv('HTTP_X_FORWARDED');
-    else if(getenv('HTTP_FORWARDED_FOR'))
-        $ipaddress = getenv('HTTP_FORWARDED_FOR');
-    else if(getenv('HTTP_FORWARDED'))
-       $ipaddress = getenv('HTTP_FORWARDED');
-    else if(getenv('REMOTE_ADDR'))
-        $ipaddress = getenv('REMOTE_ADDR');
-    else
-        $ipaddress = 'UNKNOWN';
-    return $ipaddress;
-}
-
-/**
- * Get : Store Settings
- */
-function lsdc_get_store( $key ){
-    $store_settings = get_option( 'lsdc_store_settings' ); 
-    switch ($key) {
-        case 'country':
-            return isset( $store_settings['lsdc_store_country'] ) ? esc_attr( $store_settings['lsdc_store_country'] ) : 'ID';
-            break;
-        case 'state':
-            return isset( $store_settings['lsdc_store_state'] ) ? esc_attr( $store_settings['lsdc_store_state'] ) : 3;
-            break;
-        case 'city':
-            return isset( $store_settings['lsdc_store_city'] ) ? esc_attr( $store_settings['lsdc_store_city'] ) : 455;
-            break;
-        default:
-            return $store_settings; //Return Settings
-            break;
-    }
-}
-
-/**
- * Get : Store Settings
- */
-function lsdc_get_payment( $id, $type){
-    $payment_method = get_option( 'lsdcommerce_payment_settings' );
-    $pointer = isset( $payment_method[$id]['alias'] ) ? $payment_method[$id]['alias'] : $id; // Check if Alias Custom Exist or Not Using ID Default
-    $method = $payment_method[$pointer]; // select data by alias if avaialbale
-
-    switch ($type) {
-        case 'groupname':
-            return isset( $method['group_name'] ) && $method['group_name'] != '' ? esc_attr( $method['group_name'] . ' - ' ) : '';
-            break;
-        case 'name':
-            return esc_attr( $method['name'] );
-            break;
-        case 'logo':
-            return esc_attr( $method['logo'] );
-            break;
-        case 'swiftcode':
-            return esc_attr( $method['swift_code'] );
-            break;
-        case 'account_code':
-            return isset( $method['bank_code'] ) && $method['bank_code'] != '' ? '(' . esc_attr( $method['bank_code'] ) .') ' : '';
-            break;
-        case 'account_number':
-            return esc_attr( $method['account_number'] );
-            break;
-        case 'account_holder':
-            return esc_attr( $method['account_holder'] );
-            break;
-        case 'instruction':
-            return esc_attr( $method['instruction'] );
-            break;
-    }
 }
 
 /**
@@ -265,12 +202,6 @@ function lsdc_powered_text()
 }
 add_action( 'lsdcommerce_single_after', 'lsdc_powered_text');
 
-
-
-
-
-
-
 /**
  * Formatting User Name ( Nama Depan Nama Belakang  = namadepannamabelakang )
  * Block : Format | User
@@ -309,14 +240,7 @@ function lsdc_format_phone( $phone )
     return trim($format);
 }
 
-/**
- * Generating Password for New User
- * Block : Generate
- * @param int $length
- */
-function lsdc_generate_password($length = 10) {
-    return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
-}
+
 
 
 /**

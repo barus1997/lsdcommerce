@@ -61,7 +61,7 @@ class LSDCommerce_Public
 
         // Enquene Font Based on LSDCommerce > Appearance > Font
         wp_enqueue_style($this->plugin_name, LSDC_URL . 'assets/dev/css/frontend/public.css', array() , $this->version, 'all');
-        wp_enqueue_style('lsdcommerce-google-fonts', '//fonts.googleapis.com/css?family=' . esc_attr((empty(lsdc_get('appearance_settings', 'font_family'))) ? 'Poppins' : lsdc_get('appearance_settings', 'font_family')) , array() , $this->version);
+        wp_enqueue_style('lsdcommerce-google-fonts', '//fonts.googleapis.com/css?family=' . esc_attr((empty(lsdc_admin_get('appearance_settings', 'font_family'))) ? 'Poppins' : lsdc_admin_get('appearance_settings', 'font_family')) , array() , $this->version);
     }
 
     /**
@@ -80,7 +80,7 @@ class LSDCommerce_Public
         wp_enqueue_script($this->plugin_name . '-helper', LSDC_URL . 'assets/dev/js/utils/lsdcommerce-helper.js', array() , $this->version, false);
 
         // Checkout Page
-        if (is_page(lsdc_get('general_settings', 'checkout_page')))
+        if (is_page(lsdc_admin_get('general_settings', 'checkout_page')))
         {
             wp_enqueue_script($this->plugin_name . '-checkout', LSDC_URL . 'assets/dev/js/frontend/lsdcommerce-checkout.js', array(
                 'jquery'

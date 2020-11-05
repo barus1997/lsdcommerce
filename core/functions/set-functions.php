@@ -68,7 +68,7 @@ add_action( 'lsdcommerce_single_price', 'lsdc_price_frontend');
 function lsdc_set_shipping_controls(){ ?>
     <p class="lsdp-mb-5"><?php _e( "Alamat Pengiriman", 'lsdcommerce' ); ?></p>
     <?php 
-        $store_settings         = get_option( 'lsdc_store_settings' ); 
+        $store_settings         = get_option( 'lsdcommerce_store_settings' ); 
         $country_selected       = isset( $store_settings['lsdc_store_country'] ) ? esc_attr( $store_settings['lsdc_store_country'] ) : 'ID';
         $state_selected         = isset( $store_settings['lsdc_store_state'] ) ? esc_attr( $store_settings['lsdc_store_state'] ) : 3;
         $city_selected          = isset( $store_settings['lsdc_store_city'] ) ? esc_attr( $store_settings['lsdc_store_city'] ) : 455;
@@ -180,4 +180,32 @@ function lsdc_set_shipping_packages(){
 <?php
 }
 // add_action( 'lsdcommerce_shipping_physical_services', 'lsdc_set_shipping_packages' );
+
+// Load Unique Code by Seesion id in Browser, if Change the Uniqe Code will be change to
+function lsdc_shipping_starter_calculation( $extras ){
+	if( isset($extras['extras']['shipping']['physical']) ){
+		$physical 	= $extras['extras']['shipping']['physical'];
+		$city 		= $physical['city'];
+		$service 	= $physical['service'];
+		$state 		= $physical['state'];
+
+		// Automatic Get Weight in LSDCommerce Order Proccessing
+		if( isset($extras['extras']['shipping']['weights']) ){
+			$weights = $extras['extras']['shipping']['weights'];
+		}
+		$extras['extras']['shipping']['weights'] = $weights;
+		
+		$detail = array( // Digital Courrier ID
+			'destination'  	=> $city,
+			'weight'     	=> $weights,
+			'service'   	=> $service // 
+		);
+
+		$clean = lsdc_shipping_rajaongkir_starter_calc( $detail );
+		$extras = array_merge( $extras, $clean );
+	}
+	return $extras;
+}
+add_filter( 'lsdcommerce_payment_extras', 'lsdc_shipping_starter_calculation' );
+
 ?>
