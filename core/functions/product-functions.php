@@ -1,17 +1,20 @@
 <?php
 /**
-* Class and Function List:
-* Function list:
-* - lsdc_product_price()
-* - lsdc_product_weight()
-* - lsdc_product_stock()
-* - lsdc_product_download_version()
-* - lsdc_product_download_link()
-* - lsdc_product_check_type()
-* - lsdc_product_type()
-* - lsdc_product_extract_ID()
-* Classes list:
-*/
+ * Class and Function List:
+ * Function list:
+ * - lsdc_product_price()
+ * - lsdc_product_weight()
+ * - lsdc_product_stock()
+ * - lsdc_product_download_version()
+ * - lsdc_product_download_link()
+ * - lsdc_product_check_type()
+ * - lsdc_product_type()
+ * - lsdc_product_extract_ID()
+ * - lsdc_product_variation_exist()
+ * - lsdc_product_variation_price()
+ * - lsdc_product_variation_label()
+ * Classes list:
+ */
 /**
  * Get Product Price by Product ID ( Promo Prioritize )
  *
@@ -183,28 +186,6 @@ function lsdc_product_extract_ID($product_id)
     {
         return abs($product_id);
     }
-}
-
-function lsdc_variation_ID($id, $variation = false)
-{
-    $ids = explode("-", $id);
-    if ($variation == true)
-    {
-        // Prood : 3451-pedes, what about 3451-xl-biru ?
-        return esc_attr($ids[1]);
-    }
-    else
-    {
-        if (isset($ids[0]))
-        {
-            return $ids[0];
-        }
-        else
-        {
-            return $id;
-        }
-    }
-
 }
 
 /**

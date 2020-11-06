@@ -1,5 +1,22 @@
 <?php
 /**
+* Class and Function List:
+* Function list:
+* - lsdc_order_unread_counter()
+* - lsdc_order_status()
+* - lsdc_order_on_new()
+* - lsdc_order_on_paid()
+* - lsdc_order_on_canceled()
+* - lsdc_order_on_processed()
+* - lsdc_order_on_shipped()
+* - lsdc_order_on_completed()
+* - lsdc_order_status_translate()
+* - lsdc_order_ID()
+* - lsdc_order_get_total()
+* - lsdc_order_get_email()
+* Classes list:
+*/
+/**
  * Order Unread Counter
  *
  * @subpackage Order
@@ -36,22 +53,31 @@ function lsdc_order_status($order_id, $status)
     // Fired Action
     switch ($status)
     {
-        // New Order
+            // New Order
+            
         case 'new':
             do_action('lsdcommerce_order_status_new', $order_id);
         break;
 
-        // Paid Order
+            // Paid Order
+            
         case 'paid':
             do_action('lsdcommerce_order_status_paid', $order_id);
+
+            if (in_array('digital', lsdc_product_check_type($order_id)))
+            {
+                lsdc_order_status($order_id, 'processed');
+            }
         break;
 
-        // Canceled Order
+            // Canceled Order
+            
         case 'canceled':
             do_action('lsdcommerce_order_status_canceled', $order_id);
         break;
 
-        // Processed Order
+            // Processed Order
+            
         case 'processed':
             do_action('lsdcommerce_order_status_processed', $order_id);
 
@@ -62,7 +88,8 @@ function lsdc_order_status($order_id, $status)
             }
         break;
 
-        // Shipped Order 
+            // Shipped Order
+            
         case 'shipped':
             do_action('lsdcommerce_order_status_shipped', $order_id);
 
@@ -73,12 +100,14 @@ function lsdc_order_status($order_id, $status)
             }
         break;
 
-        // Complete Order
+            // Complete Order
+            
         case 'completed':
             do_action('lsdcommerce_order_status_completed', $order_id);
         break;
 
-        // Refunded Order
+            // Refunded Order
+            
         case 'refunded':
         break;
     }
@@ -111,15 +140,8 @@ add_action('lsdcommerce_order_status_new', 'lsdc_order_on_new');
  */
 function lsdc_order_on_paid($order_id)
 {
-    if (in_array('digital', lsdc_product_check_type($order_id)))
-    {
-        lsdc_order_status($order_id, 'processed');
-    }
-    else
-    {
-        // wp_schedule_single_event( time() + 9, 'lsdc_notification_schedule', array( $order_id, 'paid' ) );  // Notification Cron
-        
-    }
+    // wp_schedule_single_event( time() + 9, 'lsdc_notification_schedule', array( $order_id, 'paid' ) );  // Notification Cron
+    
 }
 add_action('lsdcommerce_order_status_paid', 'lsdc_order_on_paid');
 
@@ -267,7 +289,9 @@ function lsdc_order_ID($hash)
     $query = new WP_Query($args);
     if ($query->posts)
     {
-        return abs($query->posts[0]->ID); // Parsing Order ID
+        return abs($query->posts[0]
+            ->ID); // Parsing Order ID
+        
     }
     else
     {
@@ -284,6 +308,9 @@ function lsdc_order_get_total($order_id)
     return abs(get_post_meta($order_id, 'total', true));
 }
 
+/**
+ * Getting Email by OrderID
+ */
 function lsdc_order_get_email($order_id)
 {
     if (get_post_meta($order_id, 'customer_id', true))

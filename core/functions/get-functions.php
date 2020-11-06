@@ -54,7 +54,12 @@ function lsdc_get_ip() {
 }
 
 /**
- * Get : Store Settings
+ * Getting Store Settings
+ * 
+ * @package Core
+ * @subpackage Get
+ * @since 1.0.0
+ * usage :: lsdc_get_store( 'country' );
  */
 function lsdc_get_store( $key ){
     $store_settings = get_option( 'lsdcommerce_store_settings' ); 
@@ -76,7 +81,12 @@ function lsdc_get_store( $key ){
 
 
 /**
- * Get : Store Settings
+ * Getting Payment Settings
+ * 
+ * @package Core
+ * @subpackage Get
+ * @since 1.0.0
+ * usage :: lsdc_get_store( 'country' );
  */
 function lsdc_get_payment( $id, $type){
     $payment_method = get_option( 'lsdcommerce_payment_settings' );

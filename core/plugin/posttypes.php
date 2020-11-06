@@ -98,7 +98,6 @@ function lsdc_register_posttypes(){
         'rewrite'               => false,
         'has_archive'           => false,
         'hierarchical'          => false,
-        'menu_icon'             => LSDC_URL . 'assets/img/order.svg',
         'comments'              => false,
         'capability_type'       => 'post',
         'capabilities' => array(

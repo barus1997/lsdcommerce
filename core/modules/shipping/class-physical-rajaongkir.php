@@ -79,7 +79,7 @@ Class LSDC_Shipping_RajaOngkir Extends LSDC_Shipping {
                         <div class="item-radio">
                             <input type="radio" name="physical_courier" id="<?php echo $shipper_id; ?>" <?php echo $key == 0 ? 'checked' : ''; ?>>
                             <label for="<?php echo $shipper_id; ?>">
-                                <img src="<?php echo LSDC_URL . 'assets/img/' . $shipper . '.png'; ?>" alt="<?php echo $name; ?>">
+                                <img src="<?php echo LSDC_URL . 'assets/images/courier/' . $shipper . '.png'; ?>" alt="<?php echo $name; ?>">
                                 <h6><?php echo $name . ' ' . strtoupper( $service ) . ' ( ' . $item["cost"][0]["etd"] . ' ) '; ?></h6>
                                 <p><?php echo $item["cost"][0]["value"] == 0 ? __( 'Free', 'lsdcommerce' ) : lsdc_currency_format( true, $item["cost"][0]["value"] ); ?></p>
                             </label>

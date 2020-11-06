@@ -10,6 +10,8 @@ set_lsdcommerce();
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
+
+require_once LSDC_PATH . 'core/modules/product/product-single.php'; // Function for Product
 ?>
 
 <?php get_header(); ?>
@@ -31,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <div class="card-body lsdcommerce-bg-color">
                 <section class="product-detail">
                     <figure id="featured-image">
-                        <?php the_post_thumbnail( 'thumbnail' ); ?>
+                        <?php the_post_thumbnail( 'full' ); ?>
                     </figure>
                 </section>
 
