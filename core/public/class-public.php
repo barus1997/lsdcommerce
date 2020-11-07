@@ -56,8 +56,17 @@ class LSDCommerce_Public
         // wp_enqueue_style( 'animate', LSDC_URL . 'assets/css/animate.css', array(), '3.5.2', 'all' );
         wp_enqueue_style('swiper', LSDC_URL . 'assets/lib/swiper/swiper.css', array() , '5.3.6', 'all');
         wp_enqueue_style($this->plugin_name . '-theme', LSDC_URL . 'assets/dev/css/frontend/theme.css', array() , $this->version, 'all');
-        wp_enqueue_style($this->plugin_name . '-single', LSDC_URL . 'assets/dev/css/frontend/single.css', array() , $this->version, 'all');
+
+        if( is_singular('lsdc-products') ){
+            wp_enqueue_style($this->plugin_name . '-single', LSDC_URL . 'assets/dev/css/frontend/single.css', array() , $this->version, 'all');
+        }
+
         wp_enqueue_style($this->plugin_name . '-responsive', LSDC_URL . 'assets/dev/css/frontend/responsive.css', array() , $this->version, 'all');
+
+        if( is_page_template( 'member.php') ){
+            wp_enqueue_style($this->plugin_name . '-member', LSDC_URL . 'assets/dev/css/frontend/member.css', array() , $this->version, 'all');
+        }
+        
 
         // Enquene Font Based on LSDCommerce > Appearance > Font
         wp_enqueue_style($this->plugin_name, LSDC_URL . 'assets/dev/css/frontend/public.css', array() , $this->version, 'all');

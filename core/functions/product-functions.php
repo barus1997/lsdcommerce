@@ -227,6 +227,29 @@ function lsdc_product_variation_exist($id, $variation)
 }
 
 /**
+ * Summary Product Title for More than one
+ * based on OrderID
+ * 
+ * Output : Product One, Product Tw...
+ */
+function lsdc_product_title_summary( $order_id ){
+    $products = (array)json_decode(get_post_meta($order_id, 'products', true));
+    $names = array();
+
+    foreach ($products as $key => $product)
+    {
+        $product_id = lsdc_product_extract_ID($product->id);
+        array_push( $names, get_the_title( $product_id) );
+    }
+
+    if( isset( $names[1]) ){
+        $string = $names[0] . ', ' . $names[1] . '...';
+    }else{
+        $string = $names[0];
+    }
+    return $string;
+}
+/**
  * Get Product Variation Price
  * by Product ID and Variation ID ( Promo Prioritize )
  *

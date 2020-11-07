@@ -57,7 +57,7 @@ Public Javascript and JQuery Function
 				$(this).addClass('loading');
 
 				$.post(lsdc_pub.ajax_url, {
-					action: 'lsdc_member_profile_password',
+					action: 'lsdcommerce_member_change_password',
 					nonce: $('#member-nonce').val(),
 					old: oldpassword,
 					new: newpassword,
