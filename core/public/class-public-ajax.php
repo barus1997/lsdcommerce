@@ -31,7 +31,7 @@ class LSDCommerce_Public_AJAX
         $validation = false;
 
         #Flooding Blocker
-        if ($timestamp > 550)
+        if ($timestamp > 600)
         {
             LSDC_Logger::log('Checkout Flooding from ' . lsdc_get_ip() , LSDC_Logger::WARNING);
             setcookie( "_lsdcommerce_token" , null, time() - 3600 , "/"  );
@@ -374,24 +374,135 @@ new LSDCommerce_Checkout_AJAX;  // Auto Initiate
 class LSDCommerce_Member_AJAX{
     public function __construct()
     {
-        add_action('wp_ajax_nopriv_lsdcommerce_member_order_detail', [$this, 'member_order_detail']);
-        add_action('wp_ajax_lsdcommerce_member_order_detail', [$this, 'member_order_detail']);
+        add_action('wp_ajax_nopriv_lsdcommerce_member_view_order', [$this, 'member_view_order']);
+        add_action('wp_ajax_lsdcommerce_member_view_order', [$this, 'member_view_order']);
 
-        add_action('wp_ajax_nopriv_lsdcommerce_member_shipping_detail', [$this, 'member_shipping_detail']);
-        add_action('wp_ajax_lsdcommerce_member_shipping_detail', [$this, 'member_shipping_detail']);
+        add_action('wp_ajax_nopriv_lsdcommerce_member_view_shipping', [$this, 'member_view_shipping']);
+        add_action('wp_ajax_lsdcommerce_member_view_shipping', [$this, 'member_view_shipping']);
 
         add_action( 'wp_ajax_nopriv_lsdcommerce_member_change_password', [ $this, 'member_change_password' ] );
 		add_action( 'wp_ajax_lsdcommerce_member_change_password', [ $this, 'member_change_password' ] );
     }
 
-    public function member_order_detail()
+    public function member_view_order()
     {
+        // Soon : Snapshot Products
+		if ( ! check_ajax_referer( 'lsdc_nonce', 'security' ) )  wp_send_json_error( 'Invalid security token sent.' );
+        if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'member-nonce' ) ) { die('Busted'); }
 
+        $_REQUEST   = array_map( 'stripslashes_deep', $_REQUEST );
+		$order_id = abs( $_REQUEST['postid'] );
+		$postdata = sanitize_text_field( $_REQUEST['postdata'] );
+        
+        if( get_current_user_id() == get_post_field ('post_author', $order_id) ) : ?>
+          <table>
+            <tr>
+              <th><?php _e( 'Produk', 'lsdcommerce' ); ?></th>
+              <th><?php _e( 'Jumlah', 'lsdcommerce' ); ?></th>
+              <th><?php _e( 'Total', 'lsdcommerce' ); ?></th>
+            </tr>
+            <?php 
+          
+            $products = (array)json_decode(get_post_meta( $order_id, 'products', true));
+            $total = get_post_meta( $order_id, 'total', true);
+            $subtotal = 0;
+            ?>
+            <?php foreach ( $products as $key => $product) : ?>
+              <tr>
+                <td><?php echo esc_attr( $product->title ); ?></td>
+                <td><?php echo esc_attr( $product->qty ); ?> x <?php echo $product->price_unit_text; ?></td>
+                <td><?php echo esc_attr($product->total ); ?></td>
+              </tr>
+              <?php $subtotal += lsdc_currency_clean( $product->price_unit_text ); ?>
+            <?php endforeach; ?>
+            <tr>
+              <td></td>
+              <td><?php _e( 'Sub Total', 'lsdcommerce' ); ?></td>
+              <td class="text-bold"><?php echo lsdc_currency_format( true, $subtotal ); ?></td>
+            </tr>
+
+            <?php $extras = json_decode( get_post_meta( $order_id, 'extras', true ) ); ?>
+            <?php $extra = 0; if( $extras ) : foreach ( $extras as $key => $item) : ?>
+              <?php if( isset($item->label) &&  $item->label ) : ?>
+                  <tr>
+                      <td></td>
+                      <td>
+                          <?php echo esc_attr( $item->label ); ?>
+                          <?php if( isset( $item->bold ) ) : ?>
+                          <small class="d-block lsdp-mt-5 text-primary"> 
+                              <?php echo esc_attr( $item->bold ); // For Shipping ?>
+                          </small>
+                          <?php endif; ?>
+                      </td>
+                      <td>
+                          <?php echo $item->sign == '-' ? esc_attr( $item->sign ) : ''; ?><?php echo $item->value; ?>
+                      </td>
+                  </tr>
+              <?php endif; ?>
+              <?php if( isset($item->cost) ) : ?>
+                  <?php $extra += intval( $item->cost ); ?>
+              <?php endif; ?>
+              <?php endforeach; endif; ?>
+
+            <tr>
+              <td></td>
+              <td><?php _e( 'Total', 'lsdcommerce' ); ?></td>
+              <td class="text-bold"><?php echo lsdc_currency_format( true, $total ); ?></td>
+            </tr>
+
+          </table>
+<!-- 
+          <ul>
+            <li>Dibayar : 10 Menit yang Lalu</li>
+            <li>Dikirim : 2 jam yang lalu</li>
+            <li>Diterima : 10 menit yang lalu</li>
+          </ul>
+
+          <br>
+          <button class="lsdp-btn lsdc-btn"> Diterima </button><br> -->
+        <?php endif;
+        wp_die();
     }
-    
-    public function member_shipping_detail()
-    {
 
+    public function member_view_shipping(){
+
+        if ( ! check_ajax_referer( 'lsdc_nonce', 'security' ) )  wp_send_json_error( 'Invalid security token sent.' );
+        if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'member-nonce' ) ) { die('Busted'); }
+
+        $_REQUEST   = array_map( 'stripslashes_deep', $_REQUEST );
+		$order_id = abs( $_REQUEST['postid'] );
+		$postdata = sanitize_text_field( $_REQUEST['postdata'] );
+
+        if( get_current_user_id() == get_post_field ('post_author', $order_id) ) : ?>
+          <table>
+            <tr>
+              <th><?php _e( 'Pesanan', 'lsdcommerce' ); ?></th>
+              <th><?php _e( 'Produk', 'lsdcommerce' ); ?></th>
+              <th><?php _e( 'Versi', 'lsdcommerce' ); ?></th>
+              <th><?php _e( 'Tindakan', 'lsdcommerce' ); ?></th>
+            </tr>
+            <?php 
+              $products = (array)json_decode(get_post_meta( $order_id, 'products', true));
+              $total = get_post_meta( $order_id, 'total', true);
+              $subtotal = 0;
+              ?>
+              <?php foreach ( $products as $key => $product) : ?>
+              
+                <tr>
+                  <td>#<?php echo lsdc_product_extract_ID( $product->id ); ?></td>
+                  <td><?php echo get_the_title( $product->id ); ?></td>
+                  <td><?php echo lsdc_product_download_version( lsdc_product_extract_ID( $product->id ) ); ?></td>
+                  <?php if( lsdc_product_type( $product->id ) == 'digital' ) : ?>
+                    <td><a href="<?php echo lsdc_product_download_link( lsdc_product_extract_ID( $product->id ) ); ?>" class="text-primary"><?php _e( 'Unduh', 'lsdcommerce' ); ?></a></td>
+                  <?php else: ?>
+                    <td><a class="text-primary" target="_blank" href="https://cekresi.com/?noresi=<?php echo esc_attr( get_post_meta( $order_id , 'resi', true ) ); ?>"><?php _e( 'Cek Resi', 'lsdcommerce' ); ?></a></td>
+                  <?php endif; ?>
+                </tr>
+            
+              <?php endforeach; ?>
+          </table>
+          <?php endif; 
+          wp_die();
     }
 
     public function member_change_password()

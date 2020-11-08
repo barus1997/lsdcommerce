@@ -13,17 +13,17 @@ get_header(); ?>
   <input type="hidden" id="member-nonce" value="<?php echo wp_create_nonce( 'member-nonce' ); ?>" />
 
   <div class="tabs-component">
-    <input type="radio" name="tab" id="tab1" checked="checked"/>
-    <label class="tab" data-linking="tab1" for="tab1"><?php _e( 'Dashboard', 'lsdcommerce' ); ?></label>
+    <input type="radio" name="tab" id="dashboard" checked="checked"/>
+    <label class="tab" data-linking="dashboard" for="dashboard"><?php _e( 'Dashboard', 'lsdcommerce' ); ?></label>
 
-    <input type="radio" name="tab" id="tab2"/>
-    <label class="tab" data-linking="tab2" for="tab2"><?php _e( 'Pembelian', 'lsdcommerce' ); ?></label>
+    <input type="radio" name="tab" id="order"/>
+    <label class="tab" data-linking="order" for="order"><?php _e( 'Pembelian', 'lsdcommerce' ); ?></label>
 
-    <input type="radio" name="tab" id="tab3"/>
-    <label class="tab" data-linking="tab3" for="tab3"><?php _e( 'Pengiriman', 'lsdcommerce' ); ?></label>
+    <input type="radio" name="tab" id="shipping"/>
+    <label class="tab" data-linking="shipping" for="shipping"><?php _e( 'Pengiriman', 'lsdcommerce' ); ?></label>
 
-    <input type="radio" name="tab" id="tab4"/>
-    <label class="tab" data-linking="tab4" for="tab4"><?php _e( 'Profil', 'lsdcommerce' ); ?></label>
+    <input type="radio" name="tab" id="profile"/>
+    <label class="tab" data-linking="profile" for="profile"><?php _e( 'Profil', 'lsdcommerce' ); ?></label>
 
     <div class="tab-body-component">
 
@@ -32,8 +32,8 @@ get_header(); ?>
         <?php $current_user = wp_get_current_user(); ?>
         <?php _e( 'Selamat Datang', 'lsdcommerce' ); ?>, <span class="text-primary"><?php echo lsdc_get_user_name( $current_user->ID ); ?></span><br><br>
 
-        <p>Untuk melihat detail pembelian anda bisa mengakses menu pembelian, untuk melihat pengiriman yang sedang berlansung anda bisa cek pengiriman</p>
-        <a class="lsdp-btn lsdc-btn btn-primary" href="<?php echo wp_logout_url( get_permalink() ); ?>"><?php _e( 'Logout', 'lsdcommerce' ); ?></a>
+        <p class="lsdp-mb-10">Terimakasih, telah datang kembali<br>untuk melihat arsip pembelian anda bisa klik tab pembelian</p>
+        <a class="lsdp-btn lsdc-btn btn-primary" href="<?php echo wp_logout_url( get_permalink() ); ?>"><?php _e( 'Keluar', 'lsdcommerce' ); ?></a>
       </div>
       
       <!-- Purchase -->
@@ -63,7 +63,7 @@ get_header(); ?>
             <?php if ( $query->have_posts() ) : ?>
                 <?php while ( $query->have_posts() ) : $query->the_post(); ?>
                   <tr>
-                    <td><a href="?invoice=<?php the_ID(); ?>">INV#<?php echo abs( get_post_meta( get_the_ID(), 'order_id', true )); ?></a></td>
+                    <td><a view-ajax data-post="order" id="<?php the_ID(); ?>">INV#<?php echo abs( get_post_meta( get_the_ID(), 'order_id', true )); ?></a></td>
                     <td><?php echo get_the_date( 'j M Y'); ?></td>
                     <td><?php echo lsdc_currency_format( true, get_post_meta( get_the_ID(), 'total', true )); ?></td>
                     <td><?php echo lsdc_order_status_translate( get_the_ID() ); ?></td>
@@ -74,67 +74,9 @@ get_header(); ?>
             <?php endif; ?>
           </table>
 
-          <!-- Next Update -->
-          <?php if( isset( $_GET['invoice'] ) ) :  $order_id = abs($_GET['invoice']); ?>
-            <?php if( get_current_user_id() == get_post_field ('post_author', $order_id) ) : ?>
-              <table>
-                <tr>
-                  <th><?php _e( 'Produk', 'lsdcommerce' ); ?></th>
-                  <th><?php _e( 'Jumlah', 'lsdcommerce' ); ?></th>
-                  <th><?php _e( 'Total', 'lsdcommerce' ); ?></th>
-                </tr>
-                <?php 
-              
-                $products = (array)json_decode(get_post_meta( $order_id, 'products', true));
-                $total = get_post_meta( $order_id, 'total', true);
-                $subtotal = 0;
-                ?>
-                <?php foreach ( $products as $key => $product) : ?>
-                  <tr>
-                    <td><a class="text-primary"><?php echo esc_attr( $product->title ); ?></a></td>
-                    <td><?php echo esc_attr( $product->qty ); ?> x <?php echo $product->price_unit_text; ?></td>
-                    <td><?php echo esc_attr($product->total ); ?></td>
-                  </tr>
-                  <?php $subtotal += lsdc_currency_clean( $product->price_unit_text ); ?>
-                <?php endforeach; ?>
-                <tr>
-                  <td></td>
-                  <td><?php _e( 'Sub Total', 'lsdcommerce' ); ?></td>
-                  <td class="text-bold"><?php echo lsdc_currency_format( true, $subtotal ); ?></td>
-                </tr>
+         <div class="lsdc-ajax-response" data-post="order">
+         </div>
 
-                <?php $extras = json_decode( get_post_meta( $order_id, 'extras', true ) ); ?>
-                <?php $extra = 0; if( $extras ) : foreach ( $extras as $key => $item) : ?>
-                  <?php if( isset($item->label) &&  $item->label ) : ?>
-                      <tr>
-                          <td></td>
-                          <td>
-                              <?php echo esc_attr( $item->label ); ?>
-                              <?php if( isset( $item->bold ) ) : ?>
-                              <small class="d-block  text-primary"> 
-                                  <?php echo esc_attr( $item->bold ); // For Shipping ?>
-                              </small>
-                              <?php endif; ?>
-                          </td>
-                          <td>
-                              <?php echo $item->sign == '-' ? esc_attr( $item->sign ) : ''; ?><?php echo $item->value; ?>
-                          </td>
-                      </tr>
-                  <?php endif; ?>
-                  <?php if( isset($item->cost) ) : ?>
-                      <?php $extra += intval( $item->cost ); ?>
-                  <?php endif; ?>
-                  <?php endforeach; endif; ?>
-
-                <tr>
-                  <td></td>
-                  <td><?php _e( 'Total', 'lsdcommerce' ); ?></td>
-                  <td class="text-bold"><?php echo lsdc_currency_format( true, $total ); ?></td>
-                </tr>
-
-              </table>
-            <?php endif; ?>
-          <?php endif; ?>
       </div>
 
       <!-- Shipping -->
@@ -171,10 +113,10 @@ get_header(); ?>
       <div id="tab-body-3" class="tab-body">
         <table>
           <tr>
-            <th>Tipe</th>
-            <th>Order</th>
-            <th>Produk</th>
-            <th>Tindakan</th>
+            <th><?php _e( 'Tipe', 'lsdcommerce' ); ?></th>
+            <th><?php _e( 'Order', 'lsdcommerce' ); ?></th>
+            <th><?php _e( 'Produk', 'lsdcommerce' ); ?></th>
+            <th><?php _e( 'Tindakan', 'lsdcommerce' ); ?></th>
           </tr>
           <?php if ( $shiping_query->have_posts() ) : ?>
                 <?php while ( $shiping_query->have_posts() ) : $shiping_query->the_post(); ?>
@@ -186,19 +128,19 @@ get_header(); ?>
                   ?>
                   <?php foreach ( $products as $key => $product ) : ?>
                     <tr>
-                      <td>Digital</td>
-                      <td><a href="?shipping=<?php the_ID(); ?>">INV#<?php echo abs( get_post_meta( get_the_ID(), 'order_id', true )); ?></a></td>
+                      <td><?php _e( 'Digital', 'lsdcommerce' ); ?></td>
+                      <td>INV#<?php echo abs( get_post_meta( get_the_ID(), 'order_id', true )); ?></td>
                       <td><?php echo lsdc_product_title_summary(  get_the_ID() ); ?></td>
-                      <td><a class="text-primary" href="<?php echo lsdc_product_download_link( $product->id ); ?>">Download</a></td>
+                      <td><a view-ajax data-post="shipping" id="<?php the_ID(); ?>"><?php _e( 'Detail', 'lsdcommerce' ); ?></a></td>
                     </tr>
                   <?php endforeach; ?>
     
                 <?php else: ?>
                   <tr>
-                    <td>Fisik</td>
-                    <td><a href="?shipping=<?php the_ID(); ?>">INV#<?php echo abs( get_post_meta( get_the_ID(), 'order_id', true )); ?></a></td>
+                    <td><?php _e( 'Fisik', 'lsdcommerce' ); ?></td>
+                    <td>INV#<?php echo abs( get_post_meta( get_the_ID(), 'order_id', true )); ?></td>
                     <td><?php echo lsdc_product_title_summary(  get_the_ID() ); ?></td>
-                    <td><a class="text-primary" target="_blank" href="https://cekresi.com/?noresi=<?php echo esc_attr( get_post_meta( get_the_ID(), 'resi', true ) ); ?>">Cek Resi</a></td>
+                    <td><a view-ajax data-post="shipping" id="<?php the_ID(); ?>"><?php _e( 'Detail', 'lsdcommerce' ); ?></a></td>
                   </tr>
                 <?php endif; ?>
             <?php endwhile; wp_reset_postdata(); ?>
@@ -207,33 +149,9 @@ get_header(); ?>
           <?php endif; ?>
         </table>
 
-        <!-- Shipping -->          <!-- Next Update -->
-          <?php if( isset( $_GET['shipping'] ) ) :  $order_id = abs($_GET['shipping']); ?>
-            <?php if( get_current_user_id() == get_post_field ('post_author', $order_id) ) : ?>
-            <table>
-              <tr>
-                <th>Order</th>
-                <th>Produk</th>
-                <th>Versi</th>
-                <th>Tindakan</th>
-              </tr>
-              <?php 
-                $order_id = 65;
-                $products = (array)json_decode(get_post_meta( $order_id, 'products', true));
-                $total = get_post_meta( $order_id, 'total', true);
-                $subtotal = 0;
-                ?>
-                <?php foreach ( $products as $key => $product) : ?>
-                  <tr>
-                    <td>#<?php echo lsdc_product_extract_ID( $product->id ); ?></td>
-                    <td><?php echo get_the_title( $product->id ); ?></td>
-                    <td><?php echo lsdc_product_download_version( lsdc_product_extract_ID( $product->id ) ); ?></td>
-                    <td><a href="<?php echo lsdc_product_download_link( lsdc_product_extract_ID( $product->id ) ); ?>" class="text-primary">Download</a></td>
-                  </tr>
-                <?php endforeach; ?>
-            </table>
-            <?php endif; ?>
-          <?php endif; ?>
+        <div class="lsdc-ajax-response" data-post="shipping">
+        </div>
+      
       </div>
 
       <!-- Profile -->
@@ -242,14 +160,14 @@ get_header(); ?>
             <div class="columns">
     
                 <div class="column col-5">
-                    <p class="lsdp-alert lsdc-info lsdp-hidden" id="alert-password"><?php _e( 'Your Input Wrong Old Password', 'lsdcommerce' ); ?></p>
+                    <p class="lsdp-alert lsdc-danger lsdp-hidden" id="alert-password"><?php _e( 'Password lama kamu salah', 'lsdcommerce' ); ?></p>
 
-                    <h6 class="card-title lsdp-mb-10"><?php _e( 'Change Password', 'lsdcommerce' ); ?></h6>
+                    <h6 class="card-title lsdp-mb-10"><?php _e( 'Ganti Kata Sandi', 'lsdcommerce' ); ?></h6>
         
                     <form class="form-horizontal" action="">
                         <div class="lsdp-form-group">
                             <div class="col-5 col-sm-12 lsdp-mb-5">
-                                <label class="form-label" for="oldpassword"><?php _e( 'Old Password', 'lsdcommerce' ); ?></label>
+                                <label class="form-label" for="oldpassword"><?php _e( 'Kata sandi lama', 'lsdcommerce' ); ?></label>
                             </div>
                             <div class="col-12 col-sm-12">
                                 <input class="form-input fullwidth" id="oldpassword" type="password" placeholder="Old Password" autocomplete="on">
@@ -257,7 +175,7 @@ get_header(); ?>
                         </div>
                         <div class="lsdp-form-group">
                             <div class="col-5 col-sm-12 lsdp-mb-5 mt-15">
-                                <label class="form-label" for="newpassword"><?php _e( 'New Password', 'lsdcommerce' ); ?></label>
+                                <label class="form-label" for="newpassword"><?php _e( 'Kata sandi baru', 'lsdcommerce' ); ?></label>
                             </div>
                             <div class="col-12 col-sm-12">
                                 <input class="form-input fullwidth" id="newpassword" type="password" placeholder="New Password" autocomplete="on">
@@ -265,14 +183,14 @@ get_header(); ?>
                         </div>
                         <div class="lsdp-form-group">
                             <div class="col-5 col-sm-12 lsdp-mb-5 mt-15">
-                                <label class="form-label" for="repeatpassword"><?php _e( 'Repeat New Password', 'lsdcommerce' ); ?></label>
+                                <label class="form-label" for="repeatpassword"><?php _e( 'Ulangi kata sandi', 'lsdcommerce' ); ?></label>
                             </div>
                             <div class="col-12 col-sm-12">
                                 <input class="form-input fullwidth" id="repeatpassword" type="password" placeholder="Repeat Password" autocomplete="on">
                             </div>
                         </div>
 
-                        <button class="lsdp-btn lsdc-btn btn-primary btn-block change-password"><?php _e( 'Update Password', 'lsdcommerce' ); ?></button>
+                        <button class="lsdp-btn lsdc-btn btn-primary btn-block change-password"><?php _e( 'Update Kata Sandi', 'lsdcommerce' ); ?></button>
                     </form>
                 </div>
             </div>

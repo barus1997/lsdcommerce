@@ -64,7 +64,7 @@ function lsdc_order_status($order_id, $status)
         case 'paid':
             do_action('lsdcommerce_order_status_paid', $order_id);
 
-            if (in_array('digital', lsdc_product_check_type($order_id)))
+            if (in_array('digital', lsdc_product_check_type($order_id)) && ! in_array('physical', lsdc_product_check_type($order_id)) ) // Product Digital and Not Physical
             {
                 lsdc_order_status($order_id, 'processed');
             }
@@ -82,7 +82,7 @@ function lsdc_order_status($order_id, $status)
             do_action('lsdcommerce_order_status_processed', $order_id);
 
             // Digital Auto Shipped
-            if (in_array('digital', lsdc_product_check_type($order_id)))
+            if (in_array('digital', lsdc_product_check_type($order_id)) && ! in_array('physical', lsdc_product_check_type($order_id)) )
             {
                 lsdc_order_status($order_id, 'shipped');
             }
@@ -94,7 +94,7 @@ function lsdc_order_status($order_id, $status)
             do_action('lsdcommerce_order_status_shipped', $order_id);
 
             // Digital Auto Completed
-            if (in_array('digital', lsdc_product_check_type($order_id)))
+            if (in_array('digital', lsdc_product_check_type($order_id)) && ! in_array('physical', lsdc_product_check_type($order_id)) )
             {
                 lsdc_order_status($order_id, 'completed');
             }

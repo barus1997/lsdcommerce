@@ -65,9 +65,9 @@ function lsdc_product_weight($product_id = false)
 function lsdc_product_stock($product_id = false)
 {
     if ($product_id == null) $product_id = get_the_ID(); //Fallback Product ID
-    $stock = '<p>' . __('Stock', 'lsdcommerce') . '<span>';
+    $stock = '<p>' . __('Stok', 'lsdcommerce') . '<span>';
     if (get_post_meta($product_id, '_stock', true) > 999):
-        $stock .= __('Available', 'lsdcommerce');
+        $stock .= __('Tersedia', 'lsdcommerce');
     else:
         $stock .= abs(get_post_meta(get_the_ID() , '_stock', true)) . ' ' . esc_attr(get_post_meta(get_the_ID() , '_stock_unit', true));
     endif;

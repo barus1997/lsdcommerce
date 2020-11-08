@@ -32,7 +32,71 @@ Public Javascript and JQuery Function
 			$('div[data-tab="' + target + '"]').addClass('show');
 		});
 
+		// Product Tabs
+		$(document).on('click', '[view-ajax]', function (e) {
+			e.preventDefault();
+			let postID = $(this).attr('id');
+			let postData = $(this).attr('data-post');
+			let thisText = $(this).text();
+			let me = this;
+			$(this).text('...');
+
+
+			$.post(lsdc_pub.ajax_url, {
+				action: 'lsdcommerce_member_view_' + postData,
+				nonce: $('#member-nonce').val(),
+				postid: postID,
+				postdata: postData,
+				security: lsdc_pub.ajax_nonce,
+			}, function (response) {
+				if (response == false) {
+					$( '.lsdc-ajax-response[data-post="'+ postData +'"]').html();
+				} else {
+					$( '.lsdc-ajax-response[data-post="'+ postData +'"]').html( response) ;
+				}
+				thisText
+				$(me).text( thisText );
+				// Cookie Remove
+			}).fail(function () {
+				alert('Failed, please check your internet');
+			});
+
+		});
+
+		// DeepLinking
+		let url = location.href.replace(/\/$/, "");
+		let tab = $('.tabs-component');
+		if( tab.length ){
+			
+			if (location.hash) {
+				const hash 			= url.split("#"); //split url
+				if( hash ){
+						tab.find('input[name="tab"]').prop('checked', false); // reset
+						tab.find('input[name="tab"]#'  + hash[1]).prop('checked', true); //set
+						url = location.href.replace(/\/#/, "#");
+						history.replaceState(null, null, url);
+						setTimeout(() => {
+							$(window).scrollTop(0);
+						}, 400);
+				}
+			}
+		}
+
+		// Handle Click Tab Deeplinking
+		$(document).on("click",".tabs-component label",function( e ) {
+			let newUrl;
+			const hash = $(this).attr("data-linking");
+			if(hash == "#tab1") {
+				newUrl = url.split("#")[0];
+			} else {
+				newUrl = url.split("#")[0] + '#' + hash;
+			}
+			newUrl += "/";
+			history.replaceState(null, null, newUrl);
+		});
 	});
+
+
 
 	/**
 	 * LSDCommerce - Member
@@ -79,5 +143,7 @@ Public Javascript and JQuery Function
 			}
 		}
 	});
+
+
 
 })(jQuery);

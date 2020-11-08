@@ -16,7 +16,7 @@
 function lsdc_product_description_header()
 {
     $lsdc_product_tab_public = array(
-        'description' => __('Description', 'lsdcommerce')
+        'description' => __('Deskripsi', 'lsdcommerce')
     );
     $lsdc_product_tab_public = array_reverse($lsdc_product_tab_public);
     if (has_filter('lsdcommerce_product_tabs_header'))

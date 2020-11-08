@@ -47,10 +47,10 @@
         position: initial
       }
   
-      #tab1:checked~.tab-body-component #tab-body-1,
-      #tab2:checked~.tab-body-component #tab-body-2,
-      #tab3:checked~.tab-body-component #tab-body-3,
-      #tab4:checked~.tab-body-component #tab-body-4 {
+      #dashboard:checked~.tab-body-component #tab-body-1,
+      #order:checked~.tab-body-component #tab-body-2,
+      #shipping:checked~.tab-body-component #tab-body-3,
+      #profile:checked~.tab-body-component #tab-body-4 {
         position: relative;
         top: 0;
         opacity: 1
