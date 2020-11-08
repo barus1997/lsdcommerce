@@ -54,7 +54,7 @@ if( ! wp_doing_ajax() ){
                             <?php echo str_replace( substr($total, -3), '', lsdc_currency_format( true, $total ) ); ?><span class="text-underline"><?php  echo substr($total, -3); ?></span>
                         </h5>
 
-                        <div id="copy-total" class="hidden"><?php echo lsdc_currency_clear( $total ); ?></div>
+                        <div id="copy-total" class="hidden"><?php echo lsdc_currency_clean( $total ); ?></div>
                         <button class="lsdp-btn lsdc-btn btn-primary copy-btn" onclick="lsdcommerce_copy('#copy-total', this)"><?php _e( 'Salin', 'lsdcommerce' ); ?></button>
                     <!-- Free Product -->
                     <?php else: ?>
@@ -183,7 +183,7 @@ if( ! wp_doing_ajax() ){
                             <table class="table table-transaction table-borderless">
                                 <tbody>
                                     <?php 
-                                        $store_settings         = get_option( 'lsdc_store_settings' ); 
+                                        $store_settings         = get_option( 'lsdcommerce_store_settings' ); 
                                         $country_selected       = isset( $store_settings['lsdc_store_country'] ) ? esc_attr( $store_settings['lsdc_store_country'] ) : 'ID';
                                         $currency_selected      = isset( $store_settings['lsdc_store_currency'] ) ? esc_attr( $store_settings['lsdc_store_currency'] ) : 'IDR';
                                 

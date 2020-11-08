@@ -119,7 +119,7 @@ function lsdc_admin_payment_option() {
         }
 
         if ($key == 'alias') {
-            $alias = lsdc_sanitize_ID($item); // Sanitize ID
+            $alias = lsdc_clean_id($item); // Sanitize ID
         }
     }
 

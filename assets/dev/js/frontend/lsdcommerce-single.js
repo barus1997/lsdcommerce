@@ -98,21 +98,33 @@ Javascript Code in Single Product
 
 	// ------------- Add to Cart ----------------- //
 	function lsdcommerce_addto_cart(inType, inID, inQTY, inPrice, inTitle) {
+
+		if( productID || inID ){
+
+		if( ! Number.isInteger( productID ) ){
+			productID = productID.split( '-', 2 )[0];
+		} 
 		let cartProduct = cart.get('product', productID);
-	
+
 		let variationElement = $('.product-variant .container .variant-item'); 
 		let variationID, variationName, variationPrice = '';
 		let variationObject = {};
 		let inputable = false;
+		let singleQtyControl = $('#single-qty input[name="qty"]'); // get single qty
+
 
 		// Set Qty to Zero if Undefined
-		if ( cartProduct == undefined ) cartProduct = {}; cartProduct['qty'] = 0;
+		console.log( cartProduct );
+		if ( cartProduct == undefined ){
+			cartProduct = {}; 
+			cartProduct['qty'] = 0;
+		}else{
+			singleQtyControl.val( cartProduct.qty );
+		}
+
+		let singleQty = parseInt(singleQtyControl.val()) == null ? 0 : cartProduct.qty;
 
 		// Reset Product ID from Variation ID
-		if( isNaN( productID ) ) productID = productID.split( '-', 2 )[0];
-
-		let singleQtyControl = controlQty.find('.lsdc-qty input[name="qty"]'); // get single qty
-		let singleQty = parseInt(singleQtyControl.val()) == null ? 0 : cartProduct.qty;
 
 		// Barang Masuk Ke keranjang
 		if (inType == 'add') {
@@ -136,8 +148,6 @@ Javascript Code in Single Product
 						'price': variant.attr('price')
 					}
 
-					console.log( variantQtyLimit );
-					
 					// Populate Variation
 					if( variant.attr('id') ){
 						variationID += variant.attr('id') + '-'; // Create ID Variation 123-hitam-xl
@@ -168,6 +178,8 @@ Javascript Code in Single Product
 				// }
 			}else{
 				// Limit Order
+				console.log( productLimit );
+				console.log( cartProduct );
 				if (cartProduct.qty < parseInt(productLimit)) {
 					productQty = singleQty + 1;
 					inputable = true;
@@ -180,7 +192,6 @@ Javascript Code in Single Product
 			// Sub Product Variation
 		}
 		
-		console.log( variationID );
 		// Check Variation ID Avaialble
 		if( inputable ){
 			if( variationID ){
@@ -205,7 +216,7 @@ Javascript Code in Single Product
 				return productID;
 			}
 		}
-	
+	}
 	
 	}
 
@@ -225,7 +236,10 @@ Javascript Code in Single Product
 		 //Change ID for Variation
 		controlQty.attr( 'product-id', productID );
 		// Set Qty and CartManager by Carts Quantity
-		controlQty.find('.lsdc-qty input[name="qty"]').val(carts.qty);
+		if( carts ){
+			controlQty.find('.lsdc-qty input[name="qty"]').val(carts.qty);
+		}
+		
 
 		let total = cart.get('total');
 		lsdcommerce_single_cartmanager(total.total_qty, lsdcommerce_currency_format(true, total.total_price));
@@ -294,22 +308,23 @@ Javascript Code in Single Product
 		let minusInCart = null;
 		let minusInFloat = null;
 
-		controlCartQty = $(this).closest('.lsdc-qty').find('input[name="qty"]'); // Control Qty
+		controlCartQty = $(this).closest('.lsdc-qty').find('input[name="qty"]'); // Control Qty dynamic based on user click
 		productQty = parseInt((controlCartQty.val()) == null ? 1 : controlCartQty.val()); // Force set 1 if empty
 		productID = $(this).closest('.item').attr('id'); // Get Product ID
+
 		// Minus in Float Qty not on Cart Manager
 		if (productID == undefined) {
 			minusInFloat = true;
 			productID = $(this).closest('.cart-qty-float').attr('product-id'); // Get Product ID
 		} else {
 			minusInCart = true; 
+
 		}
 
 		// Decrease Qty on click
 		controlCartQty.val(--productQty);
 
 		let product_cart = cart.get('product', productID); //Get Detail Product by ID
-
 
 		if (minusInFloat && productQty == 0) { // Hold Product if Minus in Float and Cart not Show
 

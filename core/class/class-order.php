@@ -81,7 +81,7 @@ class LSDC_Order
 
             // Setup User
             $username = lsdc_format_username($order_object['form']['name']);
-            $password = lsdc_generate_password();
+            $password = lsdc_create_password();
             $names = explode(' ', $order_object['form']['name'], 2);
 
             // Set Names

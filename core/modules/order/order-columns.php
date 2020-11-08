@@ -55,10 +55,8 @@ function lsdc_admin_order_columns_content( $column, $order_id ) {
             if( empty($key) ){
                 echo '_';
             }else{
-                if( $service == 'lsdcommerce_shipping_email' ){
+                if( $item->service == 'lsdcommerce_shipping_email' ){
                     echo ucfirst( $key . ' : <br><strong>Email</strong>' );
-                }else{
-                    echo ucfirst( $service );
                 }
             }
             

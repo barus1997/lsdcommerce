@@ -120,7 +120,7 @@ Class LSDC_Notification_Email Extends LSDC_Notification {
             'customer_phone'    => esc_attr( $customer_phone ),
             'customer_email'    => esc_attr( $customer_email ),
             'free_order'        => $total != 0 ? false : true,      
-            'illustration'      => LSDC_URL . 'assets/img/illustration.png'
+            'illustration'      => LSDC_URL . 'assets/images/illustration.png'
             // 'shipping' => array(
             //     'physical' => array(
             //         'address' => esc_attr( $shipping->physical->address ),
