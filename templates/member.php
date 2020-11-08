@@ -120,7 +120,18 @@ get_header(); ?>
           </tr>
           <?php if ( $shiping_query->have_posts() ) : ?>
                 <?php while ( $shiping_query->have_posts() ) : $shiping_query->the_post(); ?>
-                <?php $type = json_decode( get_post_meta( get_the_ID(), 'shipping', true ) ); ?>
+                <?php $type = lsdc_product_check_type( get_the_ID() );
+                if( isset( $type[0] ) && isset( $type[1] ) ) {
+                  $tipe = __( "Fisik dan Digital", 'lsdcommerce' );
+                }else if( isset( $type[0] ) ){
+                  if( $type[0] == 'digital' ){
+                    $tipe = __( "Digital", 'lsdcommerce' );
+                  }else{
+                    $tipe = __( "Fisik", 'lsdcommerce' );
+                  }
+                }
+                
+                ?>
                 <?php if( isset($type->digital) ) : ?>
                 <!-- Digital Product As Each Item -->
                   <?php 
@@ -128,7 +139,7 @@ get_header(); ?>
                   ?>
                   <?php foreach ( $products as $key => $product ) : ?>
                     <tr>
-                      <td><?php _e( 'Digital', 'lsdcommerce' ); ?></td>
+                      <td><?php echo $tipe; ?></td>
                       <td>INV#<?php echo abs( get_post_meta( get_the_ID(), 'order_id', true )); ?></td>
                       <td><?php echo lsdc_product_title_summary(  get_the_ID() ); ?></td>
                       <td><a view-ajax data-post="shipping" id="<?php the_ID(); ?>"><?php _e( 'Detail', 'lsdcommerce' ); ?></a></td>
@@ -137,7 +148,7 @@ get_header(); ?>
     
                 <?php else: ?>
                   <tr>
-                    <td><?php _e( 'Fisik', 'lsdcommerce' ); ?></td>
+                    <td><?php echo $tipe; ?></td>
                     <td>INV#<?php echo abs( get_post_meta( get_the_ID(), 'order_id', true )); ?></td>
                     <td><?php echo lsdc_product_title_summary(  get_the_ID() ); ?></td>
                     <td><a view-ajax data-post="shipping" id="<?php the_ID(); ?>"><?php _e( 'Detail', 'lsdcommerce' ); ?></a></td>
