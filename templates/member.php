@@ -111,14 +111,15 @@ get_header(); ?>
         ));
       ?>
       <div id="tab-body-3" class="tab-body">
-        <table>
-          <tr>
-            <th><?php _e( 'Tipe', 'lsdcommerce' ); ?></th>
-            <th><?php _e( 'Order', 'lsdcommerce' ); ?></th>
-            <th><?php _e( 'Produk', 'lsdcommerce' ); ?></th>
-            <th><?php _e( 'Tindakan', 'lsdcommerce' ); ?></th>
-          </tr>
+    
           <?php if ( $shiping_query->have_posts() ) : ?>
+          <table>
+            <tr>
+              <th><?php _e( 'Tipe', 'lsdcommerce' ); ?></th>
+              <th><?php _e( 'Order', 'lsdcommerce' ); ?></th>
+              <th><?php _e( 'Produk', 'lsdcommerce' ); ?></th>
+              <th><?php _e( 'Tindakan', 'lsdcommerce' ); ?></th>
+            </tr>
                 <?php while ( $shiping_query->have_posts() ) : $shiping_query->the_post(); ?>
                 <?php $type = lsdc_product_check_type( get_the_ID() );
                 if( isset( $type[0] ) && isset( $type[1] ) ) {
@@ -155,14 +156,14 @@ get_header(); ?>
                   </tr>
                 <?php endif; ?>
             <?php endwhile; wp_reset_postdata(); ?>
+            </table>
+
+            <div class="lsdc-ajax-response" data-post="shipping">
+            </div>
           <?php else: ?>
                 <!-- Alert to Input Program -->
+                <p class="lsdp-alert lsdc-info lsdp-mt-0"><?php _e( 'Belum ada pengiriman', 'lsdcommerce' ); ?></p>
           <?php endif; ?>
-        </table>
-
-        <div class="lsdc-ajax-response" data-post="shipping">
-        </div>
-      
       </div>
 
       <!-- Profile -->

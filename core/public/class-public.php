@@ -85,7 +85,7 @@ class LSDCommerce_Public
             'jquery'
         ) , '5.3.6', false);
 
-        wp_enqueue_script($this->plugin_name . '-helper', LSDC_URL . 'assets/dev/js/utils/lsdcommerce-helper.js', array() , $this->version, false);
+        wp_enqueue_script($this->plugin_name . '-helper', LSDC_URL . 'assets/dev/js/utils/lsdcommerce-helper.js', array( 'jquery' ) , $this->version, false);
 
         // Checkout Page
         if (is_page(lsdc_admin_get('general_settings', 'checkout_page')))
@@ -106,7 +106,7 @@ class LSDCommerce_Public
         wp_enqueue_script($this->plugin_name, LSDC_URL . 'assets/dev/js/frontend/lsdcommerce-public.js', array(
             'jquery'
         ) , $this->version, false);
-        
+
         wp_localize_script($this->plugin_name, 'lsdc_pub', array(
             'ajax_url' => esc_js(admin_url('admin-ajax.php')) ,
             'ajax_nonce' => esc_js(wp_create_nonce('lsdc_nonce')) ,
