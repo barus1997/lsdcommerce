@@ -125,4 +125,8 @@ function lsdc_get_payment( $id, $type){
             break;
     }
 }
+
+function lsdc_get_login_url(){
+    return wp_login_url();
+}
 ?>
