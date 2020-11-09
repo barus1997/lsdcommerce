@@ -13,6 +13,7 @@
         cursor: pointer;
         padding: 10px 20px !important;
         text-align: center;
+        width: 24.4%;
       }
   
       .tabs-component label.tab:after,

@@ -1,6 +1,6 @@
 <?php 
 // Require Mustache for Templating
-require LSDC_PATH . '/assets/lib/Mustache/Autoloader.php';
+require LSDC_PATH . 'assets/lib/mustache/Autoloader.php';
 Mustache_Autoloader::register();
 
 /**

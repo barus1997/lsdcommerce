@@ -59,9 +59,9 @@ function lsdcommerce_checkout_token(){
             set_transient( 'lsdcommerce_checkout_' . $token , lsdc_date_now(), 600 );
         }        
     }else{
-        // if( isset( $_COOKIE['_lsdcommerce_token'] )  &&  ! is_page( lsdc_admin_get( 'general_settings', 'checkout_page' ) ) ){
-        //     setcookie( "_lsdcommerce_token" , null, time() - 3600 , "/"  );
-        // }
+        if( isset( $_COOKIE['_lsdcommerce_token'] )  &&  ! is_page( lsdc_admin_get( 'general_settings', 'checkout_page' ) ) ){
+            setcookie( "_lsdcommerce_token" , null, time() - 3600 , "/"  );
+        }
     }
 }
 add_action( 'template_redirect', 'lsdcommerce_checkout_token' );

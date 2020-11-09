@@ -57,8 +57,9 @@ class LSDCommerce_Public
         wp_enqueue_style('swiper', LSDC_URL . 'assets/lib/swiper/swiper.css', array() , '5.3.6', 'all');
         wp_enqueue_style($this->plugin_name . '-theme', LSDC_URL . 'assets/dev/css/frontend/theme.css', array() , $this->version, 'all');
 
+        wp_register_style($this->plugin_name . '-single', LSDC_URL . 'assets/dev/css/frontend/single.css', array() , $this->version, 'all');
         if( is_singular('lsdc-product') || is_page_template( 'store.php') ){
-            wp_enqueue_style($this->plugin_name . '-single', LSDC_URL . 'assets/dev/css/frontend/single.css', array() , $this->version, 'all');
+            wp_enqueue_style( $this->plugin_name . '-single' );
         }
 
         if( is_page_template( 'member.php') ){
@@ -85,7 +86,7 @@ class LSDCommerce_Public
             'jquery'
         ) , '5.3.6', false);
 
-        wp_enqueue_script($this->plugin_name . '-helper', LSDC_URL . 'assets/dev/js/utils/lsdcommerce-helper.js', array() , $this->version, false);
+        wp_enqueue_script($this->plugin_name . '-helper', LSDC_URL . 'assets/dev/js/utils/lsdcommerce-helper.js', array( 'jquery' ) , $this->version, false);
 
         // Checkout Page
         if (is_page(lsdc_admin_get('general_settings', 'checkout_page')))
@@ -106,11 +107,12 @@ class LSDCommerce_Public
         wp_enqueue_script($this->plugin_name, LSDC_URL . 'assets/dev/js/frontend/lsdcommerce-public.js', array(
             'jquery'
         ) , $this->version, false);
-        
+
         wp_localize_script($this->plugin_name, 'lsdc_pub', array(
             'ajax_url' => esc_js(admin_url('admin-ajax.php')) ,
             'ajax_nonce' => esc_js(wp_create_nonce('lsdc_nonce')) ,
             'plugin_url' => esc_js(LSDC_URL) ,
+            'site_url' => esc_js( get_site_url() ),
             'translation' => array(
                 'cart_empty' => __('Kosong', 'lsdcommerce') ,
                 'data_incorrect' => __('Silahkan isi data dengan benar', 'lsdcommerce') ,

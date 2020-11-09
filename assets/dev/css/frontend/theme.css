@@ -385,7 +385,7 @@ body {
     height: 0;
     opacity: 0;
     transform: translateY(-30px); 
-    background-color: #FFF;
+    /* background-color: #FFF; */
     padding: 5px 0;
     z-index: 5;
     left: 0

@@ -80,3 +80,4 @@ function run_lsdcommerce() {
 	$plugin->run();
 }
 run_lsdcommerce();
+

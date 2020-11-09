@@ -176,7 +176,7 @@ if( ! wp_doing_ajax() ){
                         </table>
                     </div>
 
-                    <?php if( lsdc_get_ip() == $order_ip ) : ?>
+                    <?php if( lsdc_get_ip() == $order_ip && is_user_logged_in() ) : ?>
                         <div class="section-customer">
                             <h6 class="text-primary font-weight-medium text-center"><?php _e('Detail Pembeli', 'lsdcommerce'); ?></h6>
                             <hr class="half">

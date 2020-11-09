@@ -84,7 +84,8 @@ $settings = get_option('lsdc_appearance_settings');
 
   <div class="column col-4">
     <h6>Shortcode <a class="btn btn-primary btn-sm float-right" target="_blank" href="https://docs.lsdplugins.com/lsdcommerce/" ><?php _e( 'Pelajari Shortcode', 'lsdcommerce' ); ?></a></h6>
-    <p style="margin:0;"><?php _e( 'Menampilkan Halaman Checkout', 'lsdd' ); ?></p><code>[lsdcommerce_checkout]</code>
+    <p style="margin:0;"><?php _e( 'Menampilkan Halaman Checkout', 'lsdcommerce' ); ?></p><code>[lsdcommerce_checkout]</code>
+    <p style="margin:0;"><?php _e( 'Menampilkan Produk Terbaru', 'lsdcommerce' ); ?></p><code>[lsdcommerce_latest_products]</code>
   <?php if( has_action('lsdcommerce_shortcode_hook' )) : ?>
 
     <?php do_action('lsdcommerce_shortcode_hook'); ?>

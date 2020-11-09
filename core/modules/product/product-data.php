@@ -140,7 +140,7 @@ function lsdc_product_data()
             <?php
     $price_normal = empty(get_post_meta($post->ID, '_price_normal', true)) ? null : lsdc_currency_format(false, abs(get_post_meta($post->ID, '_price_normal', true)) , lsdc_currency_get() , false);
     $price_discount = empty(get_post_meta($post->ID, '_price_discount', true)) ? null : lsdc_currency_format(false, abs(get_post_meta($post->ID, '_price_discount', true)) , lsdc_currency_get() , false);
-    $limit_order = empty(get_post_meta($post->ID, '_limit_order', true)) ? 9999 : get_post_meta($post->ID, '_limit_order', true);
+
 ?>
             <div class="metabox-field">
                 <label for="price_normal"><?php esc_attr_e('Harga Normal', 'lsdcommerce'); ?> ( <?php lsdc_currency_view('symbol'); ?> )</label>
@@ -152,16 +152,21 @@ function lsdc_product_data()
         </div>
 
         <!-- Stock Tab -->
+        <?php 
+        $stock = empty( get_post_meta($post->ID, '_stock', true) ) ? 9999 : abs( get_post_meta($post->ID, '_stock', true) );
+        $stock_unit = empty( get_post_meta($post->ID, '_stock_unit', true) ) ? 'pcs' : esc_attr( get_post_meta($post->ID, '_stock_unit', true) );
+        $limit_order = empty(get_post_meta($post->ID, '_limit_order', true)) ? 9999 : abs(get_post_meta($post->ID, '_limit_order', true));
+        ?>
         <div class="wp-tab-panel lsdp-hide" id="stock">
             <div class="metabox-field">
                 <label for="stock"><?php esc_attr_e('Stok', 'lsdcommerce'); ?> ( <small>9999 = <?php _e('Available', 'lsdcommerce'); ?></small> )</label>
-                <p class="mfield"><input type="text" name="stock" placeholder="9999" value="<?php echo get_post_meta($post->ID, '_stock', true); ?>"></p>
+                <p class="mfield"><input type="text" name="stock" placeholder="9999" value="<?php echo $stock; ?>"></p>
 
                 <label for="stock_unit"><?php esc_attr_e('Stok Unit', 'lsdcommerce'); ?> </label>
-                <p class="mfield"><input type="text" name="stock_unit" placeholder="pcs" value="<?php echo get_post_meta($post->ID, '_stock_unit', true); ?>"></p>
+                <p class="mfield"><input type="text" name="stock_unit" placeholder="pcs" value="<?php echo $stock_unit; ?>"></p>
 
                 <label for="limit_order"><?php esc_attr_e('Limit Pembelian', 'lsdcommerce'); ?> </label>
-                <p class="mfield"><input type="text" name="limit_order" placeholder="1" value="<?php echo abs($limit_order); ?>"></p>
+                <p class="mfield"><input type="text" name="limit_order" placeholder="1" value="<?php echo $limit_order; ?>"></p>
                 <small>Setiap orang yang berbelanja hanya bisa memasukan barang sesuai dengan limit pembelian</small>
             </div>
         </div>
@@ -170,8 +175,8 @@ function lsdc_product_data()
         <div class="wp-tab-panel lsdp-hide" id="shipping">
             <div class="tabs tabs-inside">
                 <!-- Digital -->
-                <input name="shipping_tabs" value="digital" type="radio"/>
-                <label class="label" for="shipping-1"><?php esc_attr_e('Produk Digital', 'lsdcommerce'); ?></label>
+                <input name="shipping_tabs" value="digital" id="digital" type="radio"/>
+                <label class="label" for="digital"><?php esc_attr_e('Produk Digital', 'lsdcommerce'); ?></label>
                 <div class="pane-metabox">
                     <label for="digital_version"><?php esc_attr_e('Versi', 'lsdcommerce'); ?> : </label>
                     <input type="text" class="form-input" name="digital_version" placeholder="1.0.0" value="<?php echo get_post_meta($post->ID, '_digital_version', true); ?>">
@@ -184,8 +189,8 @@ function lsdc_product_data()
                     <?php do_action('lsdc_product_digital_extend'); ?>
                 </div>
                 <!-- Physical -->
-                <input name="shipping_tabs" value="physical" type="radio" />
-                <label class="label" for="shipping-2"><?php esc_attr_e('Produk Fisik', 'lsdcommerce'); ?></label>
+                <input name="shipping_tabs" value="physical" id="physical" type="radio" />
+                <label class="label" for="physical"><?php esc_attr_e('Produk Fisik', 'lsdcommerce'); ?></label>
                 <div class="pane-metabox">
                     <label for="physical_weight"><?php esc_attr_e('Berat', 'lsdcommerce'); ?> /g : </label>
                     <input type="text" class="form-input currency" name="physical_weight" placeholder="50" value="<?php echo get_post_meta($post->ID, '_physical_weight', true); ?>">

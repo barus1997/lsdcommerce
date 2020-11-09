@@ -108,7 +108,7 @@ function validateEmail(email) {
 
 	$(document).on("change","#country",function( e ) {
 	
-		$.get( lsdc_adm.plugin_url + 'core/cache/' + $(this).val() + '-states.json', function(data, status){
+		$.get( lsdc_adm.plugin_url + 'assets/cache/' + $(this).val() + '-states.json', function(data, status){
 			// alert("Data: " + data + "\nStatus: " + status);
 			console.log( data );
 			$("#states option").remove();
@@ -122,7 +122,7 @@ function validateEmail(email) {
 	});
 
 	$(document).on("change","#states",function( e ) {
-		$.get( lsdc_adm.plugin_url + 'core/cache/' + $('#country').find(":selected").val() + '-cities.json', function(data, status){
+		$.get( lsdc_adm.plugin_url + 'assets/cache/' + $('#country').find(":selected").val() + '-cities.json', function(data, status){
 			$("#cities option").remove();
 			$.each(data, function(i , value) {
 				if( $('#states').find(":selected").val() == value.province_id ){

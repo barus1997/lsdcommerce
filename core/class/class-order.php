@@ -21,11 +21,14 @@ class LSDC_Order
         {
             // Set ID
             $order_object['form']['id'] = get_current_user_id();
+
             // Set Name on Empty
             if (trim(lsdc_get_user_name()) == '')
             {
-                $names = explode(' ', $order_object['form']['name'], 2);
-                if (isset($names[1]))
+                $form_name = trim($order_object['form']['name']);
+                $names = explode(' ', $form_name, 2);
+
+                if ($form_name == trim($form_name) && strpos($form_name, ' ') !== false)
                 {
                     // Update User First and Last Name
                     wp_update_user([
@@ -39,7 +42,7 @@ class LSDC_Order
                     // Update User FirstName
                     wp_update_user([
                         'ID' => get_current_user_id() , 
-                        'first_name' => sanitize_text_field( $order_object['form']['name'] )
+                        'first_name' => sanitize_text_field( $form_name )
                     ]);
                 }
 
@@ -80,27 +83,38 @@ class LSDC_Order
             }
 
             // Setup User
-            $username = lsdc_format_username($order_object['form']['name']);
+            $form_name = trim($order_object['form']['name']);
+
+            $username = lsdc_format_username($form_name);
             $password = lsdc_create_password();
-            $names = explode(' ', $order_object['form']['name'], 2);
 
-            // Set Names
-            if (!isset($names[1])) $names = $order_object['form']['name'];
+            // Register User     
+            $names = explode(' ', $form_name, 2);
 
-            // Register User
-            $user_data = array(
-                'user_login' => $username,
-                'user_pass' => $password,
-                'first_name' => (!isset($names[1])) ? $names : esc_attr($names[0]) ,
-                'last_name' => (!isset($names[1])) ? '' : esc_attr($names[1]) ,
-                'user_email' => $order_object['form']['email'],
-                'role' => 'customer'
-            );
+            if ( strpos($form_name, ' ') !== false)
+            {
+                $user_data = array(
+                    'user_login' => $username,
+                    'user_pass' => $password,
+                    'first_name' => esc_attr($names[0]) ,
+                    'last_name' => esc_attr($names[1]) ,
+                    'user_email' => $order_object['form']['email'],
+                    'role' => 'customer'
+                );
+            }else{
+                $user_data = array(
+                    'user_login' => $username,
+                    'user_pass' => $password,
+                    'first_name' => $form_name ,
+                    'user_email' => $order_object['form']['email'],
+                    'role' => 'customer'
+                );
+            }
+  
             $user_id = wp_insert_user($user_data);
 
             if ($user_id)
             {
-
                 wp_send_new_user_notifications($user_id); // Send Notification New Account
                 update_user_meta($user_id, 'user_phone', $order_object['form']['phone']);
 
@@ -226,7 +240,7 @@ class LSDC_Order
             'post_type'     => 'lsdc-order',
             'post_title'    => $order_object['order_id'],
             'post_status'   => 'publish',
-            'post_author'   => get_current_user_id()
+            'post_author'   => abs( $order_object['form']['id'] )
         );
         $order_id = wp_insert_post( $args );
 

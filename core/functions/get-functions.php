@@ -28,7 +28,12 @@ function lsdc_get_user_phone( $user_id = false ){
 function lsdc_get_user_email( $user_id = false ){
     $user_id = empty( $user_id ) ?  get_current_user_id() : $user_id;
     $user = get_user_by( 'id', $user_id );
-    return sanitize_email( $user->user_email );
+    if(  $user  ){
+        return sanitize_email( $user->user_email );
+    }else{
+        return false;
+    }
+    
 }
 
 /**
@@ -119,5 +124,9 @@ function lsdc_get_payment( $id, $type){
             return esc_attr( $method['instruction'] );
             break;
     }
+}
+
+function lsdc_get_login_url(){
+    return wp_login_url();
 }
 ?>

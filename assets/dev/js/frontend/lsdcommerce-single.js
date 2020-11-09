@@ -114,7 +114,6 @@ Javascript Code in Single Product
 
 
 		// Set Qty to Zero if Undefined
-		console.log( cartProduct );
 		if ( cartProduct == undefined ){
 			cartProduct = {}; 
 			cartProduct['qty'] = 0;
@@ -178,8 +177,6 @@ Javascript Code in Single Product
 				// }
 			}else{
 				// Limit Order
-				console.log( productLimit );
-				console.log( cartProduct );
 				if (cartProduct.qty < parseInt(productLimit)) {
 					productQty = singleQty + 1;
 					inputable = true;
