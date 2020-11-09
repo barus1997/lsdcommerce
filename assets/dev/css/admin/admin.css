@@ -90,11 +90,6 @@
   transition: background 0.1s, color 0.1s;
 }
 
-.label:active {
-  font-weight: 700;
-
-}
-
 .input:focus+.label {
   box-shadow: inset 0px 0px 0px 3px #2aa1c0;
   z-index: 1;

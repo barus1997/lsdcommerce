@@ -83,11 +83,12 @@ class LSDC_Order
             }
 
             // Setup User
-            $username = lsdc_format_username($order_object['form']['name']);
-            $password = lsdc_create_password();
-            
-            // Register User
             $form_name = trim($order_object['form']['name']);
+
+            $username = lsdc_format_username($form_name);
+            $password = lsdc_create_password();
+
+            // Register User     
             $names = explode(' ', $form_name, 2);
 
             if ( strpos($form_name, ' ') !== false)
@@ -114,7 +115,6 @@ class LSDC_Order
 
             if ($user_id)
             {
-
                 wp_send_new_user_notifications($user_id); // Send Notification New Account
                 update_user_meta($user_id, 'user_phone', $order_object['form']['phone']);
 

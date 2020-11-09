@@ -140,7 +140,7 @@ add_action('lsdcommerce_order_status_new', 'lsdc_order_on_new');
  */
 function lsdc_order_on_paid($order_id)
 {
-    // wp_schedule_single_event( time() + 9, 'lsdc_notification_schedule', array( $order_id, 'paid' ) );  // Notification Cron
+    wp_schedule_single_event( time() + 9, 'lsdc_notification_schedule', array( $order_id, 'paid' ) );  // Notification Cron
     
 }
 add_action('lsdcommerce_order_status_paid', 'lsdc_order_on_paid');
@@ -153,7 +153,7 @@ add_action('lsdcommerce_order_status_paid', 'lsdc_order_on_paid');
  */
 function lsdc_order_on_canceled($order_id)
 {
-    // wp_schedule_single_event( time() + 9, 'lsdc_notification_schedule', array( $order_id, 'canceled' ) );   // Notification Cron
+    wp_schedule_single_event( time() + 9, 'lsdc_notification_schedule', array( $order_id, 'canceled' ) );   // Notification Cron
     
 }
 add_action('lsdcommerce_order_status_canceled', 'lsdc_order_on_canceled');
@@ -190,7 +190,7 @@ function lsdc_order_on_shipped($order_id)
     }
     else
     {
-        // wp_schedule_single_event( time() + 9, 'lsdc_notification_schedule', array( $order_id, 'shipped' ) );   // Notification Cron
+        wp_schedule_single_event( time() + 9, 'lsdc_notification_schedule', array( $order_id, 'shipped' ) );   // Notification Cron
         
     }
 }

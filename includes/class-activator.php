@@ -63,9 +63,20 @@ class LSDCommerce_Activator {
 		// Set Report Read
 		update_option('lsdcommerce_order_unread', 0);
 
+		if( ! lsdc_admin_get( 'appearance_settings', 'font_family') ){
+			lsdc_admin_set( 'appearance_settings', 'font_family', 'Poppins' );
+		}
+		
+		if( ! lsdc_admin_get( 'appearance_settings', 'background_theme_color') ){
+			lsdc_admin_set( 'appearance_settings', 'background_theme_color' , 'transparent');
+		}
+
+		if( ! lsdc_admin_get( 'appearance_settings', 'theme_color') ){
+			lsdc_admin_set( 'appearance_settings', 'theme_color', '#C80F25' );
+		}
 
 		// Sending Usage Data
-		// lsdc_track_init();
+		lsdc_track_init();
 	}
 	
 } 

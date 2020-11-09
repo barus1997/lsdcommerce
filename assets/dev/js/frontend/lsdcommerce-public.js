@@ -102,7 +102,7 @@ Public Javascript and JQuery Function
 	 * LSDCommerce - Member
 	 * Change Password
 	 */
-	$(document).on("click", ".lsdcommerce-member .change-password", function (e) {
+	$(document).on("click", ".lsdc-change-password", function (e) {
 		e.preventDefault();
 		var that = this;
 		var oldpassword = $('#oldpassword').val();
@@ -110,14 +110,14 @@ Public Javascript and JQuery Function
 		var repeatpassword = $('#repeatpassword').val();
 
 		if ( lsdcommerce_empty(oldpassword) || lsdcommerce_empty(newpassword) || lsdcommerce_empty(repeatpassword) ) {
-			$('#alert-password').removeClass('lsdp-hide');
-			$('#alert-password').text('Please Input Old and New Password...');
+			$('#alert-password').removeClass('lsdp-hidden');
+			$('#alert-password').text('SIlahkan isi kata sandi lama dan baru.');
 		} else {
 			if (newpassword != repeatpassword) {
-				$('#alert-password').removeClass('lsdp-hide');
-				$('#alert-password').text('You Repeat Password not Match...')
+				$('#alert-password').removeClass('lsdp-hidden');
+				$('#alert-password').text('Password yang anda masukan tidak sama...')
 			} else {
-				$('#alert-password').addClass('lsdp-hide');
+				$('#alert-password').addClass('lsdp-hidden');
 				$(this).addClass('loading');
 
 				$.post(lsdc_pub.ajax_url, {
@@ -129,11 +129,11 @@ Public Javascript and JQuery Function
 				}, function (response) {
 					$(that).removeClass('loading');
 					if (response == false) {
-						$('#alert-password').removeClass('lsdp-hide');
-						$('#alert-password').text("Your Old Password didn't match...");
+						$('#alert-password').removeClass('lsdp-hidden');
+						$('#alert-password').text("Kata sandi lama anda tidak sesuai...");
 					} else {
-						$('#alert-password').removeClass('lsdp-hide');
-						$('#alert-password').text('Successfully Change your password...');
+						$('#alert-password').removeClass('lsdp-hidden');
+						$('#alert-password').text('Berhasil merubah kata sandi...');
 					}
 					// Cookie Remove
 				}).fail(function () {

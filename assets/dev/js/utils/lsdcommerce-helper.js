@@ -19,7 +19,7 @@ function lsdc_setCookie(name, value, days) {
         expires = "; expires=" + date.toUTCString();
     }
 
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
 }
 
 function lsdc_getCookie(name) {

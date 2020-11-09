@@ -152,7 +152,7 @@ Public Javascript and JQuery Function
 
 	// States : Change, get Cities
 	$(document).on("change", "#states", function (e) {
-		$.get(lsdc_pub.plugin_url + 'core/cache/' + $('#country').val() + '-cities.json', function (data, status) {
+		$.get(lsdc_pub.plugin_url + 'assets/cache/' + $('#country').val() + '-cities.json', function (data, status) {
 			$("#cities option").remove();
 			$.each(data, function (i, value) {
 				if ($('#states').find(":selected").val() == value.province_id) {

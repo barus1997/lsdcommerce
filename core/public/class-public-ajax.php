@@ -478,7 +478,9 @@ class LSDCommerce_Member_AJAX{
             <tr>
               <th><?php _e( 'Pesanan', 'lsdcommerce' ); ?></th>
               <th><?php _e( 'Produk', 'lsdcommerce' ); ?></th>
+              <?php if( lsdc_product_type( $product->id ) == 'digital' ) : ?>
               <th><?php _e( 'Versi', 'lsdcommerce' ); ?></th>
+              <?php endif; ?>
               <th><?php _e( 'Tindakan', 'lsdcommerce' ); ?></th>
             </tr>
             <?php 
@@ -491,7 +493,9 @@ class LSDCommerce_Member_AJAX{
                 <tr>
                   <td>#<?php echo lsdc_product_extract_ID( $product->id ); ?></td>
                   <td><?php echo get_the_title( $product->id ); ?></td>
+                  <?php if( lsdc_product_type( $product->id ) == 'digital' ) : ?>
                   <td><?php echo lsdc_product_download_version( lsdc_product_extract_ID( $product->id ) ); ?></td>
+                  <?php endif; ?>
                   <?php if( lsdc_product_type( $product->id ) == 'digital' ) : ?>
                     <td><a href="<?php echo lsdc_product_download_link( lsdc_product_extract_ID( $product->id ) ); ?>" class="text-primary"><?php _e( 'Unduh', 'lsdcommerce' ); ?></a></td>
                   <?php else: ?>
