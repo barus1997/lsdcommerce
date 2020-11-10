@@ -163,7 +163,7 @@ get_header();
                         <div class="form-group widget-price">
                             <p>Rentang Harga</p>
                             <div id="slider-range"></div>
-                            <div class="row justify-content-between mt-10">
+                            <div class="row justify-content-between ">
                                 <div class="col-auto">
                                     <div class="input-group">
                                         <div class="input-group-prepend">

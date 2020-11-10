@@ -379,3 +379,7 @@ hr.border {
 td.product-item.text-right {
     width: 28%;
 }
+
+#lsdcommerce-checkout .lsdc-card{
+    padding-top: 1px;
+}

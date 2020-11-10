@@ -34,13 +34,28 @@ get_header(); ?>
         <?php $current_user = wp_get_current_user(); ?>
         <?php _e('Selamat Datang', 'lsdcommerce'); ?>, <span class="text-primary"><?php echo lsdc_get_user_name($current_user->ID); ?></span><br><br>
 
-        <p class="lsdp-mb-10">untuk melihat arsip pembelian anda bisa klik tab pembelian</p>
+        <p class="lsdp-mb-10">Untuk melihat arsip pembelian anda bisa klik tab pembelian, dan tab pengiriman untuk melihat data pengiriman.</p>
         <a class="lsdp-btn lsdc-btn btn-primary" href="<?php echo wp_logout_url(get_permalink()); ?>"><?php _e('Keluar', 'lsdcommerce'); ?></a>
       </div>
       
       <!-- Purchase -->
       <div id="tab-body-2" class="tab-body">
         <!-- Listing Pesanan -->
+        <?php
+            $query = new WP_Query(array(
+                'post_type' => 'lsdc-order',
+                'post_status' => 'publish',
+                'post_author' => $current_user->ID,
+                'meta_query' => array(
+                    array(
+                        'key' => 'customer_id',
+                        'value' => $current_user->ID,
+                        'compare' => '='
+                    )
+                )
+            ));
+        ?>
+        <?php if ( $query->have_posts() ): ?>
         <table>
             <tr>
               <th><?php _e("Pesanan", 'lsdcommerce'); ?></th>
@@ -48,38 +63,19 @@ get_header(); ?>
               <th><?php _e("Total", 'lsdcommerce'); ?></th>
               <th><?php _e("Status", 'lsdcommerce'); ?></th>
             </tr>
-            <?php
-    $query = new WP_Query(array(
-        'post_type' => 'lsdc-order',
-        'post_status' => 'publish',
-        'post_author' => $current_user->ID,
-        'meta_query' => array(
-            array(
-                'key' => 'customer_id',
-                'value' => $current_user->ID,
-                'compare' => '='
-            )
-        )
-    ));
-?>
-            <?php if ($query->have_posts()): ?>
-                <?php while ($query->have_posts()):
-            $query->the_post(); ?>
-                  <tr>
+            <?php while ($query->have_posts()): $query->the_post(); ?>
+                <tr>
                     <td><a view-ajax data-post="order" id="<?php the_ID(); ?>">INV#<?php echo abs(get_post_meta(get_the_ID() , 'order_id', true)); ?></a></td>
                     <td><?php echo get_the_date('j M Y'); ?></td>
                     <td><?php echo lsdc_currency_format(true, get_post_meta(get_the_ID() , 'total', true)); ?></td>
                     <td><?php echo lsdc_order_status_translate(get_the_ID()); ?></td>
-                  </tr>
-                <?php
-        endwhile;
-        wp_reset_postdata(); ?>
-            <?php
-    else: ?>
-                <!-- Alert to Input Program -->
-            <?php
-    endif; ?>
-          </table>
+                </tr>
+            <?php endwhile; wp_reset_postdata(); ?>
+        </table>
+        <?php else: ?>
+               <p class="lsdp-alert lsdc-info lsdp-mt-0"><?php _e('Belum ada pengiriman', 'lsdcommerce'); ?></p>
+        <?php endif; ?>
+
 
          <div class="lsdc-ajax-response" data-post="order">
          </div>

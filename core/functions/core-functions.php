@@ -479,8 +479,10 @@ function lsdc_track_push(){
  * Create Daily Update
  * Track Data Daily
  */
-wp_schedule_event( time(), 'daily', 'lsdcommerce_daily_update' );
-add_action( 'lsdcommerce_daily_update', function(){
-    lsdc_track_activeday();
-});
+if( !wp_next_scheduled( 'lsdcommerce_daily_update' ) ) {
+    wp_schedule_event( time(), 'daily', 'lsdcommerce_daily_update' );
+    add_action( 'lsdcommerce_daily_update', function(){
+        lsdc_track_activeday();
+    });
+}
 ?>

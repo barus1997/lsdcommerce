@@ -177,6 +177,7 @@ function lsdc_product_type($product_id)
  */
 function lsdc_product_extract_ID($product_id)
 {
+
     $productID = explode('-', $product_id);
     if (isset($productID[1]))
     {

@@ -62,7 +62,7 @@ Class LSDC_BankBCA Extends LSDC_Payment {
 
     <div id="<?php echo $this->id; ?>_content" class="payment-editor d-hide">
         <div class="panel-header text-center">
-            <div class="panel-title h5 mt-10 float-left"><?php _e( 'Edit  ', 'lsdcommerce' ); ?> <?php  echo $this->group_name; ?> <?php  echo $this->name; ?></div>
+            <div class="panel-title h5 float-left"><?php _e( 'Edit  ', 'lsdcommerce' ); ?> <?php  echo $this->group_name; ?> <?php  echo $this->name; ?></div>
             <div class="panel-close float-right"><i class="icon icon-cross"></i></div>
         </div>
         
@@ -154,7 +154,7 @@ Class LSDC_BankCustomOne Extends LSDC_Payment {
 
     <div id="<?php echo $this->id; ?>_content" class="payment-editor d-hide">
         <div class="panel-header text-center">
-            <div class="panel-title h5 mt-10 float-left"><?php _e( 'Edit Custom Bank', 'lsdcommerce' ); ?></div>
+            <div class="panel-title h5  float-left"><?php _e( 'Edit Custom Bank', 'lsdcommerce' ); ?></div>
             <div class="panel-close float-right"><i class="icon icon-cross"></i></div>
         </div>
         
