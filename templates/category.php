@@ -5,9 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 get_header(); 
 ?>
-
-<main class="page-content">
-        <div class="card">
+<div id="lsdcommerce-container" class="max480 lsdc-bg-color">
+<main class="page-content lsdcommerce">
+        <div class="lsdc-card">
         <div class="card-header card-header-white">
                 <h6 class="card-title">
                     <?php echo get_queried_object()->name; ?>
@@ -27,7 +27,7 @@ get_header();
                     </div>
                 </div> -->
             </div>
-            <div class="card-body">
+            <div class="card-body lsdp-px-10 lsdp-py-10">
                 <!-- <section class="filter">
                     <div class="container">
                         <div class="row">
@@ -54,7 +54,7 @@ get_header();
                     </div>
                 </section> -->
 
-                <section class="product py-3">
+                <section class="products">
                     <div class="container">
                         <div class="row">
                     
@@ -75,9 +75,9 @@ get_header();
                                 <div class="col-12">
                                     <figure class="product-item product-item--list">
                                         <div class="product-item-img">
-                                            <img src="https://play.lsdplugins.com/wp-content/uploads/2020/07/tropical_forest_dr-150x150.jpg" alt="">
+                                            <?php the_post_thumbnail( 'lsdcommerce-thumbnail-listing' ); ?>
                                         </div>
-                                        <figcaption>
+                                        <figcaption class="lsdp-px-10 lsdp-py-10">
                                             <div class="row">
                                                 <div class="col-12">
                                                     <h3 class="product-item-name">
@@ -96,14 +96,7 @@ get_header();
                                                 </div>
                                                 <div class="col-auto ml-auto">
                                                     <div class="product-item-stock text-right">
-                                                        <p>
-                                                            <?php _e( 'Stock', 'lsdcommerce'); ?><br>
-                                                            <?php if( get_post_meta( get_the_ID(), '_stock', true ) == 9999 ) : ?>
-                                                                <?php _e( 'Available', 'lsdcommerce' ); ?>
-                                                            <?php else: ?>
-                                                                <?php echo get_post_meta( get_the_ID(), '_stock', true ); ?> <?php echo empty(get_post_meta( get_the_ID(), '_stock_unit', true )) ? 'pcs' : get_post_meta( get_the_ID(), '_stock_unit', true ); ?>
-                                                            <?php endif; ?>
-                                                        </p>
+                                                        <?php echo lsdc_product_stock(); ?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -190,4 +183,5 @@ get_header();
             </div>
         </div> -->
     </main> <!-- main -->
+</div>
 <?php get_footer(); ?>

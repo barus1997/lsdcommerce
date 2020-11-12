@@ -16,7 +16,7 @@
             $checkout_page      = empty( $settings['checkout_page'] ) ? '' : abs( $settings['checkout_page'] );
             $terms_conditions   = empty( $settings['terms_conditions'] ) ? '' : abs( $settings['terms_conditions'] );
             $member_area        = empty( $settings['member_area'] ) ? '' : abs( $settings['member_area'] );
-            $page_query         = new WP_Query( array( 'posts_per_page' => -1,'post_type' => 'page', 'post_status' => 'publish' ) );
+            $page_query         = new WP_Query( array( 'posts_per_page' => -1,'post_type' => 'page', 'post_status' => 'publish' ) ); wp_reset_postdata();
         ?>
 
         <div class="form-group">

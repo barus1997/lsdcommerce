@@ -33,7 +33,7 @@ require_once LSDC_PATH . 'core/modules/product/product-single.php'; // Function 
             <div class="card-body lsdcommerce-bg-color">
                 <section class="product-detail">
                     <figure id="featured-image">
-                        <?php the_post_thumbnail( 'full' ); ?>
+                        <?php the_post_thumbnail('full' ); ?>
                     </figure>
                 </section>
 

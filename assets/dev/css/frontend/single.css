@@ -317,8 +317,12 @@
 }
 
 .lsdcommerce .product-detail img {
-    width: 100%;
+    /* width: 100%; */
     height: auto;
+}
+
+figure#featured-image {
+    text-align: center;
 }
 
 /* Single Product - Tab  */
