@@ -30,7 +30,7 @@ jobs:
         FTP_SERVER: ${{ secrets.FTP_SERVER }}
         FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
         FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-        LOCAL_DIR: build
+        LOCAL_DIR: /pre.lsdplugins.com/wp-content/plugins/lsdcommerce
         METHOD: ftp
         PORT: 21
         ARGS: --delete
