@@ -58,7 +58,7 @@ class LSDCommerce_Public
         wp_enqueue_style($this->plugin_name . '-theme', LSDC_URL . 'assets/dev/css/frontend/theme.css', array() , $this->version, 'all');
 
         wp_register_style($this->plugin_name . '-single', LSDC_URL . 'assets/dev/css/frontend/single.css', array() , $this->version, 'all');
-        if( is_singular('lsdc-product') || is_page_template( 'store.php') ){
+        if( is_singular('lsdc-product') || is_page_template( 'store.php') || is_tax( 'lsdc-product-category' ) ){
             wp_enqueue_style( $this->plugin_name . '-single' );
         }
 
@@ -97,7 +97,7 @@ class LSDCommerce_Public
         }
 
         // Single Product
-        if (is_singular('lsdc-product'))
+        if (is_singular('lsdc-product') || is_tax( 'lsdc-product-category' ))
         {
             wp_enqueue_script($this->plugin_name . '-single', LSDC_URL . 'assets/dev/js/frontend/lsdcommerce-single.js', array(
                 'jquery'

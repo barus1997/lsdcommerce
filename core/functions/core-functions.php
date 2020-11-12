@@ -329,8 +329,9 @@ function lsdc_pro()
     if (is_plugin_active('lsdcommerce-pro/lsdcommerce-pro.php'))
     {
         return true;
+    }else{
+        return false;
     }
-    return false;
 }
 
 
@@ -373,8 +374,10 @@ function lsdc_track_init(){
         );
         update_option( plugin_basename( LSDC_PATH ) . '_site_usage', $site_usage );
     }
+
     lsdc_track_act();
 }
+
 
 /**
  * Function to Updating Track
@@ -387,8 +390,8 @@ function lsdc_track_act(){
     if( isset( $site_usage[$domain] ) ){
         $site_usage[$domain]['plugin_usage']['active'] = ! is_plugin_active( plugin_basename( LSDC_PATH ) . '/'.  plugin_basename( LSDC_PATH ) .'.php' );
         update_option( plugin_basename( LSDC_PATH ) . '_site_usage', $site_usage );
-        // lsdc_track_push();
     }
+    lsdc_track_push();
 }
 
 /**
@@ -465,9 +468,8 @@ function lsdc_track_push(){
     );
 
     if( $domain != 'localhost' ){
-        $response = wp_remote_post( LSDC_SERVER . '/v1/usages/', $payload);
+        $response = wp_remote_post( 'http://stats.lsdplugins.com/api/v1/lsdcommerce/' , $payload);
         $response = json_decode(wp_remote_retrieve_body( $response ), TRUE );
-
     }
     return $response;
 }
@@ -477,8 +479,10 @@ function lsdc_track_push(){
  * Create Daily Update
  * Track Data Daily
  */
-wp_schedule_event( time(), 'daily', 'lsdcommerce_daily_update' );
-add_action( 'lsdcommerce_daily_update', function(){
-    lsdc_track_act();
-});
+if( !wp_next_scheduled( 'lsdcommerce_daily_update' ) ) {
+    wp_schedule_event( time(), 'daily', 'lsdcommerce_daily_update' );
+    add_action( 'lsdcommerce_daily_update', function(){
+        lsdc_track_activeday();
+    });
+}
 ?>

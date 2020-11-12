@@ -13,7 +13,7 @@
         cursor: pointer;
         padding: 10px 20px !important;
         text-align: center;
-        width: 24.4%;
+        width: 24%;
       }
   
       .tabs-component label.tab:after,
@@ -56,3 +56,7 @@
         top: 0;
         opacity: 1
       }
+
+      /* .lsdc-ajax-response[data-post="order"] th{
+        width: 1%;
+      } */

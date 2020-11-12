@@ -2543,14 +2543,24 @@ hr {
     margin: 20px auto !important;
 }
 
-.py-10 {
+.lsdp-py-10 {
     padding-top: 10px !important;
     padding-bottom: 10px !important
+}
+
+.lsdp-py-20 {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important
 }
 
 .lsdp-py-20{
     padding-top: 20px !important;
     padding-bottom: 20px !important
+}
+
+.lsdp-px-10{
+    padding-right: 10px !important;
+    padding-left: 10px !important
 }
 
 .lsdp-pt-10 {

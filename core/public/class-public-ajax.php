@@ -107,7 +107,8 @@ class LSDCommerce_Shipping_AJAX
         global $lsdcommerce_shippings;
 
         $cookie_cart = isset($_COOKIE['_lsdcommerce_cart']) ? $_COOKIE['_lsdcommerce_cart'] : null;
-        $carts = (array)json_decode(stripslashes($cookie_cart));
+        $carts = (array) json_decode(stripslashes($cookie_cart));
+
 
         // Checking Shipping Type on Cart
         $shipping_physical = false;
@@ -115,8 +116,10 @@ class LSDCommerce_Shipping_AJAX
 
         if (isset($carts))
         {
+                    
             foreach ($carts as $key => $product)
             {
+     
                 $product_id = lsdc_product_extract_ID($product->id);
                 $shipping_type = get_post_meta($product_id, '_shipping_type', true);
                 switch ($shipping_type)
@@ -134,11 +137,13 @@ class LSDCommerce_Shipping_AJAX
         $shipping_physical_list = array();
         $shipping_digital_list = array();
 
+
         if (isset($lsdcommerce_shippings))
         {
             foreach ($lsdcommerce_shippings as $key => $class)
             {
                 $object = new $class;
+     
                 if ($shipping_physical && $object->type == 'physical')
                 {
                     if ($object->get_status() == 'on')
@@ -410,8 +415,8 @@ class LSDCommerce_Member_AJAX{
             <?php foreach ( $products as $key => $product) : ?>
               <tr>
                 <td><?php echo esc_attr( $product->title ); ?></td>
-                <td><?php echo esc_attr( $product->qty ); ?> x <?php echo $product->price_unit_text; ?></td>
-                <td><?php echo esc_attr($product->total ); ?></td>
+                <td width="30%"><?php echo esc_attr( $product->qty ); ?> x <?php echo $product->price_unit_text; ?></td>
+                <td width="23%"><?php echo esc_attr($product->total ); ?></td>
               </tr>
               <?php $subtotal += lsdc_currency_clean( $product->price_unit_text ); ?>
             <?php endforeach; ?>
@@ -478,9 +483,7 @@ class LSDCommerce_Member_AJAX{
             <tr>
               <th><?php _e( 'Pesanan', 'lsdcommerce' ); ?></th>
               <th><?php _e( 'Produk', 'lsdcommerce' ); ?></th>
-              <?php if( lsdc_product_type( $product->id ) == 'digital' ) : ?>
               <th><?php _e( 'Versi', 'lsdcommerce' ); ?></th>
-              <?php endif; ?>
               <th><?php _e( 'Tindakan', 'lsdcommerce' ); ?></th>
             </tr>
             <?php 
@@ -495,6 +498,8 @@ class LSDCommerce_Member_AJAX{
                   <td><?php echo get_the_title( $product->id ); ?></td>
                   <?php if( lsdc_product_type( $product->id ) == 'digital' ) : ?>
                   <td><?php echo lsdc_product_download_version( lsdc_product_extract_ID( $product->id ) ); ?></td>
+                  <?php else: ?>
+                    <td>-</td>
                   <?php endif; ?>
                   <?php if( lsdc_product_type( $product->id ) == 'digital' ) : ?>
                     <td><a href="<?php echo lsdc_product_download_link( lsdc_product_extract_ID( $product->id ) ); ?>" class="text-primary"><?php _e( 'Unduh', 'lsdcommerce' ); ?></a></td>
