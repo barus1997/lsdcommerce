@@ -7,7 +7,7 @@
  * @since             1.0.0
  *
  * @wordpress-plugin
- * Plugin Name:       LSDCommerce Test Change GGG
+ * Plugin Name:       LSDCommerce Test
  * Plugin URI:        lsdplugins.com/lsdcommerce
  * Description:       Plugin Toko Online Indonesia
  * Version:           1.0.0
