@@ -32,6 +32,9 @@ function lsdcommerce_init(){
 }
 add_action('init', 'lsdcommerce_init');
 
+/**
+ * Init Form, Shipping, Payment on Checkout
+ */
 function lsdcommerce_checkout_init(){
     LSDC_Form::public_render();
     LSDC_Shipping::public_render();

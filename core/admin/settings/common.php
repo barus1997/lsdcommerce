@@ -47,7 +47,7 @@ use LSDCommerce\Pluggable\LSDC_Admin_Settings;
             </li>
         <?php endforeach; ?>
             <li class="tab-item <?php if( $active_tab == 'addons' ){ echo 'active'; } ?>">
-                <a href="?page=lsdcommerce&tab=addons"><?php _e('Addons', 'lsdc'); ?></a>
+                <a href="?page=lsdcommerce&tab=addons"><?php _e('Ekstensi', 'lsdc'); ?></a>
             </li>
         </ul>
     </div>
