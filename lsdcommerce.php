@@ -7,7 +7,7 @@
  * @since             1.0.0
  *
  * @wordpress-plugin
- * Plugin Name:       LSDCommerce Test
+ * Plugin Name:       LSDCommerce
  * Plugin URI:        lsdplugins.com/lsdcommerce
  * Description:       Plugin Toko Online Indonesia
  * Version:           1.0.0
