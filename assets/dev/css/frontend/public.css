@@ -383,3 +383,7 @@ td.product-item.text-right {
 #lsdcommerce-checkout .lsdc-card{
     padding-top: 1px;
 }
+
+table.table.table-banks.table-borderless img {
+    height: 55px;
+}
