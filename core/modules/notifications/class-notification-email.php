@@ -227,10 +227,10 @@ Class LSDC_Notification_Email Extends LSDC_Notification {
                         <button class="btn btn-primary lsdc_admin_option_save" option="lsdcommerce_notification_email" style="width:120px"><?php _e( 'Simpan', 'lsdcommerce' ); ?></button> 
                     </form>
       
-                    <!-- <div class="divider" data-content="Test Email"></div> -->
+                    <div class="divider" data-content="Test Email"></div>
                     <!-- <div class="input-group" style="width:50%;">
                         <input id="lsdc_notification_email_address" style="margin-top:3px;" class="form-input input-md" type="email" placeholder="test.email@gmail.com">
-                        <button id="lsdc_notification_email_test" style="margin-top:3px;" class="btn btn-primary input-group-btn"><?php// _e( 'Test Email', 'lsdcommerce' ); ?></button>
+                        <button id="lsdc_notification_email_test" style="margin-top:3px;" class="btn btn-primary input-group-btn"></button>
                     </div> -->
                 </div>
             </div>
