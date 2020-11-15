@@ -172,12 +172,12 @@ function lsdc_admin_notification_status() {
     // Toggle Notification Method
     $id = str_replace("_status", "", esc_attr($_REQUEST['id']));
     $state = esc_attr($_REQUEST['state']);
-    $lsdc_payment_status = get_option('lsdc_notification_status');
+    $lsdc_payment_status = get_option('lsdcommerce_notification_status');
 
     if ($lsdc_payment_status == '') $lsdc_payment_status = array();
     $lsdc_payment_status[$id] = $state;
 
-    update_option('lsdc_notification_status', $lsdc_payment_status);
+    update_option('lsdcommerce_notification_status', $lsdc_payment_status);
     echo 'action_success';
 
     wp_die();
