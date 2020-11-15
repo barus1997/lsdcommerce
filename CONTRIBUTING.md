@@ -6,5 +6,6 @@ integrasi fitur, dan pull request, untuk proses diskusi kami lakukan di halaman 
 Jika kamu belum terlalu familiar berkontribusi di github kamu bisa baca artikel berikut ini :\
 *petanikode.com/github-workflow/*
 
-#### Note :\
-Repository ini merupakan sumber kode plugin LSDCommerce, yang masih belum di build dan di bersihkan dari file development.
+#### Note :
+Repository ini merupakan sumber kode plugin LSDCommerce\
+yang masih belum di build dan di bersihkan dari file development.
