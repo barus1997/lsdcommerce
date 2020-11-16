@@ -7,21 +7,18 @@
  * 
  * @since    1.0.0
  */
-define( 'LSDC_SERVER', 'http://play.lsdplugins.com/api' );
+define( 'LSDC_SERVER', 'http://tester.lsdplugins.com/api' );
 
 Class LSDCommerce_Updater {
     protected $id              = 'lsdcommerce';
-    protected $product_key     = '79dfd32ea504a119ad24c31cc11de5a3';
+    protected $product_key     = 'ba03a2f215d1bdf708219d8740b04a2c';
     protected $product_slug    = array( 'lsdcommerce' );
     protected $license_api     = LSDC_SERVER;
     protected $current_version = LSDC_VERSION;
 
     public function __construct() {
-        // Adding Plugin Info on Update Available
         add_action( 'upgrader_process_complete', array( $this, 'destroy_update' ), 10, 2 );
         add_action( 'in_plugin_update_message-'. $this->id .'/'. $this->id .'.php', array( $this, 'fatal_update' ), 10, 2 );
-
-       
     }
 
     public function check_update(){
@@ -41,7 +38,7 @@ Class LSDCommerce_Updater {
         if( false == $remote = get_transient( $this->id . '_update' ) ) { // If Transient Empty and License key available
 
             // Remote GET
-            $remote = wp_remote_get( $this->license_api . '/v1/lsdcommerce/product/updates/' . $this->product_key, array( 
+            $remote = wp_remote_get( $this->license_api . '/v1/product/updates/' . $this->product_key, array( 
                 'timeout' => 30,
                 'headers' => array(
                     'Accept' => 'application/json'

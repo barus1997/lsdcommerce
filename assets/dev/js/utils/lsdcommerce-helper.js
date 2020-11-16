@@ -214,7 +214,7 @@ function lsdcommerce_currency_format(symbol = true, number, currency = 'IDR') {
         if (symbol) {
             return currency_rule[currency][0] + '0';
         } else {
-            return 'Free';
+            return 'Gratis';
         }
     } else {
         if (symbol) {
@@ -228,7 +228,7 @@ function lsdcommerce_currency_format(symbol = true, number, currency = 'IDR') {
 
 // --> Currency - Clear
 function lsdcommerce_currency_clear(formatted) {
-    if (formatted == 'Free') {
+    if (formatted == 'Gratis') {
         return 0;
     } else {
         formatted = formatted.toString();

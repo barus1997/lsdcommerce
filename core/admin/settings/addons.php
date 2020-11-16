@@ -26,9 +26,9 @@
                 
                 <div class="column col-xs-12 filter-item" data-tag="tag-4">
                     <div class="card">
-                    <span class="label label-secondary">Coming Soon</span>
+                    <span class="label label-secondary">Akan segera hadir</span>
                         <div class="card-header">
-                        <div class="card-title h5">Affiliate</div>
+                        <div class="card-title h5">Afiliasi</div>
                         <label for="">Buat Sistem Afiliasi</label>
                         </div>
 
@@ -37,21 +37,21 @@
 
                 <div class="column col-xs-12 filter-item" data-tag="tag-3">
                     <div class="card">
-                    <span class="label label-secondary">Coming Soon</span>
+                    <span class="label label-secondary">Akan segera hadir</span>
                     <div class="card-header">
-                        <div class="card-title h5">BCA Confirmation</div>
-                        <label for="">Payment Confirmation</label>
+                        <div class="card-title h5">BCA Konfirmasi</div>
+                        <label for="">Konfirmasi Otomatis BCA</label>
                     </div>
                     </div>
                 </div>
 
                 <div class="column col-xs-12 filter-item" data-tag="tag-2">
                     <div class="card">
-                    <span class="label label-secondary">Coming Soon</span>
+                    <span class="label label-secondary">Akan segera hadir</span>
                    
                         <div class="card-header">
                         <div class="card-title h5">SenderPad</div>
-                        <label for="">WhatsaApp Notification</label>
+                        <label for="">Layanan Notifikasi WhatsApp</label>
                         </div>
                         
                     </div>
@@ -59,7 +59,7 @@
 
                 <div class="column col-xs-12 filter-item" data-tag="tag-3">
                     <div class="card">
-                    <span class="label label-secondary">Coming Soon</span>
+                    <span class="label label-secondary">Akan segera hadir</span>
                         <div class="card-header">
                         <div class="card-title h5">Moota</div>
                         <label for="">Konfirmasi Pembayaran</label>
@@ -70,7 +70,7 @@
 
                 <div class="column col-xs-12 filter-item" data-tag="tag-1">
                     <div class="card">
-                        <span class="label label-secondary">Coming Soon</span>
+                        <span class="label label-secondary">Akan segera hadir</span>
                         <div class="card-header">
                         <div class="card-title h5">IPaymu Payment</div>
                         <label for="">Payment Gateway</label>
@@ -80,7 +80,7 @@
    
                 <div class="column col-xs-12 filter-item" data-tag="tag-1">
                     <div class="card">
-                    <span class="label label-secondary">Coming Soon</span>
+                    <span class="label label-secondary">Akan segera hadir</span>
                         <div class="card-header">
                         <div class="card-title h5">Midtrans Payment</div>
                         <label for="">Payment Gateway</label>
@@ -90,7 +90,7 @@
 
                 <div class="column col-xs-12 filter-item" data-tag="tag-1">
                     <div class="card">
-                    <span class="label label-secondary">Coming Soon</span>
+                    <span class="label label-secondary">Akan segera hadir</span>
                         <div class="card-header">
                         <div class="card-title h5">Paypal</div>
                         <label for="">Payment Gateway</label>

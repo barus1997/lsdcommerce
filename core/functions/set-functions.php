@@ -199,7 +199,7 @@ function lsdc_shipping_physical_services()
                     <label for="<?php echo $key; ?>">
                         <img src="<?php echo $item['logo']; ?>" alt="<?php echo $item['label']; ?>">
                         <h6><?php echo $item['label']; ?></h6>
-                        <p><?php echo $item['cost'] == 0 ? __('Free', 'lsdcommerce') : lsdc_currency_format(true, $item['cost']); ?></p>
+                        <p><?php echo $item['cost'] == 0 ? __('Gratis', 'lsdcommerce') : lsdc_currency_format(true, $item['cost']); ?></p>
                     </label>
                 </div>
             </div>

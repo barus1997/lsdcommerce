@@ -81,7 +81,7 @@ Class LSDC_Shipping_RajaOngkir Extends LSDC_Shipping {
                             <label for="<?php echo $shipper_id; ?>">
                                 <img src="<?php echo LSDC_URL . 'assets/images/courier/' . $shipper . '.png'; ?>" alt="<?php echo $name; ?>">
                                 <h6><?php echo $name . ' ' . strtoupper( $service ) . ' ( ' . $item["cost"][0]["etd"] . ' ) '; ?></h6>
-                                <p><?php echo $item["cost"][0]["value"] == 0 ? __( 'Free', 'lsdcommerce' ) : lsdc_currency_format( true, $item["cost"][0]["value"] ); ?></p>
+                                <p><?php echo $item["cost"][0]["value"] == 0 ? __( 'Gratis', 'lsdcommerce' ) : lsdc_currency_format( true, $item["cost"][0]["value"] ); ?></p>
                             </label>
                         </div>
                     </div>

@@ -18,7 +18,7 @@ Public Javascript and JQuery Function
 	/* Ready function, Initialize */
 	$(document).ready(function () {
 		// Join Community Invitation
-		setTimeout(console.log.bind(console, "%c" + 'Join dan Develop LSDCommerce ', "color:" + '#fff;background:#a70002;padding:5px;margin:0;width:100%;font-weight:600;' ));
+		setTimeout(console.log.bind(console, "%c" + 'Mari bergabung dalam pengembangan LSDCommerce ', "color:" + '#fff;background:#a70002;padding:5px;margin:0;width:100%;font-weight:600;' ));
 		setTimeout(console.log.bind(console, 'https://forum.lsdplugins.com/t/lsdcommerce' ));
 
 		// Product Tabs

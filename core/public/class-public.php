@@ -82,9 +82,7 @@ class LSDCommerce_Public
     {
         // wp_enqueue_script( 'mustache', 'https://ajax.cdnjs.com/ajax/libs/mustache.js/0.3.0/mustache.min.js', null, null, false );
         wp_enqueue_script('mustache', LSDC_URL . 'assets/lib/mustache/mustache.min.js', array() , '0.3.0', false);
-        wp_enqueue_script('swiper', LSDC_URL . 'assets/lib/swiper/swiper.js', array(
-            'jquery'
-        ) , '5.3.6', false);
+        wp_enqueue_script('swiper', LSDC_URL . 'assets/lib/swiper/swiper.js', array('jquery') , '5.3.6', false);
 
         wp_enqueue_script($this->plugin_name . '-helper', LSDC_URL . 'assets/dev/js/utils/lsdcommerce-helper.js', array( 'jquery' ) , $this->version, false);
 
